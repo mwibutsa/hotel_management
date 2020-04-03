@@ -13,3 +13,12 @@ With the above equipment conditions can meet the new requirements
 Expected results:
 A set of source programs that can implement the method, a graduation thesis design document, a foreign translation material (English original and translation)
 
+
+
+#### Steps to get the app running locally on your computer
+
+ 1. install [python](https://www.python.org/downloads/)
+ 2. install a virtual environment ```pip install virtualenv```
+ 3. create a virtual environment ```virtualenv venv````
+ 4. 
+ 
