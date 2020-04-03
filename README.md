@@ -16,9 +16,13 @@ A set of source programs that can implement the method, a graduation thesis desi
 
 
 #### Steps to get the app running locally on your computer
-
  1. install [python](https://www.python.org/downloads/)
  2. install a virtual environment ```pip install virtualenv```
- 3. create a virtual environment ```virtualenv venv````
- 4. 
+ 3. clone or download the repository in a particular directory
+ 4. in the direcotry where you cloned the repo create a virtual environment ```virtualenv venv```
+ 4. activate virtual env ```source venv/bin/activate```
+ 4. install the requirements ```pip install -r requirements.txt```
+ 5. run migrations ```python manage.py migrate```
+ 6. start the server ```python manage.py runserver```
+ 
  
