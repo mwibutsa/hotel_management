@@ -1,0 +1,20 @@
+.TextCenter {
+  text-align: center;
+}
+
+.TextWhite {
+  color: white;
+}
+
+.TextYellow {
+  color: #ffc700;
+}
+
+.Heading {
+  margin-top: 20px;
+}
+
+.ButtonContainer {
+  width: 100%;
+  text-align: center;
+}
