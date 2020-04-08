@@ -1,0 +1,25 @@
+.TextInput {
+  background-color: #ebebeb;
+  border: 1px solid #b1c3ff;
+  height: 40px;
+  outline: none;
+  padding: 0 30px;
+  font-family: "Old Standard TT", sans-serif;
+  width: 100%;
+  margin: 10px 0;
+  color: #24a2f7;
+  transition: all ease-in-out 0.3s;
+}
+
+.TextInput::placeholder {
+  letter-spacing: 0px;
+  color: #9b9b9b;
+}
+
+.TextInputError::placeholder {
+  color: brown;
+}
+
+.TextInput:focus {
+  background-color: #f9f9ff;
+}

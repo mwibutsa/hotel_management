@@ -15,7 +15,7 @@ const Navigation = (props) => (
         <Nav className="mr-auto"></Nav>
         <Nav>
           <NavLink>
-            <CustomNavLink link="/fake" label="Home" />
+            <CustomNavLink link="/" label="Home" />
           </NavLink>
           <NavLink>
             <CustomNavLink link="/rooms" label="Rooms" />
