@@ -46,6 +46,9 @@ class BookingSerializer(BaseSerializer, serializers.ModelSerializer):
             },
             'booking_days': {
                 'read_only': True
+            },
+            'paid_advance': {
+                'read_only': True
             }
 
         }
@@ -55,7 +58,7 @@ class StaffBookingSerializer(BaseSerializer, serializers.ModelSerializer):
     """ A serializer for admin and staff to convert Booking model to and form JSON. """
 
     room = serializers.SlugRelatedField(
-        queryset=models.Room.objects.all(), slug_field='room_number')
+        queryset=models.Room.objects.all(), slug_field='id')
 
     actual_checkout_date = serializers.DateField(required=False)
 

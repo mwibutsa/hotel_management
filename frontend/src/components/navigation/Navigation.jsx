@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./Navigation.module.css";
 import Logo from "../../images/Logo.svg";
-import { Navbar, Nav, NavLink } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import CustomNavLink from "../shared-components/NavLink/NavLink";
 const Navigation = (props) => (
   <div className={classes.FixedNavigation}>
@@ -14,18 +14,10 @@ const Navigation = (props) => (
       <Navbar.Collapse id="responsive-navbar-nav">
         <Nav className="mr-auto"></Nav>
         <Nav>
-          <NavLink>
-            <CustomNavLink link="/" label="Home" />
-          </NavLink>
-          <NavLink>
-            <CustomNavLink link="/rooms" label="Rooms" />
-          </NavLink>
-          <NavLink>
-            <CustomNavLink link="/booking" label="Booking" />
-          </NavLink>
-          <NavLink>
-            <CustomNavLink link="/dashboard" label="Dashboard" />
-          </NavLink>
+          <CustomNavLink link="/" label="Home" />
+          <CustomNavLink link="/rooms" label="Rooms" />
+          <CustomNavLink link="/booking" label="Booking" />
+          <CustomNavLink link="/dashboard" label="Dashboard" />
         </Nav>
       </Navbar.Collapse>
     </Navbar>

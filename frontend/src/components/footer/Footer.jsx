@@ -5,7 +5,7 @@ import Logo from "../../images/Logo.svg";
 const Footer = (props) => (
   <div className={classes.Footer}>
     <div className="container">
-      <di className="row">
+      <div className="row">
         <div className="col col-sm-12 col-md-3">
           <h4>Contact</h4>
           <p>Email: ask-info@sweetlife.com</p>
@@ -28,7 +28,7 @@ const Footer = (props) => (
         <div className="col col-sm-12 col-md-2 offset-1">
           <img className={classes.FooterLogo} src={Logo} alt="" />
         </div>
-      </di>
+      </div>
     </div>
     <div className={classes.BottomFooter}>
       <p className={classes.TextCenter}>Copy right 2020 SweetLife Hotel</p>
