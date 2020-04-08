@@ -12,5 +12,7 @@ export const LinkButton = (props) => (
 );
 
 export const FormButton = (props) => (
-  <button type="button" onClick={props.onClick} className={classes.Button} />
+  <button type="submit" onClick={props.onClick} className={classes.Button}>
+    {props.children}
+  </button>
 );

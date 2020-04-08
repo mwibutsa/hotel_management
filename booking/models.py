@@ -1,6 +1,6 @@
 from django.db import models
 from datetime import datetime, timedelta
-from room.models import Room
+from room.models import Room, RoomCategory
 
 
 class Booking(models.Model):
@@ -41,7 +41,10 @@ class Booking(models.Model):
     room = models.ForeignKey(
         Room, on_delete=models.DO_NOTHING, related_name='bookings')
 
-    paid_advance = models.FloatField(null=True)
+    # room_category = models.ForeignKey(
+    #     RoomCategory, on_delete=models.DO_NOTHING, related_name='bookings')
+
+    paid_advance = models.FloatField(default=0.0)
 
     def __str__(self):
         return f"Booked by {self.customer_name} on {self.created_at}, for {self.booking_days} days."
@@ -62,7 +65,7 @@ class Booking(models.Model):
 
     @property
     def remaining_price(self):
-        return self.total_price - self.paid_advance
+        return self.total_price - self.paid_advance if self.paid_advance else 0
 
     class Meta:
         ordering = ['-expected_checkout_date']

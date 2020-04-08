@@ -38,52 +38,63 @@ class CreateBookingAPIView(generics.CreateAPIView):
     authentication_classes = ()
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
 
-        room = serializer.validated_data['room']
+            room = serializer.validated_data['room']
 
-        wanted_room = Booking.objects.filter(
-            room=room.id)
+            wanted_room = Booking.objects.filter(
+                room=room.id)
 
-        wanted_room = wanted_room[len(
-            wanted_room) - 1] if len(wanted_room) > 0 else None
+            wanted_room = wanted_room[len(
+                wanted_room) - 1] if len(wanted_room) > 0 else None
 
-        checkout_date = None
-        check_in_date = serializer.validated_data['expected_check_in_date']
+            checkout_date = None
+            check_in_date = serializer.validated_data['expected_check_in_date']
 
-        if wanted_room is not None:
-            checkout_date = wanted_room.expected_checkout_date
-        else:
-            checkout_date = datetime.now()
+            if wanted_room is not None:
+                checkout_date = wanted_room.expected_checkout_date
+            else:
+                checkout_date = datetime.now()
 
-        if not wanted_room or (wanted_room.booking_status != Booking.PENDING or checkout_date < check_in_date):
-            instance = serializer.save()
-            room.room_status = Booking.BOOKED
-            room.save(update_fields=['room_status', 'updated_at'])
+            if not wanted_room or (wanted_room.booking_status != Booking.PENDING or checkout_date < check_in_date):
+                print('WILL WORK')
+                instance = serializer.save()
+                room.room_status = Booking.BOOKED
+                room.save(update_fields=['room_status', 'updated_at'])
 
-            subject = 'Booking confirmation request'
-            recipient = serializer['customer_email'].value
-            sender_email = settings.EMAIL_HOST_USER
+                subject = 'Booking confirmation request'
+                recipient = serializer['customer_email'].value
+                sender_email = settings.EMAIL_HOST_USER
 
-            message = """
-            Dear {name},
-            
-            Thank you for your consideration to our hotel, in order to consider
-            your booking seriously we would like you to pay a non refundable amount equal to the half of 
-            the total amount that should be paid.
-            
-            Kindly follow this link to complete the booking. 
-            """
+                message = """
+                Dear {name},
+                
+                Thank you for your consideration to our hotel, in order to consider
+                your booking seriously we would like you to pay a non refundable amount equal to the half of 
+                the total amount that should be paid.
+                
+                Kindly follow this link to complete the booking. 
+                """
 
-            send_mail(subject, message.format(name=serializer['customer_name'].value), sender_email, [
-                recipient], fail_silently=False)
+                # send_mail(subject, message.format(name=serializer['customer_name'].value), sender_email, [
+                #     recipient], fail_silently=False)
 
-            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
-        else:
-            return Response(data={
-                'message': f"This room is not availabe for check in before {wanted_room.expected_checkout_date}"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                print('FAILLED')
+                import pdb
+                pdb.set_trace()
+
+                return Response(data={
+                    'message': f"This room is not availabe for check in before {wanted_room.expected_checkout_date}"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as error:
+            print('MESSED UP')
+            import pdb
+            pdb.set_trace()
+            print(error)
 
 
 class CheckInAPIView(generics.RetrieveUpdateDestroyAPIView, BaseAPIView):
