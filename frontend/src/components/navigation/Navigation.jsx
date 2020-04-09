@@ -15,9 +15,9 @@ const Navigation = (props) => (
         <Nav className="mr-auto"></Nav>
         <Nav>
           <CustomNavLink link="/" label="Home" />
-          <CustomNavLink link="/rooms" label="Rooms" />
+          <CustomNavLink link="/dashboard/rooms" label="Rooms" />
           <CustomNavLink link="/booking" label="Booking" />
-          <CustomNavLink link="/dashboard" label="Dashboard" />
+          <CustomNavLink link="/dashboard/rooms" label="Dashboard" />
         </Nav>
       </Navbar.Collapse>
     </Navbar>

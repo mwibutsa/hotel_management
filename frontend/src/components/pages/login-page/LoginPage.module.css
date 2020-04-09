@@ -1,0 +1,10 @@
+.LoginPage {
+  position: relative;
+  height: 500px;
+}
+
+.PageMargin {
+  position: relative;
+  height: 100px;
+  width: 100%;
+}

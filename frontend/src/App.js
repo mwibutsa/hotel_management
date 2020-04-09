@@ -5,9 +5,12 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import HomePage from "./components/pages/home-page/HomePage";
 import BookingPage from "./components/pages/booking-page/BookingPage";
+import LoginPage from "./components/pages/login-page/LoginPage";
+import ProtectedRoutes from "./hoc/Routes/ProtectedRoutes";
 import store from "./redux/store";
 
 import { Provider } from "react-redux";
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,7 +18,9 @@ function App() {
         <Navigation />
         <Switch>
           <Route path="/booking" component={BookingPage} />
-          <Route path="/" component={HomePage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/" component={HomePage} exact />
+          <ProtectedRoutes />
         </Switch>
         <Footer />
       </Provider>

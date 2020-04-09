@@ -28,7 +28,7 @@ const HomePage = (props) => (
           ipsum dolor sit amet. Lorem ipsum
         </p>
         <p className={commonClasses.ButtonContainer}>
-          <LinkButton label="Book Now" />
+          <LinkButton label="Book Now" path="/booking" />
         </p>
       </div>
     </div>

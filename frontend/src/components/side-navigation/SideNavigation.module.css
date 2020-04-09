@@ -1,0 +1,45 @@
+.SideNavigation {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  background-color: red;
+  width: 273px;
+  background: #292934 0% 0% no-repeat padding-box;
+  padding-top: 100px;
+}
+
+.SideNavHeader {
+  text-transform: uppercase;
+  color: white;
+  text-align: center;
+  font-size: 18px;
+}
+
+.SideNavMenu {
+  background: #ffad000f;
+}
+
+.NavLink {
+  width: 100%;
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+}
+
+.NavLink a {
+  position: absolute;
+  width: 100%;
+  color: white;
+  text-decoration: none;
+  height: 100%;
+  text-align: center;
+}
+
+.NavLink a:hover {
+  background-color: #ffae00d2;
+}
+
+.ActiveNavLink {
+  background-color: #ffad00;
+}
