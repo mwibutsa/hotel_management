@@ -1,12 +1,12 @@
 .Room {
   width: 300px;
-  height: 160px;
   background: #fafcfe 0% 0% no-repeat padding-box;
   box-shadow: 0px 0px 8px #00000031;
   border: 1px solid #d2e0fd;
   border-radius: 4px;
   position: relative;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 .RoomHeading {
@@ -21,18 +21,60 @@
 }
 
 .RoomContentContainer {
-  height: 110px;
+  min-height: 110px;
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #ebebeb;
   width: 98%;
-  margin: 5px auto;
+  margin-left: 5px;
   position: relative;
 }
 
 .RoomContent {
-  position: absolute;
+  position: relative;
   height: 100%;
   left: 50%;
   transform: translateX(-50%);
   color: #707070;
+}
+
+.AttributeContainer {
+  font-size: 10px;
+  font-weight: bold;
+  color: black;
+}
+.AttributeRow {
+  background-color: whitesmoke;
+  padding: 2px 20px;
+  transition: all ease-in-out 0.4s;
+}
+
+.AttributeRow:nth-child(even) {
+  background-color: #e7e7e7;
+}
+.AttributeRow:hover {
+  background-color: white;
+  transform: scale(1.2);
+  box-shadow: 1px 1px 14px rgba(51, 51, 51, 0.233);
+}
+
+.AttributeValue {
+  font-size: 12px;
+  text-shadow: 1px 1px 1px rgba(51, 51, 51, 0.247);
+  transition: all ease-in-out 0.4s;
+  color: rgb(128, 92, 3);
+}
+
+.AttributeValue:hover {
+  font-size: 16px;
+}
+
+.BookingStatus {
+  /* background-color: #50e3c2; */
+  width: 146px;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  color: white;
+  text-transform: uppercase;
+  float: right;
 }

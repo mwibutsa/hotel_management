@@ -48,7 +48,6 @@ export const login = (credentials) => async (dispatch) => {
   try {
     dispatch(startLogin());
     const { data } = await axios.post("/user/login/", credentials);
-    console.log(data);
     dispatch(finishLogin(data));
   } catch (error) {
     dispatch(loginFail(error));

@@ -1,41 +1,31 @@
-.RoomsPage {
-  position: relative;
+.BookingListPage {
   min-height: 100vh;
-  height: 100%;
+  position: relative;
 }
 
-.RoomPageMargin {
-  height: 10px;
-}
-
-.RoomPageHeading {
-  font: Regular 32px/39px Cabin;
-  color: #707070;
-  text-transform: uppercase;
-  font-size: 18px;
-}
-
-.RoomsContainer {
+.BookingContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-column-gap: 30px;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .EditRoomModalContainer {
   position: fixed;
   width: 100%;
   height: 100vh;
-  bottom: 0;
   background-color: #07070767;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
 }
 .EditRoomModal {
+  padding-top: 40px;
   position: absolute;
   width: 60%;
-  height: 400px;
+  height: 500px;
   left: 50%;
-  top: 40%;
-  transform: translate(-50%, -40%);
-  padding: 50px 0;
+  top: 50%;
+  transform: translate(-50%, -50%);
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
   border-radius: 10px;
@@ -45,10 +35,10 @@
 }
 
 .EditRoomHeading {
-  font: Regular 18px Cabin;
   color: #707070;
   text-align: center;
   margin: 10px;
+  text-transform: uppercase;
 }
 
 @keyframes modal-animation {
@@ -57,11 +47,11 @@
     top: -1000px;
   }
   50% {
-    top: 20%;
+    top: 25%;
     opacity: 0.8;
   }
   100% {
-    top: 40%;
+    top: 50%;
     opacity: 1;
   }
 }

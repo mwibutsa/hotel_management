@@ -1,4 +1,9 @@
-import { CREATE_BOOKING } from "./action-types";
+import {
+  CREATE_BOOKING,
+  FINISH_LIST_BOOKINGS,
+  START_LIST_BOOKINGS,
+  LIST_BOOKINGS_FAIL,
+} from "./action-types";
 import axios from "../../axios";
 
 export const createBooking = (bookingDetails) => async (dispatch) => {
@@ -19,5 +24,23 @@ export const createBooking = (bookingDetails) => async (dispatch) => {
     dispatch({ type: CREATE_BOOKING, payload: data });
   } catch (err) {
     console.log(err);
+  }
+};
+
+const startListBookings = () => ({ type: START_LIST_BOOKINGS });
+const finishListBookings = (data) => ({
+  type: FINISH_LIST_BOOKINGS,
+  payload: { bookings: data },
+});
+const getBookingsFailed = () => ({ type: LIST_BOOKINGS_FAIL });
+
+export const getBookings = () => async (dispatch) => {
+  try {
+    dispatch(startListBookings());
+    const { data } = await axios.get("/booking/list-bookings/");
+
+    dispatch(finishListBookings(data));
+  } catch (err) {
+    dispatch(getBookingsFailed());
   }
 };

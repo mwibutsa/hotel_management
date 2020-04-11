@@ -6,7 +6,7 @@ const SideNavigation = (props) => (
     <h3 className={classes.SideNavHeader}> Dashboard </h3>
     <div className={classes.SideNavMenu}>
       <div className={classes.NavLink}>
-        <NavLink activeClassName={classes.ActiveNavLink} to="/dashboard/rooms">
+        <NavLink activeClassName={classes.ActiveNavLink} to="/dashboard/rooms/">
           Rooms
         </NavLink>
       </div>

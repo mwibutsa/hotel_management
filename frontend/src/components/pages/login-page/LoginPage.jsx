@@ -29,6 +29,9 @@ class LoginPage extends Component {
     const { email, password } = this.state.formData;
 
     this.props.login({ email, password });
+    if (this.props.accessToken) {
+      this.props.history.push("/dashboard/rooms");
+    }
   };
 
   handleChange = ({ target }) => {
