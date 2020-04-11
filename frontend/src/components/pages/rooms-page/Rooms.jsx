@@ -1,21 +1,31 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
 import SideNavigation from "../../side-navigation/SideNavigation";
 import classes from "./Rooms.module.css";
 import Room from "../../room-card/Room";
-import { getRooms } from "../../../redux/actions/room-action";
+import { getRooms, editRoom } from "../../../redux/actions/room-action";
 import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
 import { FormButton } from "../../shared-components/Button/Button";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
+const VALUE_CHANGE = "VALUE_CHANGE";
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case VALUE_CHANGE:
+      return {
+        ...state,
+        [action.input]: action.value,
+      };
+    default:
+      return state;
+  }
+};
+
 const RoomsPage = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState("");
+  const [currentRoom, setCurrentRoom] = useState({});
 
-  const handleOpenModal = (title = "") => {
-    setIsModalOpen((prevState) => !prevState);
-    setModalTitle(title);
-  };
+  // FETCH ROOMS ON PAGE LOAD
 
   const { fetchRooms } = props;
 
@@ -23,13 +33,77 @@ const RoomsPage = (props) => {
     fetchRooms();
   }, [fetchRooms]);
 
-  let rooms = <Spinner />;
+  // FORM STATE REDUCER HOOK
+  const [formState, dispatchFormSate] = useReducer(formReducer, {
+    roomCategory: "",
+    price: "",
+    roomStatus: "",
+    roomNumber: "",
+  });
+
+  // HANDLE OPEN MODAL
+  const handleOpenModal = (room) => {
+    setIsModalOpen((prevState) => !prevState);
+    setCurrentRoom(room);
+
+    if (room) {
+      dispatchFormSate({
+        type: VALUE_CHANGE,
+        input: "price",
+        value: room.price,
+      });
+
+      dispatchFormSate({
+        type: VALUE_CHANGE,
+        input: "roomStatus",
+        value: room.room_status,
+      });
+
+      dispatchFormSate({
+        type: VALUE_CHANGE,
+        input: "roomNumber",
+        value: room.room_number,
+      });
+
+      dispatchFormSate({
+        type: VALUE_CHANGE,
+        input: "roomCategory",
+        value: room.room_category,
+      });
+    }
+  };
+
+  // INPUT CHANGE HANDLER
+
+  const inputChangeHandler = useCallback(
+    (event) => {
+      dispatchFormSate({
+        type: VALUE_CHANGE,
+        input: event.target.name,
+        value: event.target.value,
+      });
+    },
+    [dispatchFormSate]
+  );
+
+  // HANDLE FORM SUBMISSION
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await props.updateRoom(currentRoom.id, formState);
+    setIsModalOpen(false);
+    await props.fetchRooms();
+  };
+
+  let roomContent = <Spinner />;
 
   if (!props.loading) {
-    rooms = props.rooms.map((room) => (
+    roomContent = props.rooms.map((room) => (
       <Room onClick={handleOpenModal} {...room} key={room.room_number} rooms />
     ));
   }
+
+  const { roomCategory, price, roomStatus, roomNumber } = formState;
 
   return (
     <div className={classes.RoomsPage}>
@@ -41,7 +115,7 @@ const RoomsPage = (props) => {
           <div className="col-md-7">
             <div className={classes.RoomPageMargin}></div>
             <h3 className={classes.RoomPageHeading}>Manage hotel Rooms</h3>
-            <div className={classes.RoomsContainer}>{rooms}</div>
+            <div className={classes.RoomsContainer}>{roomContent}</div>
           </div>
         </div>
       </div>
@@ -61,23 +135,40 @@ const RoomsPage = (props) => {
               <div className="row">
                 <div className="col-md-8 offset-2">
                   <h3 className={classes.EditRoomHeading}>
-                    MANAGE ROOM {modalTitle}
+                    MANAGE ROOM {currentRoom.room_number}
                   </h3>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <SelectInput
                       options={[
-                        { value: 1, label: "Single" },
-                        { value: 2, label: "Twin" },
-                        { value: 3, label: "Gold" },
+                        { value: "single", label: "Single" },
+                        { value: "twin", label: "Twin" },
+                        { value: "gold", label: "Gold" },
                       ]}
+                      value={roomCategory}
+                      onChange={inputChangeHandler}
+                      name="roomCategory"
                     />
-                    <TextInput />
+                    <TextInput
+                      placeholder="Room price"
+                      value={price}
+                      onChange={inputChangeHandler}
+                      name="price"
+                    />
+                    <TextInput
+                      placeholder="Room number"
+                      value={roomNumber}
+                      onChange={inputChangeHandler}
+                      name="roomNumber"
+                    />
                     <SelectInput
                       options={[
-                        { value: 1, label: "Available" },
-                        { value: 2, label: "Booked" },
-                        { value: 3, label: "In use" },
+                        { value: "AVAILABLE", label: "Available" },
+                        { value: "BOOKED", label: "Booked" },
+                        { value: "IN_USE", label: "In use" },
                       ]}
+                      onChange={inputChangeHandler}
+                      value={roomStatus}
+                      name="roomStatus"
                     />
                     <FormButton>Save changes</FormButton>
                   </form>
@@ -98,5 +189,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchRooms: () => dispatch(getRooms()),
+  updateRoom: (id, data) => dispatch(editRoom(id, data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RoomsPage);

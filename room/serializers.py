@@ -17,6 +17,22 @@ class RoomSerializer(serializers.ModelSerializer):
 
         read_only_fields = ('created_at', 'updated_at')
 
+    def update(self, instance, validated_data):
+        instance.room_number = validated_data.get(
+            'room_number', instance.room_number)
+
+        instance.room_status = validated_data.get(
+            'room_status', instance.room_status)
+
+        instance.room_category = validated_data.get(
+            'room_category', instance.room_category)
+
+        instance.price = validated_data.get(
+            'price', instance.price)
+
+        instance.save()
+        return instance
+
 
 class RoomCategorySerializer(serializers.ModelSerializer):
     rooms = RoomSerializer(many=True, read_only=True)

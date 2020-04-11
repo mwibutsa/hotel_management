@@ -1,4 +1,14 @@
-import { FETCH_ROOMS, BEGIN_FETCHING_ROOMS } from "./action-types";
+import {
+  FETCH_ROOMS,
+  BEGIN_FETCHING_ROOMS,
+  EDIT_ROOM_DONE,
+  EDIT_ROOM_START,
+  EDIT_ROOM_FAILED,
+  ADD_ROOM_START,
+  ADD_ROOM_DONE,
+  ADD_ROOM_FAILED,
+} from "./action-types";
+
 import axios from "../../axios";
 
 const beginFetchingRooms = () => {
@@ -12,9 +22,47 @@ const fetchRooms = (data) => {
 export const getRooms = () => async (dispatch) => {
   try {
     dispatch(beginFetchingRooms());
-    const { data } = await axios.get("/rooms/list-rooms/");
+    const { data } = await axios.get("/room/list-rooms/");
     dispatch(fetchRooms(data));
   } catch (err) {
     console.log(err);
+  }
+};
+
+const addRoomStart = () => ({ type: ADD_ROOM_START });
+const addRoomDone = (data) => ({ type: ADD_ROOM_DONE, payload: data });
+const addRoomFailed = (error) => ({ type: ADD_ROOM_FAILED, error });
+
+export const addRoom = () => async (dispatch) => {
+  try {
+    dispatch(addRoomStart());
+    const { data } = await axios.post("/rooms/create-room");
+    dispatch(addRoomDone(data));
+  } catch (error) {
+    dispatch(addRoomFailed());
+  }
+};
+
+const editRoomStart = () => ({ type: EDIT_ROOM_START });
+const editRoomDone = (data) => ({ type: EDIT_ROOM_DONE, payload: data });
+const editRoomFailed = (error) => ({ type: EDIT_ROOM_FAILED, error });
+
+export const editRoom = (id, updatedRoom) => async (dispatch) => {
+  try {
+    dispatch(editRoomStart());
+
+    const roomData = {
+      room_number: parseInt(updatedRoom.roomNumber),
+      room_category: updatedRoom.roomCategory,
+      room_status: updatedRoom.roomStatus,
+      price: parseFloat(updatedRoom.price),
+    };
+
+    const { data } = await axios.patch(`/room/list-rooms/${id}`, roomData);
+    console.log(data);
+    dispatch(editRoomDone(data));
+  } catch (error) {
+    dispatch(editRoomFailed(error));
+    console.log(error);
   }
 };

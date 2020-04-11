@@ -1,22 +1,26 @@
 import React from "react";
 import classes from "./Room.module.css";
-
+import moment from "moment";
 const Room = (props) => (
-  <div
-    className={classes.Room}
-    onClick={() =>
-      props.onClick(props.bookings ? props.customer_name : props.room_number)
-    }
-  >
+  <div className={classes.Room} onClick={() => props.onClick(props)}>
     <div className={classes.RoomHeading}>
       {props.rooms ? props.room_number : `${props.customer_name}`}
     </div>
     <div className={classes.RoomContentContainer}>
       {props.rooms && (
-        <div className={classes.RoomContent}>
-          <div>STATUS: {props.room_status}</div>
-          <div>CATEGORY: {props.room_category}</div>
-          <div>PRICE: ${props.price}</div>
+        <div className={[classes.RoomContent, classes.RoomText].join(" ")}>
+          <div className={classes.AttributeRow}>
+            <span className={classes.AttributeContainer}>STATUS:</span>{" "}
+            {props.room_status}
+          </div>
+          <div className={classes.AttributeRow}>
+            <span className={classes.AttributeContainer}>CATEGORY:</span>{" "}
+            {props.room_category}
+          </div>
+          <div className={classes.AttributeRow}>
+            <span className={classes.AttributeContainer}>PRICE:</span> $
+            {props.price}
+          </div>
         </div>
       )}
 
@@ -41,13 +45,17 @@ const Room = (props) => (
           <div className={classes.AttributeRow}>
             <span className={classes.AttributeContainer}>CHECK IN DATE:</span>
             <span className={classes.AttributeValue}>
-              {props.actual_check_in_date || props.expected_check_in_date}
+              {moment(
+                props.actual_check_in_date || props.expected_check_in_date
+              ).format("MMM Do YYYY")}
             </span>
           </div>
           <div className={classes.AttributeRow}>
             <span className={classes.AttributeContainer}>CHECKOUT DATE:</span>
             <span className={classes.AttributeValue}>
-              {props.actual_checkout_date || props.expected_checkout_date}
+              {moment(
+                props.actual_checkout_date || props.expected_checkout_date
+              ).format("MMM Do YYYY")}
             </span>
           </div>
 
@@ -60,13 +68,17 @@ const Room = (props) => (
             </span>
           </div>
           <div className={classes.AttributeRow}>
-            <span className={classes.AttributeContainer}>CREATED AT:</span>
-            <span className={classes.AttributeValue}>{props.created_at}</span>
+            <span className={classes.AttributeContainer}>CREATED ON:</span>
+            <span className={classes.AttributeValue}>
+              {moment(props.created_at).format("MMM Do YYYY")}
+            </span>
           </div>
 
           <div className={classes.AttributeRow}>
-            <span className={classes.AttributeContainer}>CREATED AT:</span>
-            <span className={classes.AttributeValue}>{props.updated_at}</span>
+            <span className={classes.AttributeContainer}>UPDATED ON:</span>
+            <span className={classes.AttributeValue}>
+              {moment(props.updated_at).format("MMM Do YYYY")}
+            </span>
           </div>
           <div className={classes.AttributeRow}>
             <span className={classes.AttributeContainer}>EMAIL:</span>

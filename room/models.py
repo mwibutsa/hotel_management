@@ -16,9 +16,9 @@ class Room(models.Model):
     BOOKED = 'BOOKED'
 
     ROOM_STATUS = (
-        (AVAILABLE, 'Available'),
-        (BOOKED, 'Booked'),
-        (IN_USE, 'In use'),
+        (AVAILABLE, 'available'),
+        (BOOKED, 'booked'),
+        (IN_USE, 'in use'),
         (OUT_OF_SERVICE, 'Out of service'),
     )
 
