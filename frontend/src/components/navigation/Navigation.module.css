@@ -1,0 +1,16 @@
+.Logo {
+  height: 50px;
+}
+
+.LogoLabel {
+  color: white;
+  font-size: 20px;
+  margin-left: 15px;
+  display: inline-block;
+}
+
+.FixedNavigation {
+  position: fixed;
+  width: 100%;
+  z-index: 10000;
+}
