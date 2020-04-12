@@ -7,7 +7,9 @@ const Input = (props) => {
     <input
       type={type}
       onChange={props.onChange}
-      onBlur={() => setType("text")}
+      onBlur={() =>
+        props.type === "password" ? setType("password") : setType("text")
+      }
       onFocus={() =>
         props.type === "date" ? setType("date") : setType(props.type)
       }
@@ -15,6 +17,7 @@ const Input = (props) => {
       value={props.value}
       className={classes.TextInput}
       placeholder={props.placeholder}
+      required
     />
   );
 };

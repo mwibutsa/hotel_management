@@ -77,7 +77,7 @@ class BookingPage extends Component {
         <h3 className={classes.h3}>BOOK YOUR FAVORITE ROOM</h3>
         <div className="row">
           <div className="col col-md-6 offset-3">
-            <form className={classes.Form}>
+            <form className={classes.Form} onSubmit={this.handleSubmit}>
               <TextInput
                 placeholder="Full name"
                 name="customerName"
@@ -109,9 +109,7 @@ class BookingPage extends Component {
               {fetchStatus}
 
               <p className={commonClasses.TextCenter}>
-                <FormButton onClick={this.handleSubmit}>
-                  Submit Booking
-                </FormButton>
+                <FormButton>Submit Booking</FormButton>
               </p>
             </form>
           </div>
