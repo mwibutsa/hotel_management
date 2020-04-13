@@ -3,8 +3,12 @@ import classes from "./LoginPage.module.css";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import { FormButton } from "../../shared-components/Button/Button";
 import { connect } from "react-redux";
-import { login } from "../../../redux/actions/login-action";
-import { Redirect } from "react-router";
+import { login, autoLogin } from "../../../redux/actions/login-action";
+import jwtDecode from 'jwt-decode'
+
+
+
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -23,15 +27,31 @@ class LoginPage extends Component {
     };
   }
 
-  handleSubmit = (event) => {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.accessToken !== null) {
+      return this.props.history.replace('dashboard/rooms')
+    }
+
+  }
+
+
+  componentDidMount = async () => {
+    const accessToken = localStorage.getItem('accessToken')
+    if (accessToken && (jwtDecode(accessToken).exp > (new Date().getTime() / 1000))) {
+      await this.props.autoLogin()
+      return this.props.history.replace('/dashboard/rooms')
+
+    }
+  }
+
+
+
+  handleSubmit = async (event) => {
     event.preventDefault();
 
     const { email, password } = this.state.formData;
 
-    this.props.login({ email, password });
-    if (this.props.accessToken) {
-      this.props.history.push("/dashboard/rooms");
-    }
+    await this.props.login({ email, password });
   };
 
   handleChange = ({ target }) => {
@@ -46,18 +66,18 @@ class LoginPage extends Component {
     const errorMessage = this.props.error ? (
       <div className="alert alert-danger">Please use valid credentials</div>
     ) : (
-      ""
-    );
+        ""
+      );
 
-    if (this.props.accessToken) {
-      return <Redirect to="/dashboard/rooms" />;
-    }
     return (
       <div className={classes.LoginPage}>
         <div className="container">
           <div className="row">
             <div className={classes.PageMargin}></div>
-            <div className="col col-md-6 offset-3">
+
+
+            <div className="col-md-3   col-sm-12"></div>
+            <div className="col col-md-6 col-sm-12">
               {errorMessage}
 
               <form
@@ -100,6 +120,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   login: (data) => dispatch(login(data)),
+  autoLogin: () => dispatch(autoLogin())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

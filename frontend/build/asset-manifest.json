@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7707213c.chunk.css",
+    "main.js": "/static/js/main.126d4fbb.chunk.js",
+    "main.js.map": "/static/js/main.126d4fbb.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.84578d5e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.84578d5e.js.map",
+    "static/js/2.dc8e1c18.chunk.js": "/static/js/2.dc8e1c18.chunk.js",
+    "static/js/2.dc8e1c18.chunk.js.map": "/static/js/2.dc8e1c18.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.7764a40c9db33df01b39abe91a873d01.js": "/precache-manifest.7764a40c9db33df01b39abe91a873d01.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.7707213c.chunk.css.map": "/static/css/main.7707213c.chunk.css.map",
+    "static/js/2.dc8e1c18.chunk.js.LICENSE.txt": "/static/js/2.dc8e1c18.chunk.js.LICENSE.txt",
+    "static/media/HomePage.module.css": "/static/media/Landingimage.ca313ade.png",
+    "static/media/Logo.svg": "/static/media/Logo.5edb673a.svg",
+    "static/media/febrian-zakaria-sjvU0THccQA-unsplash.png": "/static/media/febrian-zakaria-sjvU0THccQA-unsplash.af439f28.png",
+    "static/media/gym.png": "/static/media/gym.b2bc6e16.png",
+    "static/media/swimmingpool.png": "/static/media/swimmingpool.f0d8f9c4.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.84578d5e.js",
+    "static/js/2.dc8e1c18.chunk.js",
+    "static/css/main.7707213c.chunk.css",
+    "static/js/main.126d4fbb.chunk.js"
+  ]
+}

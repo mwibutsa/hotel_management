@@ -33,10 +33,15 @@ const addRoomStart = () => ({ type: ADD_ROOM_START });
 const addRoomDone = (data) => ({ type: ADD_ROOM_DONE, payload: data });
 const addRoomFailed = (error) => ({ type: ADD_ROOM_FAILED, error });
 
-export const addRoom = () => async (dispatch) => {
+export const addRoom = (newRoom) => async (dispatch) => {
   try {
+    const roomInfo = {
+      room_number: newRoom.roomNumber,
+      room_category: newRoom.roomCategory,
+      price: newRoom.price
+    }
     dispatch(addRoomStart());
-    const { data } = await axios.post("/rooms/create-room");
+    const { data } = await axios.post("/room/create-room/", roomInfo);
     dispatch(addRoomDone(data));
   } catch (error) {
     dispatch(addRoomFailed());

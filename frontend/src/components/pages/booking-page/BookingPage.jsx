@@ -76,7 +76,8 @@ class BookingPage extends Component {
       <div className={["container", classes.BookingPage].join(" ")}>
         <h3 className={classes.h3}>BOOK YOUR FAVORITE ROOM</h3>
         <div className="row">
-          <div className="col col-md-6 offset-3">
+          <div className="col-md-3  col-sm-12"></div>
+          <div className="col col-sm-12   col-md-6">
             <form className={classes.Form} onSubmit={this.handleSubmit}>
               <TextInput
                 placeholder="Full name"

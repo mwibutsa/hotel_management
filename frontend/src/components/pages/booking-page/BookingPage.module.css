@@ -31,3 +31,15 @@
 .Form {
   padding-bottom: 50px;
 }
+
+
+@media screen  and (max-width:  500px) {
+
+  .Form {
+    width: 100%;
+  }
+
+  .h3  {
+    font-size: 16px;
+  }
+}

@@ -5,7 +5,7 @@
 .WelcomeSection {
   padding-top: 90px;
   position: relative;
-  background: url(/images/Landingimage.png);
+  background: url(../../../images/Landingimage.png);
   background-repeat: no-repeat;
   background-size: cover;
   width: 100%;
