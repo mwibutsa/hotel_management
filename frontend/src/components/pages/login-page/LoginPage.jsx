@@ -4,10 +4,7 @@ import TextInput from "../../shared-components/TextInput/TextInput";
 import { FormButton } from "../../shared-components/Button/Button";
 import { connect } from "react-redux";
 import { login, autoLogin } from "../../../redux/actions/login-action";
-import jwtDecode from 'jwt-decode'
-
-
-
+import jwtDecode from "jwt-decode";
 
 class LoginPage extends Component {
   constructor(props) {
@@ -29,22 +26,20 @@ class LoginPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.accessToken !== null) {
-      return this.props.history.replace('dashboard/rooms')
+      return this.props.history.replace("/dashboard/rooms");
     }
-
   }
-
 
   componentDidMount = async () => {
-    const accessToken = localStorage.getItem('accessToken')
-    if (accessToken && (jwtDecode(accessToken).exp > (new Date().getTime() / 1000))) {
-      await this.props.autoLogin()
-      return this.props.history.replace('/dashboard/rooms')
-
+    const accessToken = localStorage.getItem("accessToken");
+    if (
+      accessToken &&
+      jwtDecode(accessToken).exp > new Date().getTime() / 1000
+    ) {
+      await this.props.autoLogin();
+      return this.props.history.replace("/dashboard/rooms");
     }
-  }
-
-
+  };
 
   handleSubmit = async (event) => {
     event.preventDefault();
@@ -66,15 +61,14 @@ class LoginPage extends Component {
     const errorMessage = this.props.error ? (
       <div className="alert alert-danger">Please use valid credentials</div>
     ) : (
-        ""
-      );
+      ""
+    );
 
     return (
       <div className={classes.LoginPage}>
         <div className="container">
           <div className="row">
             <div className={classes.PageMargin}></div>
-
 
             <div className="col-md-3   col-sm-12"></div>
             <div className="col col-md-6 col-sm-12">
@@ -120,7 +114,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   login: (data) => dispatch(login(data)),
-  autoLogin: () => dispatch(autoLogin())
+  autoLogin: () => dispatch(autoLogin()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
