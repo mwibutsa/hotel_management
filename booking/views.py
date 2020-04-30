@@ -59,7 +59,6 @@ class CreateBookingAPIView(generics.CreateAPIView):
                 checkout_date = datetime.now()
 
             if not wanted_room or (wanted_room.booking_status != Booking.PENDING or checkout_date < check_in_date):
-                print('WILL WORK')
                 instance = serializer.save()
                 room.room_status = Booking.BOOKED
                 room.save(update_fields=['room_status', 'updated_at'])
@@ -84,16 +83,10 @@ class CreateBookingAPIView(generics.CreateAPIView):
                 return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
             else:
-                print('FAILLED')
-                import pdb
-                pdb.set_trace()
 
                 return Response(data={
                     'message': f"This room is not availabe for check in before {wanted_room.expected_checkout_date}"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as error:
-            print('MESSED UP')
-            import pdb
-            pdb.set_trace()
             print(error)
 
 

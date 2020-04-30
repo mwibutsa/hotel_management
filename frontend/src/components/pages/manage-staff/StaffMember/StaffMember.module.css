@@ -1,0 +1,33 @@
+.StaffMember {
+  background-color: aliceblue;
+  box-shadow: 0 0 4px #ddd;
+  padding: 5px 30px;
+  border-radius: 4px;
+  width: 100%;
+  margin: 10px;
+  cursor: pointer;
+  position: relative;
+  margin-top: 50px;
+}
+
+.Content {
+  padding-top: 60px;
+}
+
+.StaffAvatar {
+  background-color: rgb(240, 238, 238);
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border: 1px solid #ddd;
+  line-height: 90px;
+  overflow: hidden;
+}
+
+.StaffAvatar img {
+  width: 100%;
+}

@@ -11,6 +11,8 @@ import RoomsPage from "./components/pages/rooms-page/Rooms";
 import ProtectedRoute from "./ProtectedRoute";
 import { Provider } from "react-redux";
 import ListBookingPage from "./components/pages/list-booking-page/BookingList";
+import ManageStaff from "./components/pages/manage-staff/ManageStaff";
+
 function App() {
   return (
     <BrowserRouter>
@@ -23,6 +25,10 @@ function App() {
           <ProtectedRoute
             path="/dashboard/bookings"
             component={ListBookingPage}
+          />
+          <ProtectedRoute
+            path="/dashboard/manage-staff"
+            component={ManageStaff}
           />
           <Route path="/" component={HomePage} exact />
         </Switch>
