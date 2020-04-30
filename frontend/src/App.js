@@ -11,7 +11,9 @@ import RoomsPage from "./components/pages/rooms-page/Rooms";
 import ProtectedRoute from "./ProtectedRoute";
 import { Provider } from "react-redux";
 import ListBookingPage from "./components/pages/list-booking-page/BookingList";
-function App() {
+import ManageStaff from "./components/pages/manage-staff/ManageStaff";
+
+const App = (props) => {
   return (
     <BrowserRouter>
       <Provider store={store}>
@@ -24,12 +26,16 @@ function App() {
             path="/dashboard/bookings"
             component={ListBookingPage}
           />
+          <ProtectedRoute
+            path="/dashboard/manage-staff"
+            component={ManageStaff}
+          />
           <Route path="/" component={HomePage} exact />
         </Switch>
         <Footer />
       </Provider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

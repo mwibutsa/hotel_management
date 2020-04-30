@@ -2,13 +2,16 @@ import React, { useState, useEffect, useReducer, useCallback } from "react";
 import SideNavigation from "../../side-navigation/SideNavigation";
 import classes from "./Rooms.module.css";
 import Room from "../../room-card/Room";
-import { getRooms, editRoom, addRoom } from "../../../redux/actions/room-action";
+import {
+  getRooms,
+  editRoom,
+  addRoom,
+} from "../../../redux/actions/room-action";
 import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
 import { FormButton } from "../../shared-components/Button/Button";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
-
 
 const VALUE_CHANGE = "VALUE_CHANGE";
 const formReducer = (state, action) => {
@@ -26,7 +29,7 @@ const formReducer = (state, action) => {
 const RoomsPage = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentRoom, setCurrentRoom] = useState({});
-  const [isAddingRoom, setIsAddingRoom] = useState(false)
+  const [isAddingRoom, setIsAddingRoom] = useState(false);
   // FETCH ROOMS ON PAGE LOAD
 
   const { fetchRooms } = props;
@@ -92,26 +95,24 @@ const RoomsPage = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsAddingRoom(false)
+    setIsAddingRoom(false);
     setIsModalOpen(false);
 
     await props.updateRoom(currentRoom.id, formState);
     await props.fetchRooms();
   };
 
+  const handleSaveRoom = async (event) => {
+    event.preventDefault();
+    const { roomCategory, price, roomNumber } = formState;
+    handleOpenModal();
 
-  const handleSaveRoom = async event => {
-    event.preventDefault()
-    const { roomCategory, price, roomNumber } = formState
-    handleOpenModal()
+    setIsAddingRoom(false);
 
-    setIsAddingRoom(false)
+    await props.addRoom({ roomCategory, price, roomNumber });
 
-    await props.addRoom({ roomCategory, price, roomNumber })
-
-    await props.fetchRooms()
-
-  }
+    await props.fetchRooms();
+  };
 
   let roomContent = <Spinner />;
 
@@ -134,12 +135,14 @@ const RoomsPage = (props) => {
             <div className={classes.RoomPageMargin}></div>
             <h3 className={classes.RoomPageHeading}>Manage hotel Rooms</h3>
 
-            <FormButton onClick={() => {
-              setIsAddingRoom((prevState) => !prevState)
-              setIsModalOpen((prevState) => !prevState)
-
-
-            }}>New room</FormButton>
+            <FormButton
+              onClick={() => {
+                setIsAddingRoom((prevState) => !prevState);
+                setIsModalOpen((prevState) => !prevState);
+              }}
+            >
+              New room
+            </FormButton>
             <div className={classes.RoomsContainer}>{roomContent}</div>
           </div>
         </div>
@@ -149,10 +152,9 @@ const RoomsPage = (props) => {
           className={classes.EditRoomModalContainer}
           id="ModalContainer"
           onClick={(e) => {
-            console.log(e.target.id);
             if (e.target.id === "ModalContainer") {
               handleOpenModal();
-              setIsAddingRoom(false)
+              setIsAddingRoom(false);
             }
           }}
         >
@@ -165,69 +167,72 @@ const RoomsPage = (props) => {
 
                     {!isAddingRoom && `MANAGE ROOM ${currentRoom.room_number}`}
                   </h3>
-                  {!isAddingRoom && <form onSubmit={handleSubmit}>
-                    <SelectInput
-                      options={[
-                        { value: "single", label: "Single" },
-                        { value: "twin", label: "Twin" },
-                        { value: "gold", label: "Gold" },
-                      ]}
-                      value={roomCategory}
-                      onChange={inputChangeHandler}
-                      name="roomCategory"
-                    />
-                    <TextInput
-                      placeholder="Room price"
-                      value={price}
-                      onChange={inputChangeHandler}
-                      name="price"
-                    />
-                    <TextInput
-                      placeholder="Room number"
-                      value={roomNumber}
-                      onChange={inputChangeHandler}
-                      name="roomNumber"
-                    />
-                    <SelectInput
-                      options={[
-                        { value: "AVAILABLE", label: "Available" },
-                        { value: "BOOKED", label: "Booked" },
-                        { value: "IN_USE", label: "In use" },
-                      ]}
-                      onChange={inputChangeHandler}
-                      value={roomStatus}
-                      name="roomStatus"
-                    />
-                    <FormButton>Save changes</FormButton>
-                  </form>
-                  }
+                  {!isAddingRoom && (
+                    <form onSubmit={handleSubmit}>
+                      <SelectInput
+                        options={[
+                          { value: "single", label: "Single" },
+                          { value: "twin", label: "Twin" },
+                          { value: "gold", label: "Gold" },
+                        ]}
+                        value={roomCategory}
+                        onChange={inputChangeHandler}
+                        name="roomCategory"
+                      />
+                      <TextInput
+                        placeholder="Room price"
+                        value={price}
+                        onChange={inputChangeHandler}
+                        name="price"
+                      />
+                      <TextInput
+                        placeholder="Room number"
+                        value={roomNumber}
+                        onChange={inputChangeHandler}
+                        name="roomNumber"
+                      />
+                      <SelectInput
+                        options={[
+                          { value: "AVAILABLE", label: "Available" },
+                          { value: "BOOKED", label: "Booked" },
+                          { value: "IN_USE", label: "In use" },
+                        ]}
+                        onChange={inputChangeHandler}
+                        value={roomStatus}
+                        name="roomStatus"
+                      />
+                      <FormButton>Save changes</FormButton>
+                    </form>
+                  )}
 
-                  {isAddingRoom && <form method="post" onSubmit={handleSaveRoom}>
-                    <SelectInput
-                      options={[
-                        { value: "single", label: "Single" },
-                        { value: "twin", label: "Twin" },
-                        { value: "gold", label: "Gold" },
-                      ]}
-                      value={roomCategory}
-                      onChange={inputChangeHandler}
-                      name="roomCategory"
-                    />
-                    <TextInput
-                      placeholder="Room price"
-                      value={price}
-                      onChange={inputChangeHandler}
-                      name="price"
-                    />
-                    <TextInput
-                      placeholder="Room number"
-                      value={roomNumber}
-                      onChange={inputChangeHandler}
-                      name="roomNumber"
-                    />
+                  {isAddingRoom && (
+                    <form method="post" onSubmit={handleSaveRoom}>
+                      <SelectInput
+                        options={[
+                          { value: "single", label: "Single" },
+                          { value: "twin", label: "Twin" },
+                          { value: "gold", label: "Gold" },
+                        ]}
+                        value={roomCategory}
+                        onChange={inputChangeHandler}
+                        name="roomCategory"
+                      />
+                      <TextInput
+                        placeholder="Room price"
+                        value={price}
+                        onChange={inputChangeHandler}
+                        name="price"
+                      />
+                      <TextInput
+                        placeholder="Room number"
+                        value={roomNumber}
+                        onChange={inputChangeHandler}
+                        name="roomNumber"
+                      />
 
-                    <FormButton >Save</FormButton>
-                  </form>}
+                      <FormButton>Save</FormButton>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>
@@ -246,6 +251,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchRooms: () => dispatch(getRooms()),
   updateRoom: (id, data) => dispatch(editRoom(id, data)),
-  addRoom: (data) => dispatch(addRoom(data))
+  addRoom: (data) => dispatch(addRoom(data)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RoomsPage);

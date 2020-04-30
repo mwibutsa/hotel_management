@@ -9,6 +9,7 @@
   margin: 10px 0;
   color: #24a2f7;
   transition: all ease-in-out 0.3s;
+  font-weight: 100;
 }
 
 .TextInput::placeholder {
