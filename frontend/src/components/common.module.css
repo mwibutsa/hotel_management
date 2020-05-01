@@ -25,11 +25,19 @@
   text-align: center;
 }
 
+.SpinnerContainer {
+  position: relative;
+  width: 50vw;
+  height: 50vh;
+}
+
 .Spinner {
   display: inline-block;
   position: relative;
   width: 80px;
   height: 80px;
+  top: 50%;
+  left: 50%;
 }
 .Spinner div {
   position: absolute;
@@ -174,5 +182,46 @@
   100% {
     top: 40%;
     opacity: 1;
+  }
+}
+
+/*BAR SPINNER*/
+
+.BarSpinner {
+  display: inline-block;
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+.BarSpinner div {
+  display: inline-block;
+  position: absolute;
+  left: 4px;
+  width: 8px;
+  background: rgb(212, 212, 212);
+  animation: bar-spinner 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+
+.BarSpinner div:nth-child(1) {
+  left: 4px;
+  animation-delay: -0.24s;
+}
+.BarSpinner div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+.BarSpinner div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+@keyframes bar-spinner {
+  0% {
+    top: 8px;
+    height: 32px;
+  }
+  50%,
+  100% {
+    top: 12px;
+    height: 16px;
   }
 }

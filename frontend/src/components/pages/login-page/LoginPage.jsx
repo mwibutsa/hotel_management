@@ -47,7 +47,7 @@ class LoginPage extends Component {
     const { email, password } = this.state.formData;
 
     await this.props.login({ email, password });
-    // window.location.reload();
+    window.location.reload();
   };
 
   handleChange = ({ target }) => {

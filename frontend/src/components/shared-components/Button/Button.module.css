@@ -1,5 +1,5 @@
 .Button {
-  height: 45px;
+  height: 35px;
   background: #ffc700 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #2929344f;
   border-radius: 4px;
@@ -10,7 +10,6 @@
   display: inline-block;
   outline: none;
   border: none;
-  width: 300px;
   position: relative;
   transition: all ease-in-out 0.3s;
 }
@@ -48,12 +47,8 @@
   outline: none;
 }
 
-
-
-
-
-@media  screen and   (max-width: 500px){
-  .Button   {
-    width :  200px
+@media screen and (max-width: 500px) {
+  .Button {
+    width: 200px;
   }
 }

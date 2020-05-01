@@ -7,7 +7,7 @@ import commonClasses from "../../common.module.css";
 import { connect } from "react-redux";
 import { createBooking } from "../../../redux/actions/booking-action";
 import { getRooms } from "../../../redux/actions/room-action";
-import Spinner from "../../shared-components/Spinner/Spinner";
+import { BarSpinner } from "../../shared-components/Spinner/Spinner";
 class BookingPage extends Component {
   constructor(props) {
     super(props);
@@ -54,7 +54,11 @@ class BookingPage extends Component {
       roomType,
     } = this.state;
 
-    let fetchStatus = <Spinner />;
+    let fetchStatus = (
+      <div className={classes.RoomLoader}>
+        <span>Select room</span> <BarSpinner />
+      </div>
+    );
 
     if (!this.props.loading) {
       const rooms = this.props.rooms.map((room) => ({
@@ -74,7 +78,9 @@ class BookingPage extends Component {
 
     return (
       <div className={["container", classes.BookingPage].join(" ")}>
-        <h3 className={classes.h3}>BOOK YOUR FAVORITE ROOM</h3>
+        <h3 className={[commonClasses.PageHeading, classes.h3].join(" ")}>
+          BOOK YOUR FAVORITE ROOM
+        </h3>
         <div className="row">
           <div className="col-md-3  col-sm-12"></div>
           <div className="col col-sm-12   col-md-6">
