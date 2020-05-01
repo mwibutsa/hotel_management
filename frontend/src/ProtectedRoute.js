@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 
-
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const accessToken = localStorage.getItem("accessToken");
 
@@ -19,16 +18,16 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         accessToken !== null && decodedToken.exp > currentTime ? (
           <Component {...props} />
         ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: props.location },
-              }}
-            />
-          )
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: props.location },
+            }}
+          />
+        )
       }
     />
   );
-}
+};
 
 export default ProtectedRoute;

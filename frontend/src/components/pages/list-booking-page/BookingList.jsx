@@ -8,7 +8,7 @@ import Room from "../../room-card/Room";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
 import { FormButton } from "../../shared-components/Button/Button";
-
+import styles from "../../common.module.css";
 // FORM REDUCER
 
 const VALUE_CHANGE = "VALUE_CHANGE";
@@ -109,7 +109,7 @@ const ListBooking = (props) => {
             </div>
             <div className="col-md-7">
               <br />
-              <h3>Available Bookings</h3>
+              <h3 className={styles.PageHeading}>Available Bookings</h3>
               <div className={classes.BookingContainer}>{rooms}</div>
             </div>
           </div>

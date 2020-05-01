@@ -85,11 +85,13 @@ export const editStaffMember = (staffMember) => async (dispatch) => {
     const updatedStaff = {};
 
     for (let [key, value] of Object.entries(staffMember)) {
-      updatedStaff[toSnakeCase(key)] = value;
+      if (value) {
+        updatedStaff[toSnakeCase(key)] = value;
+      }
     }
 
     const { data } = await axios.patch(
-      `/user/profile/${staffMember.id}`,
+      `/user/list/${staffMember.id}`,
       updatedStaff
     );
 

@@ -36,3 +36,4 @@ class UpdateUserAPIView(generics.RetrieveUpdateAPIView, BaseUserView):
 
 class LoginAPIView(TokenObtainPairView):
     serializer_class = AuthTokenSerializer
+    permission_classes = ()

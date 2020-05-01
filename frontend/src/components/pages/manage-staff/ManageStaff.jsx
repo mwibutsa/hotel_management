@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
 import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
-import { toSnakeCase, toCamelCase } from "../../../helper-functions";
+import { toCamelCase } from "../../../helper-functions";
 const VALUE_CHANGE = "VALUE_CHANGE";
 
 const formReducer = (state, action) => {
@@ -55,13 +55,16 @@ const ManageStaff = (props) => {
     [dispatchFormState]
   );
 
-  const checkChangeHandler = useCallback((event) => {
-    dispatchFormState({
-      type: VALUE_CHANGE,
-      input: event.target.name,
-      value: event.target.checked,
-    });
-  });
+  const checkChangeHandler = useCallback(
+    (event) => {
+      dispatchFormState({
+        type: VALUE_CHANGE,
+        input: event.target.name,
+        value: event.target.checked,
+      });
+    },
+    [dispatchFormState]
+  );
   const {
     email,
     username,
@@ -101,10 +104,13 @@ const ManageStaff = (props) => {
   const addMemberHandler = async (event) => {
     event.preventDefault();
     await props.addNewMember(formState);
+    toggleModalHandler();
   };
 
   const editStaffMemberHandler = async (event) => {
     event.preventDefault();
+    await props.updateMember(formState);
+    toggleModalHandler();
   };
 
   // LOGICAL RENDERING
@@ -126,7 +132,7 @@ const ManageStaff = (props) => {
           <div className="col-md-3">
             <SideNavigation />
           </div>
-          <div className="col-md-7">
+          <div className="col-md-9">
             <br></br>
             <h1 className={styles.PageHeading}>Manage staff</h1>
             <FormButton onClick={handleAddButtonClick}>New member</FormButton>
@@ -138,7 +144,7 @@ const ManageStaff = (props) => {
       {/*Modal form*/}
 
       <Modal open={isModalOpen} onToggle={toggleModalHandler}>
-        <form onSubmit={addMemberHandler}>
+        <form onSubmit={isCreating ? addMemberHandler : editStaffMemberHandler}>
           <div className="row">
             <h1 className={[styles.TextCenter, styles.PageHeading].join(" ")}>
               {isCreating
@@ -209,7 +215,7 @@ const ManageStaff = (props) => {
               )}
 
               <div className={styles.TextCenter}>
-                <FormButton>Save</FormButton>
+                <FormButton loading={props.loading}>Save</FormButton>
               </div>
             </div>
           </div>
