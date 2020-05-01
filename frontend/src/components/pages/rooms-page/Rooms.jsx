@@ -93,25 +93,21 @@ const RoomsPage = (props) => {
 
   // HANDLE FORM SUBMISSION
 
-  const handleSubmit = async (event) => {
+  const editRoomHandler = async (event) => {
     event.preventDefault();
     setIsAddingRoom(false);
-    setIsModalOpen(false);
-
     await props.updateRoom(currentRoom.id, formState);
-    await props.fetchRooms();
+    setIsModalOpen(false);
   };
 
-  const handleSaveRoom = async (event) => {
+  const addRoomHandler = async (event) => {
     event.preventDefault();
     const { roomCategory, price, roomNumber } = formState;
-    handleOpenModal();
 
     setIsAddingRoom(false);
 
     await props.addRoom({ roomCategory, price, roomNumber });
-
-    await props.fetchRooms();
+    handleOpenModal();
   };
 
   let roomContent = <Spinner />;
@@ -168,7 +164,7 @@ const RoomsPage = (props) => {
                     {!isAddingRoom && `MANAGE ROOM ${currentRoom.room_number}`}
                   </h3>
                   {!isAddingRoom && (
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={editRoomHandler}>
                       <SelectInput
                         options={[
                           { value: "single", label: "Single" },
@@ -201,12 +197,14 @@ const RoomsPage = (props) => {
                         value={roomStatus}
                         name="roomStatus"
                       />
-                      <FormButton>Save changes</FormButton>
+                      <FormButton loading={props.loading}>
+                        Save changes
+                      </FormButton>
                     </form>
                   )}
 
                   {isAddingRoom && (
-                    <form method="post" onSubmit={handleSaveRoom}>
+                    <form method="post" onSubmit={addRoomHandler}>
                       <SelectInput
                         options={[
                           { value: "single", label: "Single" },
@@ -230,7 +228,7 @@ const RoomsPage = (props) => {
                         name="roomNumber"
                       />
 
-                      <FormButton>Save</FormButton>
+                      <FormButton loading={props.loading}>Save</FormButton>
                     </form>
                   )}
                 </div>

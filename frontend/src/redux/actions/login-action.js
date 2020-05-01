@@ -45,6 +45,7 @@ export const autoLogin = () => async (dispatch) => {
 };
 
 export const login = (credentials) => async (dispatch) => {
+  console.log(credentials);
   try {
     dispatch(startLogin());
     const { data } = await axios.post("/user/login/", credentials);

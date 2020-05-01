@@ -1,7 +1,9 @@
 import React from "react";
 import classes from "./StaffMember.module.css";
 
-const Checkbox = (props) => (props.checked ? <span>&#10004; </span> : "x");
+const Permission = (props) => (
+  <span className={classes.Permission}>{props.children}</span>
+);
 
 const getName = (firstName, lastName) => {
   console.log(firstName, lastName);
@@ -15,25 +17,24 @@ const getName = (firstName, lastName) => {
 
 const StaffMember = (props) => (
   <div
-    className={["col-md-4 col-sm-12", classes.StaffMember].join(" ")}
+    className={["col-md-3 col-sm-12", classes.StaffMember].join(" ")}
     onClick={props.onClick}
   >
     <div className={classes.StaffAvatar}>
-      <img src="https://via.placeholder.com/150" />
+      <img src="https://via.placeholder.com/150" alt="" />
     </div>
     <div className={classes.Content}>
-      <p>Name: {getName(props.first_name, props.last_name)}</p>
-      <p>Email: {props.email}</p>
-      <p>
-        Is admin :
-        <Checkbox checked={props.is_admin} className={classes.Checkbox} />
-      </p>
-      <p>
-        Is Landlord : <Checkbox checked={props.is_landlord} />
-      </p>
-      <p>
-        Is staff : <Checkbox checked={props.is_staff} />
-      </p>
+      <div className={classes.AccountInfo}>
+        <p>Name: {getName(props.first_name, props.last_name)}</p>
+        <p>Email: {props.email}</p>
+      </div>
+      <div className={classes.PermissionGroup}>
+        <span className={classes.PermissionHeading}>Permissions</span>
+        {props.is_admin && <Permission>Admin</Permission>}
+        {props.is_staff && <Permission>Staff</Permission>}
+        {props.is_landlord && <Permission>Land Lord</Permission>}
+        {props.is_superuser && <Permission>Super user</Permission>}
+      </div>
     </div>
   </div>
 );

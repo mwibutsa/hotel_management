@@ -51,8 +51,6 @@ class UserSerializer(serializers.ModelSerializer):
                 setattr(instance, attr, value)
 
         instance.save()
-        import pdb
-        pdb.set_trace()
 
         return instance
 

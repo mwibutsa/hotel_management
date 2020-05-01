@@ -30,16 +30,19 @@ export const getRooms = () => async (dispatch) => {
 };
 
 const addRoomStart = () => ({ type: ADD_ROOM_START });
-const addRoomDone = (data) => ({ type: ADD_ROOM_DONE, payload: data });
-const addRoomFailed = (error) => ({ type: ADD_ROOM_FAILED, error });
+const addRoomDone = (data) => ({ type: ADD_ROOM_DONE, payload: { data } });
+const addRoomFailed = (error) => ({
+  type: ADD_ROOM_FAILED,
+  payload: { error },
+});
 
 export const addRoom = (newRoom) => async (dispatch) => {
   try {
     const roomInfo = {
       room_number: newRoom.roomNumber,
       room_category: newRoom.roomCategory,
-      price: newRoom.price
-    }
+      price: newRoom.price,
+    };
     dispatch(addRoomStart());
     const { data } = await axios.post("/room/create-room/", roomInfo);
     dispatch(addRoomDone(data));
@@ -49,8 +52,11 @@ export const addRoom = (newRoom) => async (dispatch) => {
 };
 
 const editRoomStart = () => ({ type: EDIT_ROOM_START });
-const editRoomDone = (data) => ({ type: EDIT_ROOM_DONE, payload: data });
-const editRoomFailed = (error) => ({ type: EDIT_ROOM_FAILED, error });
+const editRoomDone = (data) => ({ type: EDIT_ROOM_DONE, payload: { data } });
+const editRoomFailed = (error) => ({
+  type: EDIT_ROOM_FAILED,
+  payload: { error },
+});
 
 export const editRoom = (id, updatedRoom) => async (dispatch) => {
   try {

@@ -1,17 +1,21 @@
 .StaffMember {
-  background-color: aliceblue;
-  box-shadow: 0 0 4px #ddd;
-  padding: 5px 30px;
-  border-radius: 4px;
+  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.158);
+  border-radius: 1px;
+  padding: 1px;
   width: 100%;
   margin: 10px;
   cursor: pointer;
   position: relative;
   margin-top: 50px;
+  text-align: center;
+  border: 1px solid #eee;
+  box-sizing: content-box;
 }
 
 .Content {
   padding-top: 60px;
+  background-color: #ececec;
+  width: 100%;
 }
 
 .StaffAvatar {
@@ -30,4 +34,44 @@
 
 .StaffAvatar img {
   width: 100%;
+}
+
+.Permission {
+  font-size: 10px;
+  color: #0099ff;
+  padding: 5px;
+  display: inline-block;
+  background-color: #ffffff;
+  margin: 1px;
+  border-radius: 1px;
+  font-weight: 700;
+  box-shadow: 0 0 2px #33333363;
+}
+.PermissionGroup {
+  width: 100%;
+  padding: 10px;
+}
+.PermissionHeading {
+  text-transform: uppercase;
+  font-size: 10px;
+  text-shadow: 0 0 1px rgba(78, 77, 77, 0.644);
+  color: #5c5300fb;
+  display: block;
+  background-color: #f4faff;
+  letter-spacing: 3px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+  width: 50%;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.AccountInfo {
+  display: inline-block;
+  text-align: justify;
+  background-color: #fafdff98;
+  padding: 10px;
+  border: 1px solid #ddd;
 }

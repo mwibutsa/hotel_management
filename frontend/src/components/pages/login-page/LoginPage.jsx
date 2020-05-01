@@ -47,6 +47,7 @@ class LoginPage extends Component {
     const { email, password } = this.state.formData;
 
     await this.props.login({ email, password });
+    // window.location.reload();
   };
 
   handleChange = ({ target }) => {
@@ -59,7 +60,7 @@ class LoginPage extends Component {
     const { email, password } = this.state.formData;
 
     const errorMessage = this.props.error ? (
-      <div className="alert alert-danger">Please use valid credentials</div>
+      <div className="alert alert-danger">{this.props.error.message}</div>
     ) : (
       ""
     );
