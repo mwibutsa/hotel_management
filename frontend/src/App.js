@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import ListBookingPage from "./components/pages/list-booking-page/BookingList";
 import ManageStaff from "./components/pages/manage-staff/ManageStaff";
 
-function App() {
+const App = (props) => {
   return (
     <BrowserRouter>
       <Provider store={store}>
@@ -36,6 +36,6 @@ function App() {
       </Provider>
     </BrowserRouter>
   );
-}
+};
 
 export default App;

@@ -4,12 +4,16 @@ import SideNavigation from "../../side-navigation/SideNavigation";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import { FormButton } from "../../shared-components/Button/Button";
 import StaffMember from "./StaffMember/StaffMember";
-import { loadStaff } from "../../../redux/actions/staff-action";
+import {
+  loadStaff,
+  addStaffMember,
+  editStaffMember,
+} from "../../../redux/actions/staff-action";
 import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
 import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
-
+import { toSnakeCase, toCamelCase } from "../../../helper-functions";
 const VALUE_CHANGE = "VALUE_CHANGE";
 
 const formReducer = (state, action) => {
@@ -36,42 +40,50 @@ const ManageStaff = (props) => {
     lastName: "",
     email: "",
     password: "",
-    is_staff: true,
+    isStaff: true,
     username: "",
+    isAdmin: true,
   });
-  const valueChangeHandler = useCallback((event) => {
+  const valueChangeHandler = useCallback(
+    (event) => {
+      dispatchFormState({
+        type: VALUE_CHANGE,
+        input: event.target.name,
+        value: event.target.value,
+      });
+    },
+    [dispatchFormState]
+  );
+
+  const checkChangeHandler = useCallback((event) => {
     dispatchFormState({
       type: VALUE_CHANGE,
       input: event.target.name,
-      value: event.target.value,
+      value: event.target.checked,
     });
   });
-
-  const { email, username, firstName, lastName, password } = formState;
+  const {
+    email,
+    username,
+    firstName,
+    lastName,
+    password,
+    isStaff,
+    isAdmin,
+  } = formState;
 
   const toggleModalHandler = (staff = null) => {
+    console.log(staff);
     setIsModalOpen((prevState) => !prevState);
     if (staff) {
-      dispatchFormState({
-        input: "firstName",
-        value: staff.first_name,
-        type: VALUE_CHANGE,
-      });
-      dispatchFormState({
-        input: "lastName",
-        value: staff.last_name,
-        type: VALUE_CHANGE,
-      });
-      dispatchFormState({
-        input: "email",
-        value: staff.email,
-        type: VALUE_CHANGE,
-      });
-      dispatchFormState({
-        input: "username",
-        value: staff.username,
-        type: VALUE_CHANGE,
-      });
+      for (let [key, value] of Object.entries(staff)) {
+        console.log({ [toCamelCase(key)]: value });
+        dispatchFormState({
+          input: toCamelCase(key),
+          value: value,
+          type: VALUE_CHANGE,
+        });
+      }
     }
   };
   const staffClickHandler = (staff) => {
@@ -79,16 +91,20 @@ const ManageStaff = (props) => {
     setEditableStaff(staff);
     toggleModalHandler(staff);
   };
-
-  // SUBMIT HANDLER
-
-  const addMemberHandler = (event) => {
-    event.preventDefault();
-  };
-
   const handleAddButtonClick = () => {
     setIsCreating(true);
     toggleModalHandler();
+  };
+
+  // SUBMIT HANDLER
+
+  const addMemberHandler = async (event) => {
+    event.preventDefault();
+    await props.addNewMember(formState);
+  };
+
+  const editStaffMemberHandler = async (event) => {
+    event.preventDefault();
   };
 
   // LOGICAL RENDERING
@@ -122,7 +138,7 @@ const ManageStaff = (props) => {
       {/*Modal form*/}
 
       <Modal open={isModalOpen} onToggle={toggleModalHandler}>
-        <form onSubmit={() => {}}>
+        <form onSubmit={addMemberHandler}>
           <div className="row">
             <h1 className={[styles.TextCenter, styles.PageHeading].join(" ")}>
               {isCreating
@@ -162,6 +178,36 @@ const ManageStaff = (props) => {
                 onChange={valueChangeHandler}
                 value={password}
               />
+
+              {!isCreating && (
+                <div className={classes.UserPermissions}>
+                  <div>
+                    <label className={classes.CheckboxLabel}>
+                      Is Staff:
+                      <TextInput
+                        type="checkbox"
+                        name="isStaff"
+                        onChange={checkChangeHandler}
+                        value={isStaff}
+                        className={classes.Checkbox}
+                      />
+                    </label>
+                  </div>
+                  <div>
+                    <label className={classes.CheckboxLabel}>
+                      Is Admin:
+                      <TextInput
+                        type="checkbox"
+                        name="isAdmin"
+                        onChange={checkChangeHandler}
+                        value={isAdmin}
+                        className={classes.Checkbox}
+                      />
+                    </label>
+                  </div>
+                </div>
+              )}
+
               <div className={styles.TextCenter}>
                 <FormButton>Save</FormButton>
               </div>
@@ -181,6 +227,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   loadStaffMembers: () => dispatch(loadStaff()),
+  addNewMember: (data) => dispatch(addStaffMember(data)),
+  updateMember: (data) => dispatch(editStaffMember(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageStaff);
