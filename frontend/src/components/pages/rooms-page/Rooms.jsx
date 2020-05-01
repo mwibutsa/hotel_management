@@ -167,9 +167,9 @@ const RoomsPage = (props) => {
                     <form onSubmit={editRoomHandler}>
                       <SelectInput
                         options={[
-                          { value: "single", label: "Single" },
-                          { value: "twin", label: "Twin" },
-                          { value: "gold", label: "Gold" },
+                          { value: "Single", label: "Single" },
+                          { value: "Twin", label: "Twin" },
+                          { value: "Gold", label: "Gold" },
                         ]}
                         value={roomCategory}
                         onChange={inputChangeHandler}

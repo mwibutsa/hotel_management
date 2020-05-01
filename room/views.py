@@ -21,6 +21,12 @@ class CreateRoomView(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
     serializer_class = serializers.RoomSerializer
 
+    def create(self, request, *args, **kwargs):
+        # import pdb
+        # pdb.set_trace()
+
+        return super().create(request, *args, **kwargs)
+
 
 class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
     """ A class to handle listing and creation of new Rooms. """
