@@ -1,9 +1,13 @@
 import dj_database_url
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -76,13 +80,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        # 'PASSWORD': os.environ.get('DB_PASSWORD'),
         'PORT': os.environ.get('DB_PORT'),
     }
 }
 
-DATABASES['default'] = dj_database_url.config(
-    default='postgres://byjhwldwddxqgi:fe78080759185526c36cdd2bccb88310c7fb5fcbe4462da06ee5c8148d9c6895@ec2-52-207-93-32.compute-1.amazonaws.com:5432/d10bgnoi2eq7sm')
+if(os.environ.get('ENV') != 'dev'):
+    DATABASES['default'] = dj_database_url.config(
+        default='postgres://byjhwldwddxqgi:fe78080759185526c36cdd2bccb88310c7fb5fcbe4462da06ee5c8148d9c6895@ec2-52-207-93-32.compute-1.amazonaws.com:5432/d10bgnoi2eq7sm')
 
 
 # Password validation
