@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { createBooking } from "../../../redux/actions/booking-action";
 import { getRooms } from "../../../redux/actions/room-action";
 import { BarSpinner } from "../../shared-components/Spinner/Spinner";
+
 class BookingPage extends Component {
   constructor(props) {
     super(props);
@@ -18,8 +19,9 @@ class BookingPage extends Component {
         customerName: "",
         checkoutDate: "",
         checkInDate: "",
-        roomType: "",
+        roomType: 101,
       },
+      isSuccessfull: false,
     };
   }
 
@@ -34,14 +36,17 @@ class BookingPage extends Component {
     });
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = async (event) => {
     event.preventDefault();
     const data = this.state.form;
     const { makeBooking } = this.props;
-    makeBooking(data);
+    await makeBooking(data);
 
     for (let key of Object.keys(this.state)) {
       this.setState({ [key]: "" });
+    }
+    if (!this.props.error) {
+      this.setState({ isSuccessfull: true });
     }
   };
 
@@ -76,7 +81,7 @@ class BookingPage extends Component {
       );
     }
 
-    return (
+    let content = (
       <div className={["container", classes.BookingPage].join(" ")}>
         <h3 className={[commonClasses.PageHeading, classes.h3].join(" ")}>
           BOOK YOUR FAVORITE ROOM
@@ -116,7 +121,9 @@ class BookingPage extends Component {
               {fetchStatus}
 
               <p className={commonClasses.TextCenter}>
-                <FormButton>Submit Booking</FormButton>
+                <FormButton loading={this.props.loading}>
+                  Submit Booking
+                </FormButton>
               </p>
             </form>
           </div>
@@ -124,12 +131,32 @@ class BookingPage extends Component {
         <br />
       </div>
     );
+
+    if (this.state.isSuccessfull) {
+      content = (
+        <div className={classes.SuccessContainer}>
+          <br></br>
+          <h3 className={commonClasses.PageHeading}>
+            You Booking is is successfull
+          </h3>
+
+          <div className={classes.AdditionalMessage}>
+            Kindly make at least a <span>$100</span> payment to confirm your
+            booking
+          </div>
+          <br></br>
+          <FormButton>Pay $100 now</FormButton>
+        </div>
+      );
+    }
+    return content;
   }
 }
 const mapStateToProps = (state) => ({
   createdBooking: state.booking,
   rooms: state.rooms.rooms,
   loading: state.rooms.loading,
+  error: state.booking.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({

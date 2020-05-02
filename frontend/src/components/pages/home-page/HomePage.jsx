@@ -5,6 +5,7 @@ import RoomCategoryCard from "../../shared-components/room-category-card/RoomCat
 import GymImage from "../../../images/gym.png";
 import PoolImage from "../../../images/swimmingpool.png";
 import { LinkButton } from "../../shared-components/Button/Button";
+import SwiteRoomImage from "../../../images/bed-bedroom-furniture-headboard-279746.jpg";
 const HomePage = (props) => (
   <div className={classes.HomePage}>
     <div className={classes.WelcomeSection}></div>
@@ -46,7 +47,7 @@ const HomePage = (props) => (
             <RoomCategoryCard type="single" />
           </div>
           <div className="col col-md-4">
-            <RoomCategoryCard type="single" />
+            <RoomCategoryCard type="single" image={SwiteRoomImage} />
           </div>
 
           <div className="col col-md-4">

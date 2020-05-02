@@ -30,6 +30,17 @@ class ListBookingAPIView(generics.ListAPIView, BaseAPIView):
     """API to handle listing available bookings. """
 
 
+class BookingDetailView(generics.RetrieveUpdateDestroyAPIView, BaseAPIView):
+    """API to handle listing available bookings. """
+
+    # def update(self, request, *args, **kwargs):
+
+    #     serializer = self.get_serializer(data=request.data)
+    #     import pdb
+    #     pdb.set_trace()
+    #     return super().update(request, *args, **kwargs)
+
+
 class CreateBookingAPIView(generics.CreateAPIView):
     """Allow customers to make a booking for a particular room. """
 
@@ -83,11 +94,12 @@ class CreateBookingAPIView(generics.CreateAPIView):
                 return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
             else:
-
                 return Response(data={
                     'message': f"This room is not availabe for check in before {wanted_room.expected_checkout_date}"}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as error:
-            print(error)
+            import pdb
+            pdb.set_trace()
+            return Response(data={'message': 'There ware an internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CheckInAPIView(generics.RetrieveUpdateDestroyAPIView, BaseAPIView):

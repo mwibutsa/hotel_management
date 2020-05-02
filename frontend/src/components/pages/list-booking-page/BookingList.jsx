@@ -3,7 +3,10 @@ import classes from "./BookingList.module.css";
 import SideNavigation from "../../side-navigation/SideNavigation";
 import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
-import { getBookings } from "../../../redux/actions/booking-action";
+import {
+  getBookings,
+  editBooking,
+} from "../../../redux/actions/booking-action";
 import Room from "../../room-card/Room";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
@@ -29,6 +32,8 @@ const ListBooking = (props) => {
   const { fetchBookings } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState(false);
+  const [activeBookingId, setActiveBookingId] = useState();
+
   useEffect(() => {
     fetchBookings();
   }, [fetchBookings]);
@@ -43,6 +48,7 @@ const ListBooking = (props) => {
   const handleOpenModal = (booking) => {
     setIsModalOpen((prevState) => !prevState);
     if (booking) {
+      setActiveBookingId(booking.id);
       setModalTitle(booking.customer_name);
       dispatchFormState({
         type: VALUE_CHANGE,
@@ -64,7 +70,7 @@ const ListBooking = (props) => {
       dispatchFormState({
         type: VALUE_CHANGE,
         input: "additionalPayment",
-        value: 0,
+        value: "",
       });
     }
   };
@@ -84,12 +90,20 @@ const ListBooking = (props) => {
 
   if (!props.loading) {
     rooms = props.bookings.map((booking) => (
-      <Room {...booking} key={booking.id} bookings onClick={handleOpenModal} />
+      <Room
+        {...booking}
+        key={booking.id}
+        bookings
+        onClick={() => handleOpenModal(booking)}
+      />
     ));
   }
 
-  const submitHandler = (event) => {
+  const submitHandler = async (event) => {
     event.preventDefault();
+    await props.updateBooking(activeBookingId, formState);
+    await props.fetchBookings();
+    handleOpenModal();
   };
 
   const {
@@ -141,9 +155,9 @@ const ListBooking = (props) => {
                     />
                     <SelectInput
                       options={[
-                        { value: 1, label: "Booked" },
-                        { value: 2, label: "Check in" },
-                        { value: 3, label: "Checkout" },
+                        { value: "Booked", label: "Booked" },
+                        { value: "Check in", label: "Check in" },
+                        { value: "Checkout", label: "Checkout" },
                       ]}
                       value={customerBookingStatus}
                       onChange={valueChangeHandler}
@@ -165,7 +179,9 @@ const ListBooking = (props) => {
                       name="checkoutDate"
                     />
 
-                    <FormButton>Save changes</FormButton>
+                    <FormButton loading={props.loading}>
+                      Save changes
+                    </FormButton>
                   </form>
                 </div>
               </div>
@@ -185,6 +201,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchBookings: () => dispatch(getBookings()),
+  updateBooking: (id, data) => dispatch(editBooking(id, data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListBooking);
