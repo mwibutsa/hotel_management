@@ -5,7 +5,7 @@ from room.models import Room, RoomCategory
 
 class Booking(models.Model):
     BOOKED = 'Booked'
-    CHECK_IN = 'Check-in'
+    CHECK_IN = 'Check in'
     CHECKOUT = 'Checkout'
 
     CUSTOMER_BOOKING_STATUS = (

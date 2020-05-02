@@ -5,6 +5,8 @@
   border-radius: 5px;
   margin-bottom: 40px;
   background-color: white;
+  cursor: pointer;
+  overflow: hidden;
 }
 
 .Header {
@@ -55,10 +57,12 @@
 
 .RoomImage {
   width: 100%;
-  height: 290px;
+  height: 280px;
 }
 
 .RoomImageContainer {
-  width: 100%;
   filter: brightness(50%);
+  overflow: hidden;
+  height: 100%;
+  padding: 2px;
 }

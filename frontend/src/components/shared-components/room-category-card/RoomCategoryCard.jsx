@@ -1,7 +1,8 @@
 import React from "react";
 import classes from "./RoomCategoryCard.module.css";
 import RoomImage from "../../../images/febrian-zakaria-sjvU0THccQA-unsplash.png";
-const RoomCategoryCard = props => {
+
+const RoomCategoryCard = (props) => {
   const headerStyle =
     props.type === "single" ? classes.HeaderSingle : classes.HeaderGold;
   return (
@@ -13,7 +14,11 @@ const RoomCategoryCard = props => {
       </div>
 
       <div className={classes.RoomImageContainer}>
-        <img src={RoomImage} alt="" className={classes.RoomImage} />
+        <img
+          src={props.image || RoomImage}
+          alt=""
+          className={classes.RoomImage}
+        />
       </div>
     </div>
   );

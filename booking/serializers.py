@@ -81,3 +81,16 @@ class StaffBookingSerializer(BaseSerializer, serializers.ModelSerializer):
             },
 
         }
+
+    def update(self, instance, validated_data):
+
+        paid_advance = validated_data.get('paid_advance', 0)
+
+        validated_data['paid_advance'] = float(
+            instance.paid_advance) + paid_advance
+        for key in validated_data:
+            setattr(instance, key, validated_data.get(
+                key, getattr(instance, key, '')))
+
+        instance.save()
+        return instance

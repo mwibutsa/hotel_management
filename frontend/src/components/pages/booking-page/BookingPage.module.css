@@ -4,7 +4,11 @@
   position: relative;
   min-height: 500px;
 }
-
+.SuccessContainer {
+  min-height: 381px;
+  text-align: center;
+  background-color: #dae1e7;
+}
 @media screen and (max-width: 500px) {
   .BookingPage {
     padding-top: 120px;
@@ -21,6 +25,21 @@
   }
 }
 
+.AdditionalMessage {
+  color: #29cdaf;
+  font-size: 30px;
+  display: inline-block;
+  padding: 1px 15px;
+  margin: 30px;
+  text-shadow: 1px 1px 2px rgba(51, 51, 51, 0.315);
+  font-family: "Old Standard TT", sans-serif;
+  font-weight: 500;
+}
+
+.AdditionalMessage span {
+  font-weight: bold;
+  color: cadetblue;
+}
 .h3 {
   letter-spacing: 2px;
   text-align: center;
