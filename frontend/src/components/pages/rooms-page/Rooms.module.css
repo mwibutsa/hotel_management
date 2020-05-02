@@ -1,0 +1,66 @@
+.RoomsPage {
+  position: relative;
+  height: 100%;
+}
+
+.RoomPageMargin {
+  height: 10px;
+}
+
+.RoomPageHeading {
+  font: Regular 32px/39px Cabin;
+  color: #707070;
+  text-transform: uppercase;
+  font-size: 18px;
+}
+
+.RoomsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-column-gap: 30px;
+}
+
+.EditRoomModalContainer {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  bottom: 0;
+  background-color: #07070767;
+}
+.EditRoomModal {
+  position: absolute;
+  width: 60%;
+  height: 400px;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -40%);
+  padding: 30px 0;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 10px;
+  animation-name: modal-animation;
+  animation-duration: 0.4s;
+  transition: all ease-in-out 0.4s;
+}
+
+.EditRoomHeading {
+  font: Regular 18px Cabin;
+  color: #707070;
+  text-align: center;
+  margin: 10px;
+}
+
+@keyframes modal-animation {
+  0% {
+    opacity: 0;
+    top: -1000px;
+  }
+  50% {
+    top: 20%;
+    opacity: 0.8;
+  }
+  100% {
+    top: 40%;
+    opacity: 1;
+  }
+}

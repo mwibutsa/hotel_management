@@ -1,0 +1,49 @@
+.BookingPage {
+  width: 100%;
+  padding-top: 10px;
+  position: relative;
+  min-height: 500px;
+}
+
+@media screen and (max-width: 500px) {
+  .BookingPage {
+    padding-top: 120px;
+  }
+
+  .h3 {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .BookingPage {
+    padding-top: 130px;
+  }
+}
+
+.h3 {
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.Form {
+  padding-bottom: 50px;
+}
+
+@media screen and (max-width: 500px) {
+  .Form {
+    width: 100%;
+  }
+
+  .h3 {
+    font-size: 16px;
+  }
+}
+
+.RoomLoader {
+  display: flex;
+  color: #707070;
+  align-items: center;
+  width: 100%;
+  padding-left: 10px;
+}
