@@ -12,7 +12,7 @@ import Spinner from "../../shared-components/Spinner/Spinner";
 import { FormButton } from "../../shared-components/Button/Button";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
-
+import { toCamelCase } from "../../../helper-functions";
 const VALUE_CHANGE = "VALUE_CHANGE";
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -52,29 +52,15 @@ const RoomsPage = (props) => {
     setCurrentRoom(room);
 
     if (room) {
-      dispatchFormSate({
-        type: VALUE_CHANGE,
-        input: "price",
-        value: room.price,
-      });
-
-      dispatchFormSate({
-        type: VALUE_CHANGE,
-        input: "roomStatus",
-        value: room.room_status,
-      });
-
-      dispatchFormSate({
-        type: VALUE_CHANGE,
-        input: "roomNumber",
-        value: room.room_number,
-      });
-
-      dispatchFormSate({
-        type: VALUE_CHANGE,
-        input: "roomCategory",
-        value: room.room_category,
-      });
+      console.log(room);
+      for (let [key, value] of Object.entries(room)) {
+        console.log(toCamelCase(key), "KEY");
+        dispatchFormSate({
+          type: VALUE_CHANGE,
+          input: toCamelCase(key),
+          value: value,
+        });
+      }
     }
   };
 

@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import RoomsPage from "./components/pages/rooms-page/Rooms";
 import ListBookingPage from "./components/pages/list-booking-page/BookingList";
 import ManageStaff from "./components/pages/manage-staff/ManageStaff";
+import CategoryPage from "./components/pages/category-page/CategoryPage";
 
 const DashboardRouter = (props) => (
   <Switch>
@@ -16,6 +17,11 @@ const DashboardRouter = (props) => (
     <ProtectedRoute
       path="/dashboard/manage-staff"
       component={ManageStaff}
+      {...props}
+    />
+    <ProtectedRoute
+      path="/dashboard/room-categories"
+      component={CategoryPage}
       {...props}
     />
   </Switch>
