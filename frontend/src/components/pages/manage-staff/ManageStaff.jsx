@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useReducer, useCallback } from "react";
 import classes from "./ManageStaff.module.css";
-import SideNavigation from "../../side-navigation/SideNavigation";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import { FormButton } from "../../shared-components/Button/Button";
 import StaffMember from "./StaffMember/StaffMember";
+
 import {
   loadStaff,
   addStaffMember,
   editStaffMember,
 } from "../../../redux/actions/staff-action";
+
 import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
 import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
 import { toCamelCase } from "../../../helper-functions";
+import PageContainer from "../page-container/PageContainer";
+
 const VALUE_CHANGE = "VALUE_CHANGE";
 
 const formReducer = (state, action) => {
@@ -126,20 +129,13 @@ const ManageStaff = (props) => {
   }
 
   return (
-    <div className={classes.ManageStaffPage}>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-3">
-            <SideNavigation />
-          </div>
-          <div className="col-md-9">
-            <br></br>
-            <h1 className={styles.PageHeading}>Manage staff</h1>
-            <FormButton onClick={handleAddButtonClick}>New member</FormButton>
-            <div className="row">{staffMembers}</div>
-          </div>
-        </div>
-      </div>
+    <React.Fragment>
+      <PageContainer>
+        <br></br>
+        <h1 className={styles.PageHeading}>Manage staff</h1>
+        <FormButton onClick={handleAddButtonClick}>New member</FormButton>
+        <div className="row">{staffMembers}</div>
+      </PageContainer>
 
       {/*Modal form*/}
 
@@ -221,7 +217,7 @@ const ManageStaff = (props) => {
           </div>
         </form>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 

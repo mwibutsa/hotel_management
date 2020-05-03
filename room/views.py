@@ -35,6 +35,13 @@ class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.RoomSerializer
 
 
+class CategoryListView(generics.ListAPIView, generics.GenericAPIView):
+    """ A class to handle category listing for the clients. """
+    queryset = models.RoomCategory.objects.all()
+    serializer_class = serializers.RoomCategorySerializer
+    authentication_classes = ()
+
+
 class CategoryAPIView(generics.ListCreateAPIView, generics.GenericAPIView):
     """ A class to handle category creation. """
     queryset = models.RoomCategory.objects.all()

@@ -7,7 +7,7 @@ export const updateArray = (array, replaceWith) => {
   const target = targetArray.findIndex(
     (element) => element.id === replaceWith.id
   );
-  if (target) {
+  if (target !== -1) {
     targetArray[target] = { ...targetArray[target], ...replaceWith };
   }
   return targetArray;
