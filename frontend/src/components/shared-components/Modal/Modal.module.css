@@ -7,7 +7,6 @@
 }
 .Modal {
   position: absolute;
-  width: 60%;
   left: 50%;
   top: 40%;
   transform: translate(-50%, -40%);
@@ -18,6 +17,7 @@
   animation-name: modal-animation;
   animation-duration: 0.4s;
   transition: all ease-in-out 0.4s;
+  padding-top: 10px;
 }
 
 @keyframes modal-animation {
@@ -33,4 +33,30 @@
     top: 40%;
     opacity: 1;
   }
+}
+
+.CloseButtonContainer {
+  text-align: right;
+  color: brown;
+  padding: 10px;
+  padding-right: 20px;
+  width: 98%;
+}
+.CloseButton {
+  padding: 2px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.5rem;
+  background-color: whitesmoke;
+  box-shadow: 0 0 2px #3333338f;
+}
+
+.CloseButton:hover {
+  background-color: rgb(253, 242, 242);
+}
+
+.ModalTitle {
+  float: left;
+  color: darkgrey;
 }

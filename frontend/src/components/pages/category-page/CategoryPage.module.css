@@ -6,23 +6,56 @@
   width: 200px;
   background-color: rgb(224, 224, 224);
   padding: 10px 20px;
-  border: 1px solid rgb(187, 187, 187);
+  border: 1px solid #ccc;
   text-align: center;
   margin: 10px;
   box-shadow: 1px 1px 2px #72727242;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 3px;
+}
+
+.CardHeader {
+  display: flex;
+  background-color: rgb(228, 228, 228);
+  overflow: hidden;
+  height: 25px;
+  justify-content: space-evenly;
 }
 
 .CategoryName {
   text-transform: uppercase;
-  color: yellowgreen;
+  color: rgb(43, 65, 0);
   text-shadow: 1px 1px 2px rgba(37, 37, 37, 0.411);
+  font-size: 20px;
+}
+
+.RoomCount,
+.RoomTitle {
+  font-weight: 500;
+  color: rgb(150, 149, 149);
+  font-size: 25px;
+  border: 1px solid #ccc;
+  padding: 3px 5px;
+  background-color: whitesmoke;
+  border-radius: 5px;
 }
 
 .RoomCount {
-  font-weight: bold;
-  font-size: 60px;
-  color: gray;
-  text-shadow: 2px 1px 4px rgba(37, 37, 37, 0.479);
+  color: blueviolet;
+}
+.RoomDetails {
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 0 4px rgba(51, 51, 51, 0.082);
+  border: 1px solid #7272720a;
+  padding-top: 10px;
+}
+.TextCenter {
+  text-align: center;
+  width: 100%;
+}
+.CategoryForm {
+  width: 80%;
+  position: relative;
+  margin: 0 auto;
 }

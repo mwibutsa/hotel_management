@@ -10,7 +10,7 @@ import {
 } from "./action-types";
 
 import axios from "../../axios";
-
+import { toSnakeCase } from "../../helper-functions";
 const beginFetchingRooms = () => {
   return { type: BEGIN_FETCHING_ROOMS };
 };
@@ -38,11 +38,11 @@ const addRoomFailed = (error) => ({
 
 export const addRoom = (newRoom) => async (dispatch) => {
   try {
-    const roomInfo = {
-      room_number: newRoom.roomNumber,
-      room_category: newRoom.roomCategory,
-      price: newRoom.price,
-    };
+    const roomInfo = {};
+    for (let [key, value] of Object.entries(newRoom)) {
+      roomInfo[toSnakeCase(key)] = value;
+    }
+
     dispatch(addRoomStart());
     const { data } = await axios.post("/room/create-room/", roomInfo);
     dispatch(addRoomDone(data));

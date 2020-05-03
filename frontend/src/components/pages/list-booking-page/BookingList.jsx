@@ -12,6 +12,8 @@ import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
 import { FormButton } from "../../shared-components/Button/Button";
 import styles from "../../common.module.css";
+import Modal from "../../shared-components/Modal/Modal";
+
 // FORM REDUCER
 
 const VALUE_CHANGE = "VALUE_CHANGE";
@@ -129,66 +131,51 @@ const ListBooking = (props) => {
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <div
-          className={classes.EditRoomModalContainer}
-          id="ModalContainer"
-          onClick={(e) => {
-            if (e.target.id === "ModalContainer") {
-              handleOpenModal();
-            }
-          }}
-        >
-          <div className={classes.EditRoomModal}>
-            <div className="container">
-              <div className="row">
-                <div className="col-md-8 offset-2">
-                  <h3 className={classes.EditRoomHeading}>
-                    MANAGE BOOKING BY {modalTitle}
-                  </h3>
-                  <form onSubmit={submitHandler} method="post">
-                    <TextInput
-                      placeholder="Additional payment"
-                      value={additionalPayment}
-                      name="additionalPayment"
-                      onChange={valueChangeHandler}
-                    />
-                    <SelectInput
-                      options={[
-                        { value: "Booked", label: "Booked" },
-                        { value: "Check in", label: "Check in" },
-                        { value: "Checkout", label: "Checkout" },
-                      ]}
-                      value={customerBookingStatus}
-                      onChange={valueChangeHandler}
-                      name="customerBookingStatus"
-                    />
-                    <TextInput
-                      placeholder="Check in date"
-                      type="date"
-                      value={checkInDate}
-                      onChange={valueChangeHandler}
-                      name="checkInDate"
-                    />
 
-                    <TextInput
-                      placeholder="Checkout date"
-                      type="date"
-                      value={checkoutDate}
-                      onChange={valueChangeHandler}
-                      name="checkoutDate"
-                    />
+      <Modal open={isModalOpen} onToggle={handleOpenModal}>
+        <div className="row">
+          <div className="col-md-8 offset-2">
+            <h3 className={styles.PageHeading}>
+              MANAGE BOOKING BY {modalTitle}
+            </h3>
+            <form onSubmit={submitHandler} method="post">
+              <TextInput
+                placeholder="Additional payment"
+                value={additionalPayment}
+                name="additionalPayment"
+                onChange={valueChangeHandler}
+              />
+              <SelectInput
+                options={[
+                  { value: "Booked", label: "Booked" },
+                  { value: "Check in", label: "Check in" },
+                  { value: "Checkout", label: "Checkout" },
+                ]}
+                value={customerBookingStatus}
+                onChange={valueChangeHandler}
+                name="customerBookingStatus"
+              />
+              <TextInput
+                placeholder="Check in date"
+                type="date"
+                value={checkInDate}
+                onChange={valueChangeHandler}
+                name="checkInDate"
+              />
 
-                    <FormButton loading={props.loading}>
-                      Save changes
-                    </FormButton>
-                  </form>
-                </div>
-              </div>
-            </div>
+              <TextInput
+                placeholder="Checkout date"
+                type="date"
+                value={checkoutDate}
+                onChange={valueChangeHandler}
+                name="checkoutDate"
+              />
+
+              <FormButton loading={props.loading}>Save changes</FormButton>
+            </form>
           </div>
         </div>
-      )}
+      </Modal>
     </React.Fragment>
   );
 };

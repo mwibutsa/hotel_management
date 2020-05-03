@@ -7,12 +7,15 @@ import {
   editRoom,
   addRoom,
 } from "../../../redux/actions/room-action";
+import { fetchRoomCategories } from "../../../redux/actions/room-category-action";
 import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
 import { FormButton } from "../../shared-components/Button/Button";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
 import { toCamelCase } from "../../../helper-functions";
+import Modal from "../../shared-components/Modal/Modal";
+
 const VALUE_CHANGE = "VALUE_CHANGE";
 const formReducer = (state, action) => {
   switch (action.type) {
@@ -32,11 +35,12 @@ const RoomsPage = (props) => {
   const [isAddingRoom, setIsAddingRoom] = useState(false);
   // FETCH ROOMS ON PAGE LOAD
 
-  const { fetchRooms } = props;
+  const { fetchRooms, getCategories } = props;
 
   useEffect(() => {
     fetchRooms();
-  }, [fetchRooms]);
+    getCategories();
+  }, [fetchRooms, getCategories]);
 
   // FORM STATE REDUCER HOOK
   const [formState, dispatchFormSate] = useReducer(formReducer, {
@@ -48,11 +52,9 @@ const RoomsPage = (props) => {
 
   // HANDLE OPEN MODAL
   const handleOpenModal = (room) => {
-    setIsModalOpen((prevState) => !prevState);
-    setCurrentRoom(room);
-
     if (room) {
-      console.log(room);
+      setCurrentRoom(room);
+      setIsAddingRoom(false);
       for (let [key, value] of Object.entries(room)) {
         console.log(toCamelCase(key), "KEY");
         dispatchFormSate({
@@ -62,6 +64,7 @@ const RoomsPage = (props) => {
         });
       }
     }
+    setIsModalOpen((prevState) => !prevState);
   };
 
   // INPUT CHANGE HANDLER
@@ -100,11 +103,26 @@ const RoomsPage = (props) => {
 
   if (!props.loading) {
     roomContent = props.rooms.map((room) => (
-      <Room onClick={handleOpenModal} {...room} key={room.room_number} rooms />
+      <Room
+        onClick={() => handleOpenModal(room)}
+        {...room}
+        key={room.room_number}
+        rooms
+      />
     ));
   }
 
   const { roomCategory, price, roomStatus, roomNumber } = formState;
+  const roomCategories = [];
+
+  if (!props.loading) {
+    props.roomCategories.forEach((category) => {
+      roomCategories.push({
+        value: category.category_name,
+        label: category.category_name,
+      });
+    });
+  }
 
   return (
     <div className={classes.RoomsPage}>
@@ -119,8 +137,9 @@ const RoomsPage = (props) => {
 
             <FormButton
               onClick={() => {
-                setIsAddingRoom((prevState) => !prevState);
-                setIsModalOpen((prevState) => !prevState);
+                setCurrentRoom({});
+                setIsAddingRoom(true);
+                handleOpenModal();
               }}
             >
               New room
@@ -129,100 +148,75 @@ const RoomsPage = (props) => {
           </div>
         </div>
       </div>
-      {isModalOpen && (
-        <div
-          className={classes.EditRoomModalContainer}
-          id="ModalContainer"
-          onClick={(e) => {
-            if (e.target.id === "ModalContainer") {
-              handleOpenModal();
-              setIsAddingRoom(false);
-            }
-          }}
-        >
-          <div className={classes.EditRoomModal}>
-            <div className="container">
-              <div className="row">
-                <div className="col-md-8 offset-2">
-                  <h3 className={classes.EditRoomHeading}>
-                    {isAddingRoom && "ADD A NEW  ROOM"}
+      <Modal open={isModalOpen} onToggle={handleOpenModal}>
+        <div className="row">
+          <div className="col-md-8 offset-2">
+            <h3 className={classes.EditRoomHeading}>
+              {isAddingRoom && "ADD A NEW  ROOM"}
 
-                    {!isAddingRoom && `MANAGE ROOM ${currentRoom.room_number}`}
-                  </h3>
-                  {!isAddingRoom && (
-                    <form onSubmit={editRoomHandler}>
-                      <SelectInput
-                        options={[
-                          { value: "Single", label: "Single" },
-                          { value: "Twin", label: "Twin" },
-                          { value: "Gold", label: "Gold" },
-                        ]}
-                        value={roomCategory}
-                        onChange={inputChangeHandler}
-                        name="roomCategory"
-                      />
-                      <TextInput
-                        placeholder="Room price"
-                        value={price}
-                        onChange={inputChangeHandler}
-                        name="price"
-                      />
-                      <TextInput
-                        placeholder="Room number"
-                        value={roomNumber}
-                        onChange={inputChangeHandler}
-                        name="roomNumber"
-                      />
-                      <SelectInput
-                        options={[
-                          { value: "AVAILABLE", label: "Available" },
-                          { value: "BOOKED", label: "Booked" },
-                          { value: "IN_USE", label: "In use" },
-                        ]}
-                        onChange={inputChangeHandler}
-                        value={roomStatus}
-                        name="roomStatus"
-                      />
-                      <FormButton loading={props.loading}>
-                        Save changes
-                      </FormButton>
-                    </form>
-                  )}
+              {!isAddingRoom && `MANAGE ROOM ${currentRoom.room_number}`}
+            </h3>
+            {!isAddingRoom && (
+              <form onSubmit={editRoomHandler}>
+                <SelectInput
+                  options={roomCategories}
+                  value={roomCategory}
+                  onChange={inputChangeHandler}
+                  name="roomCategory"
+                />
+                <TextInput
+                  placeholder="Room price"
+                  value={price}
+                  onChange={inputChangeHandler}
+                  name="price"
+                />
+                <TextInput
+                  placeholder="Room number"
+                  value={roomNumber}
+                  onChange={inputChangeHandler}
+                  name="roomNumber"
+                />
+                <SelectInput
+                  options={[
+                    { value: "AVAILABLE", label: "Available" },
+                    { value: "BOOKED", label: "Booked" },
+                    { value: "IN_USE", label: "In use" },
+                  ]}
+                  onChange={inputChangeHandler}
+                  value={roomStatus}
+                  name="roomStatus"
+                />
+                <FormButton loading={props.loading}>Save changes</FormButton>
+              </form>
+            )}
 
-                  {isAddingRoom && (
-                    <form method="post" onSubmit={addRoomHandler}>
-                      <SelectInput
-                        options={[
-                          { value: "single", label: "Single" },
-                          { value: "twin", label: "Twin" },
-                          { value: "gold", label: "Gold" },
-                        ]}
-                        value={roomCategory}
-                        onChange={inputChangeHandler}
-                        name="roomCategory"
-                      />
-                      <TextInput
-                        placeholder="Room price"
-                        value={price}
-                        onChange={inputChangeHandler}
-                        name="price"
-                      />
-                      <TextInput
-                        placeholder="Room number"
-                        value={roomNumber}
-                        onChange={inputChangeHandler}
-                        name="roomNumber"
-                      />
+            {isAddingRoom && (
+              <form method="post" onSubmit={addRoomHandler}>
+                <SelectInput
+                  options={roomCategories}
+                  value={roomCategory}
+                  onChange={inputChangeHandler}
+                  name="roomCategory"
+                />
+                <TextInput
+                  placeholder="Room price"
+                  value={price}
+                  onChange={inputChangeHandler}
+                  name="price"
+                />
+                <TextInput
+                  placeholder="Room number"
+                  value={roomNumber}
+                  onChange={inputChangeHandler}
+                  name="roomNumber"
+                />
 
-                      <FormButton loading={props.loading}>Save</FormButton>
-                    </form>
-                  )}
-                </div>
-              </div>
-            </div>
+                <FormButton loading={props.loading}>Save</FormButton>
+              </form>
+            )}
           </div>
         </div>
-      )}
+      </Modal>
     </div>
   );
 };
@@ -230,11 +224,13 @@ const RoomsPage = (props) => {
 const mapStateToProps = (state) => ({
   rooms: state.rooms.rooms,
   loading: state.rooms.loading,
+  roomCategories: state.roomCategory.roomCategories,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchRooms: () => dispatch(getRooms()),
   updateRoom: (id, data) => dispatch(editRoom(id, data)),
   addRoom: (data) => dispatch(addRoom(data)),
+  getCategories: () => dispatch(fetchRoomCategories()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RoomsPage);

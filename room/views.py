@@ -21,11 +21,11 @@ class CreateRoomView(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
     serializer_class = serializers.RoomSerializer
 
-    def create(self, request, *args, **kwargs):
-        # import pdb
-        # pdb.set_trace()
+    # def create(self, request, *args, **kwargs):
+    #     import pdb
+    #     pdb.set_trace()
 
-        return super().create(request, *args, **kwargs)
+    #     return super().create(request, *args, **kwargs)
 
 
 class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
