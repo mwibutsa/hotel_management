@@ -10,6 +10,9 @@ import {
   FETCH_ROOM_CATEGORIES,
   FETCH_ROOM_CATEGORIES_BEGIN,
   FETCH_ROOM_CATEGORIES_FAILED,
+  DELETE_ROOM_CATEGORY,
+  DELETE_ROOM_CATEGORY_BEGIN,
+  DELETE_ROOM_CATEGORY_FAILED,
 } from "./action-types";
 
 // CREATE A NEW ROOM CATEGORY
@@ -97,5 +100,29 @@ export const editRoomCategory = (id, roomCategory) => async (dispatch) => {
     dispatch(editRoomCategoryDone(data));
   } catch (error) {
     dispatch(editRoomCategoryFailed(error));
+  }
+};
+
+//DELETE ROOM CATEGORY
+
+const deleteRoomCategoryBegin = () => ({ type: DELETE_ROOM_CATEGORY_BEGIN });
+const deleteRoomCategoryDone = (id, data) => ({
+  type: DELETE_ROOM_CATEGORY,
+  payload: { data, id },
+});
+
+const deleteRoomCategoryFailed = (error) => ({
+  type: DELETE_ROOM_CATEGORY_FAILED,
+  payload: { error },
+});
+
+export const deleteRoomCategory = (id) => async (dispatch) => {
+  try {
+    dispatch(deleteRoomCategoryBegin());
+
+    const { data } = await axios.delete(`/room/room-categories/${id}`);
+    dispatch(deleteRoomCategoryDone(id, data));
+  } catch (error) {
+    dispatch(deleteRoomCategoryFailed(error));
   }
 };

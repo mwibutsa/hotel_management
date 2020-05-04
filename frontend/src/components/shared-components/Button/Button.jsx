@@ -12,6 +12,11 @@ export const LinkButton = (props) => (
 );
 
 export const FormButton = (props) => {
+  const buttonClasses = [classes.Button];
+  !props.red
+    ? buttonClasses.push(classes.YellowButton)
+    : buttonClasses.push(classes.RedButton);
+
   const loader = (
     <div
       style={{
@@ -25,8 +30,18 @@ export const FormButton = (props) => {
     </div>
   );
   return (
-    <button type="submit" onClick={props.onClick} className={classes.Button}>
+    <button
+      type="submit"
+      onClick={props.onClick}
+      className={buttonClasses.join(" ")}
+    >
       {props.children} {props.loading ? loader : ""}
     </button>
   );
 };
+
+export const DeleteButton = (props) => (
+  <div className={classes.DeleteButton} onClick={props.onClick}>
+    {props.children}
+  </div>
+);

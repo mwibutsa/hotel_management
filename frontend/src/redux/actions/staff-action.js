@@ -8,6 +8,9 @@ import {
   EDIT_STAFF_MEMBER,
   EDIT_STAFF_MEMBER_BEGIN,
   EDIT_STAFF_MEMBER_FAILED,
+  DEACTIVATE_STAFF,
+  DEACTIVATE_STAFF_BEGIN,
+  DEACTIVATE_STAFF_FAILED,
 } from "./action-types";
 
 import axios from "../../axios";
@@ -98,5 +101,28 @@ export const editStaffMember = (staffMember) => async (dispatch) => {
     dispatch(editStaffMemberSuccess(data));
   } catch (error) {
     dispatch(editStaffMemberFailed(error));
+  }
+};
+
+// DEACTIVATE STAFF MEMBER ACTIONS
+
+const deactivateStaffBegin = () => ({ type: DEACTIVATE_STAFF_BEGIN });
+const deactivateStaffDone = (data) => ({
+  type: DEACTIVATE_STAFF,
+  payload: { ...data },
+});
+
+const deactivateStaffFailed = (error) => ({
+  type: DEACTIVATE_STAFF_FAILED,
+  payload: { error },
+});
+
+export const deactivateStaffMember = (id) => async (dispatch) => {
+  try {
+    dispatch(deactivateStaffBegin());
+    const { data } = await axios.delete(`/user/deactivate/${id}`);
+    dispatch(deactivateStaffDone(data));
+  } catch (error) {
+    dispatch(deactivateStaffFailed(error));
   }
 };

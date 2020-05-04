@@ -18,7 +18,15 @@ const Modal = (props) => {
       id="ModalContainer"
       onClick={handleOutsideClick}
     >
-      <div className={classes.Modal}>{props.children}</div>
+      <div className={classes.Modal}>
+        <div className={classes.CloseButtonContainer} onClick={props.onToggle}>
+          {props.title && (
+            <span className={classes.ModalTitle}>{props.title}</span>
+          )}{" "}
+          <span className={classes.CloseButton}>X</span>
+        </div>
+        {props.children}
+      </div>
     </div>
   );
 };

@@ -8,8 +8,11 @@ import {
   EDIT_BOOKING_FAILED,
   CREATE_BOOKING_BEGIN,
   CREATE_BOOKING_FAILED,
+  DELETE_BOOKING,
+  DELETE_BOOKING_BEGIN,
+  DELETE_BOOKING_FAILED,
 } from "../actions/action-types";
-import { updateArray } from "../../helper-functions";
+import { updateArray, deleteArrayById } from "../../helper-functions";
 const initialState = {
   bookings: [],
   bookingData: null,
@@ -52,6 +55,18 @@ export default (state = initialState, { type, payload }) => {
         loading: false,
         error: payload.error,
       };
+
+    case DELETE_BOOKING_BEGIN:
+      return { ...state, loading: true, error: null };
+    case DELETE_BOOKING:
+      return {
+        ...state,
+        bookings: deleteArrayById(state.bookings, payload.id),
+        loading: false,
+      };
+
+    case DELETE_BOOKING_FAILED:
+      return { ...state, loading: false, error: payload.error };
     default:
       return state;
   }

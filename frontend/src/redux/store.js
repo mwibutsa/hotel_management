@@ -6,7 +6,7 @@ import bookingReducer from "../redux/reducers/booking-reducer";
 import loginReducer from "../redux/reducers/login-reducer";
 import roomReducer from "../redux/reducers/room-reducer";
 import staffReducer from "../redux/reducers/staff-reducer";
-import roomCategoryReducer from "../redux/reducers/room-category";
+import roomCategoryReducer from "../redux/reducers/room-category-reducer";
 const middleware = [thunk];
 
 const baseReducer = combineReducers({

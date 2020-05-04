@@ -1,0 +1,10 @@
+.Message {
+  text-align: center;
+  padding: 30px;
+  font-size: 20px;
+  color: darkgrey;
+}
+
+.ButtonGroup {
+  text-align: center;
+}

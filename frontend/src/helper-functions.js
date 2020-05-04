@@ -24,3 +24,13 @@ export const toCamelCase = (attribute) => {
 
   return [firstWord].concat(capitalizedWords).join("");
 };
+
+export const deleteArrayById = (array, elementId) => {
+  const arrayClone = [...array];
+  const target = arrayClone.findIndex((element) => element.id === elementId);
+  if (target !== -1) {
+    arrayClone.splice(target, 1);
+  }
+
+  return arrayClone;
+};

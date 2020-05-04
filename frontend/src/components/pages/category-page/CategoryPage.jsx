@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import classes from "./CategoryPage.module.css";
 import PageContainer from "../page-container/PageContainer";
 import { connect } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   editRoomCategory,
   addRoomCategory,
   fetchRoomCategories,
+  deleteRoomCategory,
 } from "../../../redux/actions/room-category-action";
 import TextInput from "../../shared-components/TextInput/TextInput";
-import { FormButton } from "../../shared-components/Button/Button";
+import {
+  FormButton,
+  DeleteButton,
+} from "../../shared-components/Button/Button";
 import Modal from "../../shared-components/Modal/Modal";
-
+import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
 import Spinner from "../../shared-components/Spinner/Spinner";
 
 import styles from "../../common.module.css";
@@ -21,6 +27,7 @@ const CategoryPage = (props) => {
   const { loadCategories, createCategory, updateCategory } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     loadCategories();
@@ -41,6 +48,15 @@ const CategoryPage = (props) => {
   const categoryClickHandler = (category) => {
     setActiveCategoryId(category.id);
     openModalHandler(category);
+  };
+
+  const deleteCategoryHandler = async (id) => {
+    await props.deleteCategory(id);
+    setShowConfirmation(false);
+  };
+  const toggleConfirmationHandler = (id) => {
+    setActiveCategoryId(id);
+    setShowConfirmation((prevState) => !prevState);
   };
 
   const valueChangeHandler = (event) => {
@@ -66,13 +82,27 @@ const CategoryPage = (props) => {
 
   if (!props.loading) {
     pageContent = categories.map((category) => (
-      <div
-        className={classes.CategoryCard}
-        onClick={() => categoryClickHandler(category)}
-        key={category.id}
-      >
-        <h3 className={classes.CategoryName}>{category.category_name}</h3>
-        <h1 className={classes.RoomCount}>{category.rooms.length}</h1>
+      <div className={classes.CategoryCard} key={category.id}>
+        <div className={classes.CardHeader}>
+          <h3
+            className={classes.CategoryName}
+            onClick={() => categoryClickHandler(category)}
+          >
+            {category.category_name}
+          </h3>
+          <DeleteButton onClick={() => toggleConfirmationHandler(category.id)}>
+            <FontAwesomeIcon icon={faTrash} />
+          </DeleteButton>
+        </div>
+        <div
+          className={classes.RoomDetails}
+          onClick={() => categoryClickHandler(category)}
+        >
+          <h1 className={classes.RoomCount}>{category.rooms.length}</h1>
+          <h1 className={classes.RoomTitle}>
+            {category.rooms.length !== 1 ? "ROOMS" : "ROOM"}
+          </h1>
+        </div>
       </div>
     ));
   }
@@ -86,9 +116,18 @@ const CategoryPage = (props) => {
         </FormButton>
         <div className="row">{pageContent}</div>
       </PageContainer>
-
+      <ConfirmationModal
+        open={showConfirmation}
+        continue={() => deleteCategoryHandler(activeCategoryId)}
+        cancel={toggleConfirmationHandler}
+      >
+        Are you sure you want to delete this category?
+      </ConfirmationModal>
       <Modal open={isModalOpen} onToggle={openModalHandler}>
-        <form onSubmit={submitHandler}>
+        <form onSubmit={submitHandler} className={classes.CategoryForm}>
+          <h3 className={styles.PageHeading}>
+            {isEditing ? "CHANGE CATEGORY NAME" : "CREATE ROOM CATEGORY"}
+          </h3>
           <TextInput
             placeholder="Category name"
             name="categoryName"
@@ -113,6 +152,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateCategory: (id, data) => dispatch(editRoomCategory(id, data)),
   loadCategories: () => dispatch(fetchRoomCategories()),
   createCategory: (data) => dispatch(addRoomCategory(data)),
+  deleteCategory: (id) => dispatch(deleteRoomCategory(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);

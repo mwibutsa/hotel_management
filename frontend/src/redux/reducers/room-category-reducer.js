@@ -8,9 +8,12 @@ import {
   FETCH_ROOM_CATEGORIES,
   FETCH_ROOM_CATEGORIES_BEGIN,
   FETCH_ROOM_CATEGORIES_FAILED,
+  DELETE_ROOM_CATEGORY_BEGIN,
+  DELETE_ROOM_CATEGORY,
+  DELETE_ROOM_CATEGORY_FAILED,
 } from "../actions/action-types";
 
-import { updateArray } from "../../helper-functions";
+import { updateArray, deleteArrayById } from "../../helper-functions";
 
 const initialState = {
   roomCategories: [],
@@ -53,6 +56,16 @@ export default (state = initialState, { type, payload }) => {
     case EDIT_ROOM_CATEGORY_FAILED:
       return { ...state, loading: false, error: payload.error };
 
+    case DELETE_ROOM_CATEGORY_BEGIN:
+      return { ...state, loading: true, error: null };
+    case DELETE_ROOM_CATEGORY:
+      return {
+        ...state,
+        roomCategories: deleteArrayById(state.roomCategories, payload.id),
+        loading: false,
+      };
+    case DELETE_ROOM_CATEGORY_FAILED:
+      return { ...state, error: payload.error, loading: false };
     default:
       return state;
   }

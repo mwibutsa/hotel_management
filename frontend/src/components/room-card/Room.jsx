@@ -1,12 +1,22 @@
 import React from "react";
 import classes from "./Room.module.css";
 import moment from "moment";
+import { DeleteButton } from "../shared-components/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
 const Room = (props) => (
-  <div className={classes.Room} onClick={() => props.onClick(props)}>
+  <div className={classes.Room}>
     <div className={classes.RoomHeading}>
-      {props.rooms ? props.room_number : `${props.customer_name}`}
+      <span>{props.rooms ? props.room_number : `${props.customer_name}`} </span>
+      <DeleteButton onClick={props.onDelete}>
+        <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+      </DeleteButton>
     </div>
-    <div className={classes.RoomContentContainer}>
+    <div
+      className={classes.RoomContentContainer}
+      onClick={() => props.onClick(props)}
+    >
       {props.rooms && (
         <div className={[classes.RoomContent, classes.RoomText].join(" ")}>
           <div className={classes.AttributeRow}>
