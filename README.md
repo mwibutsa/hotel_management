@@ -1,4 +1,4 @@
-# Hosted [Hotel Management System](https://sweetlifehotel.herokuapp.com/)
+# Hote management system. [Visit web](https://sweetlifehotel.herokuapp.com/)
 #### Design and development of hotel information management system
 
 Proposition content and requirements:
