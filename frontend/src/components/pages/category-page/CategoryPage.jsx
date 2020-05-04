@@ -8,6 +8,7 @@ import {
   editRoomCategory,
   addRoomCategory,
   fetchRoomCategories,
+  deleteRoomCategory,
 } from "../../../redux/actions/room-category-action";
 import TextInput from "../../shared-components/TextInput/TextInput";
 import {
@@ -26,7 +27,6 @@ const CategoryPage = (props) => {
   const { loadCategories, createCategory, updateCategory } = props;
   const [isEditing, setIsEditing] = useState(false);
   const [activeCategoryId, setActiveCategoryId] = useState(null);
-  const [confrimed, setConfirmed] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
@@ -49,11 +49,13 @@ const CategoryPage = (props) => {
     setActiveCategoryId(category.id);
     openModalHandler(category);
   };
-  const confirmedHandler = () => {
-    setConfirmed(true);
-  };
 
-  const toggleConfirmationHandler = () => {
+  const deleteCategoryHandler = async (id) => {
+    await props.deleteCategory(id);
+    setShowConfirmation(false);
+  };
+  const toggleConfirmationHandler = (id) => {
+    setActiveCategoryId(id);
     setShowConfirmation((prevState) => !prevState);
   };
 
@@ -88,7 +90,7 @@ const CategoryPage = (props) => {
           >
             {category.category_name}
           </h3>
-          <DeleteButton onClick={toggleConfirmationHandler}>
+          <DeleteButton onClick={() => toggleConfirmationHandler(category.id)}>
             <FontAwesomeIcon icon={faTrash} />
           </DeleteButton>
         </div>
@@ -97,7 +99,9 @@ const CategoryPage = (props) => {
           onClick={() => categoryClickHandler(category)}
         >
           <h1 className={classes.RoomCount}>{category.rooms.length}</h1>
-          <h1 className={classes.RoomTitle}>ROOMS</h1>
+          <h1 className={classes.RoomTitle}>
+            {category.rooms.length !== 1 ? "ROOMS" : "ROOM"}
+          </h1>
         </div>
       </div>
     ));
@@ -114,7 +118,7 @@ const CategoryPage = (props) => {
       </PageContainer>
       <ConfirmationModal
         open={showConfirmation}
-        continue={confirmedHandler}
+        continue={() => deleteCategoryHandler(activeCategoryId)}
         cancel={toggleConfirmationHandler}
       >
         Are you sure you want to delete this category?
@@ -148,6 +152,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateCategory: (id, data) => dispatch(editRoomCategory(id, data)),
   loadCategories: () => dispatch(fetchRoomCategories()),
   createCategory: (data) => dispatch(addRoomCategory(data)),
+  deleteCategory: (id) => dispatch(deleteRoomCategory(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CategoryPage);

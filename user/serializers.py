@@ -18,14 +18,15 @@ class UserSerializer(serializers.ModelSerializer):
                   'is_admin',
                   'is_staff',
                   'is_landlord',
-                  'is_superuser'
+                  'is_superuser',
+                  'is_active'
                   )
 
         read_only_fields = ('is_landlord', 'is_superuser')
         extra_kwargs = {
             'password': {
                 'write_only': True
-            }
+            },
         }
 
     def create(self, validated_data):
@@ -63,5 +64,6 @@ class AuthTokenSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         token['username'] = user.username
         token['is_admin'] = user.is_admin
+        token['is_superuser'] = user.is_superuser
 
         return token

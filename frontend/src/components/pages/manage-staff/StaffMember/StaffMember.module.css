@@ -14,10 +14,16 @@
 
 .Content {
   padding-top: 60px;
-  background-color: #ececec;
   width: 100%;
 }
 
+.CardNormal {
+  background-color: #ececec;
+}
+
+.CardInactive {
+  background-color: rgb(250, 232, 232);
+}
 .StaffAvatar {
   background-color: rgb(240, 238, 238);
   height: 100px;
@@ -74,4 +80,8 @@
   background-color: #fafdff98;
   padding: 10px;
   border: 1px solid #ddd;
+}
+.Inactive {
+  color: white;
+  background-color: brown;
 }

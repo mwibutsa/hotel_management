@@ -2,7 +2,14 @@ import React from "react";
 import classes from "./StaffMember.module.css";
 
 const Permission = (props) => (
-  <span className={classes.Permission}>{props.children}</span>
+  <span
+    className={[
+      classes.Permission,
+      props.deactivated ? classes.Inactive : "",
+    ].join(" ")}
+  >
+    {props.children}
+  </span>
 );
 
 const getName = (firstName, lastName) => {
@@ -23,7 +30,12 @@ const StaffMember = (props) => (
     <div className={classes.StaffAvatar}>
       <img src="https://via.placeholder.com/150" alt="" />
     </div>
-    <div className={classes.Content}>
+    <div
+      className={[
+        classes.Content,
+        props.is_active ? classes.CardNormal : classes.CardInactive,
+      ].join(" ")}
+    >
       <div className={classes.AccountInfo}>
         <p>Name: {getName(props.first_name, props.last_name)}</p>
         <p>Email: {props.email}</p>
@@ -34,6 +46,8 @@ const StaffMember = (props) => (
         {props.is_staff && <Permission>Staff</Permission>}
         {props.is_landlord && <Permission>Land Lord</Permission>}
         {props.is_superuser && <Permission>Super user</Permission>}
+        {props.is_active && <Permission>Active</Permission>}
+        {!props.is_active && <Permission deactivated>Deactivated</Permission>}
       </div>
     </div>
   </div>

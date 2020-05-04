@@ -6,6 +6,7 @@ import {
   getRooms,
   editRoom,
   addRoom,
+  deleteRoom,
 } from "../../../redux/actions/room-action";
 import { fetchRoomCategories } from "../../../redux/actions/room-category-action";
 import { connect } from "react-redux";
@@ -15,6 +16,7 @@ import TextInput from "../../shared-components/TextInput/TextInput";
 import SelectInput from "../../shared-components/DropDownInput/SelectInput";
 import { toCamelCase } from "../../../helper-functions";
 import Modal from "../../shared-components/Modal/Modal";
+import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
 
 const VALUE_CHANGE = "VALUE_CHANGE";
 const formReducer = (state, action) => {
@@ -31,11 +33,12 @@ const formReducer = (state, action) => {
 
 const RoomsPage = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentRoom, setCurrentRoom] = useState({});
+  const [activeRoom, setActiveRoom] = useState({});
   const [isAddingRoom, setIsAddingRoom] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   // FETCH ROOMS ON PAGE LOAD
 
-  const { fetchRooms, getCategories } = props;
+  const { fetchRooms, getCategories, removeRoom } = props;
 
   useEffect(() => {
     fetchRooms();
@@ -53,7 +56,7 @@ const RoomsPage = (props) => {
   // HANDLE OPEN MODAL
   const handleOpenModal = (room) => {
     if (room) {
-      setCurrentRoom(room);
+      setActiveRoom(room);
       setIsAddingRoom(false);
       for (let [key, value] of Object.entries(room)) {
         console.log(toCamelCase(key), "KEY");
@@ -85,8 +88,13 @@ const RoomsPage = (props) => {
   const editRoomHandler = async (event) => {
     event.preventDefault();
     setIsAddingRoom(false);
-    await props.updateRoom(currentRoom.id, formState);
+    await props.updateRoom(activeRoom.id, formState);
     setIsModalOpen(false);
+  };
+
+  const deleteRoomHandler = async () => {
+    await removeRoom(activeRoom.id);
+    setShowConfirmation(false);
   };
 
   const addRoomHandler = async (event) => {
@@ -99,12 +107,17 @@ const RoomsPage = (props) => {
     handleOpenModal();
   };
 
+  const deleteConfirmationHandler = (room) => {
+    setActiveRoom(room);
+    setShowConfirmation(true);
+  };
   let roomContent = <Spinner />;
 
   if (!props.loading) {
     roomContent = props.rooms.map((room) => (
       <Room
         onClick={() => handleOpenModal(room)}
+        onDelete={() => deleteConfirmationHandler(room)}
         {...room}
         key={room.room_number}
         rooms
@@ -137,7 +150,7 @@ const RoomsPage = (props) => {
 
             <FormButton
               onClick={() => {
-                setCurrentRoom({});
+                setActiveRoom({});
                 setIsAddingRoom(true);
                 handleOpenModal();
               }}
@@ -148,13 +161,20 @@ const RoomsPage = (props) => {
           </div>
         </div>
       </div>
+      <ConfirmationModal
+        open={showConfirmation}
+        cancel={() => setShowConfirmation(false)}
+        continue={deleteRoomHandler}
+      >
+        Are you sure you want to delete this room?
+      </ConfirmationModal>
       <Modal open={isModalOpen} onToggle={handleOpenModal}>
         <div className="row">
           <div className="col-md-8 offset-2">
             <h3 className={classes.EditRoomHeading}>
               {isAddingRoom && "ADD A NEW  ROOM"}
 
-              {!isAddingRoom && `MANAGE ROOM ${currentRoom.room_number}`}
+              {!isAddingRoom && `MANAGE ROOM ${activeRoom.room_number}`}
             </h3>
             {!isAddingRoom && (
               <form onSubmit={editRoomHandler}>
@@ -232,5 +252,6 @@ const mapDispatchToProps = (dispatch) => ({
   updateRoom: (id, data) => dispatch(editRoom(id, data)),
   addRoom: (data) => dispatch(addRoom(data)),
   getCategories: () => dispatch(fetchRoomCategories()),
+  removeRoom: (id) => dispatch(deleteRoom(id)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(RoomsPage);

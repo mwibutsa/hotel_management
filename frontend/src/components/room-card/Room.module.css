@@ -5,7 +5,6 @@
   border: 1px solid #d2e0fd;
   border-radius: 4px;
   position: relative;
-  cursor: pointer;
   margin-bottom: 20px;
   min-height: 156px;
   overflow: hidden;
@@ -20,6 +19,8 @@
   font-size: 16px;
   line-height: 40px;
   color: white;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .RoomContentContainer {
@@ -29,6 +30,7 @@
   width: 98%;
   margin: auto;
   position: relative;
+  cursor: pointer;
 }
 
 .RoomContent {

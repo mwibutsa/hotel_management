@@ -8,6 +8,7 @@ import {
   loadStaff,
   addStaffMember,
   editStaffMember,
+  deactivateStaffMember,
 } from "../../../redux/actions/staff-action";
 
 import { connect } from "react-redux";
@@ -225,12 +226,14 @@ const mapStateToProps = (state) => ({
   staffMembers: state.staff.staffMembers,
   loading: state.staff.loading,
   error: state.staff.error,
+  message: state.staff.message,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   loadStaffMembers: () => dispatch(loadStaff()),
   addNewMember: (data) => dispatch(addStaffMember(data)),
   updateMember: (data) => dispatch(editStaffMember(data)),
+  deactivateUser: (id) => dispatch(deactivateStaffMember(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageStaff);

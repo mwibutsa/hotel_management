@@ -6,6 +6,7 @@ import Spinner from "../../shared-components/Spinner/Spinner";
 import {
   getBookings,
   editBooking,
+  deleteBooking,
 } from "../../../redux/actions/booking-action";
 import Room from "../../room-card/Room";
 import TextInput from "../../shared-components/TextInput/TextInput";
@@ -13,7 +14,7 @@ import SelectInput from "../../shared-components/DropDownInput/SelectInput";
 import { FormButton } from "../../shared-components/Button/Button";
 import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
-
+import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
 // FORM REDUCER
 
 const VALUE_CHANGE = "VALUE_CHANGE";
@@ -31,10 +32,11 @@ const formReducer = (state, action) => {
 };
 
 const ListBooking = (props) => {
-  const { fetchBookings } = props;
+  const { fetchBookings, removeBooking } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalTitle, setModalTitle] = useState(false);
   const [activeBookingId, setActiveBookingId] = useState();
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     fetchBookings();
@@ -77,6 +79,16 @@ const ListBooking = (props) => {
     }
   };
 
+  const deleteBookingHandler = async () => {
+    await removeBooking(activeBookingId);
+    setShowConfirmation(false);
+  };
+
+  const deleteConfirmationHandler = (bookingId) => {
+    setActiveBookingId(bookingId);
+    setShowConfirmation(true);
+  };
+
   const valueChangeHandler = useCallback(
     (event) => {
       dispatchFormState({
@@ -97,6 +109,7 @@ const ListBooking = (props) => {
         key={booking.id}
         bookings
         onClick={() => handleOpenModal(booking)}
+        onDelete={() => deleteConfirmationHandler(booking.id)}
       />
     ));
   }
@@ -131,7 +144,13 @@ const ListBooking = (props) => {
           </div>
         </div>
       </div>
-
+      <ConfirmationModal
+        open={showConfirmation}
+        cancel={() => setShowConfirmation(false)}
+        continue={deleteBookingHandler}
+      >
+        Are you sure you want to delete this booking?
+      </ConfirmationModal>
       <Modal open={isModalOpen} onToggle={handleOpenModal}>
         <div className="row">
           <div className="col-md-8 offset-2">
@@ -189,6 +208,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchBookings: () => dispatch(getBookings()),
   updateBooking: (id, data) => dispatch(editBooking(id, data)),
+  removeBooking: (id) => dispatch(deleteBooking(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListBooking);
