@@ -15,9 +15,15 @@ export const LinkButton = (props) => (
 
 export const FormButton = (props) => {
   const buttonClasses = [classes.Button];
-  !props.red
-    ? buttonClasses.push(classes.YellowButton)
-    : buttonClasses.push(classes.RedButton);
+
+  const { red, green } = props;
+
+  const color = red
+    ? classes.RedButton
+    : green
+    ? classes.GreenButton
+    : classes.YellowButton;
+  buttonClasses.push(color);
 
   const loader = (
     <div

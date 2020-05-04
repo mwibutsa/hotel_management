@@ -9,7 +9,7 @@ const ConfirmationModal = (props) => {
       <div className={classes.Message}>{props.children}</div>
       <div className={classes.ButtonGroup}>
         <FormButton onClick={props.continue} red>
-          DELETE
+          {props.label || "DELETE"}
         </FormButton>
         <FormButton onClick={props.cancel}>Cancel</FormButton>
       </div>
