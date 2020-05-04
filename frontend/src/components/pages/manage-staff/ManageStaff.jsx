@@ -17,6 +17,7 @@ import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
 import { toCamelCase } from "../../../helper-functions";
 import PageContainer from "../page-container/PageContainer";
+import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
 
 const VALUE_CHANGE = "VALUE_CHANGE";
 
@@ -34,6 +35,7 @@ const ManageStaff = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [editableStaff, setEditableStaff] = useState({});
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
     loadStaffMembers();
@@ -117,6 +119,22 @@ const ManageStaff = (props) => {
     toggleModalHandler();
   };
 
+  const activateStaffMemberHandler = async () => {
+    await props.updateMember({ is_active: true, id: editableStaff.id });
+    setShowConfirmation(false);
+  };
+
+  const showConfirmationHandler = (staff) => {
+    setShowConfirmation(true);
+    setEditableStaff(staff);
+  };
+
+  const deactivateConfirmationHandler = async () => {
+    await props.deactivateUser(editableStaff.id);
+    await props.loadStaffMembers();
+    setShowConfirmation(false);
+  };
+
   // LOGICAL RENDERING
   let staffMembers = <Spinner />;
   if (!props.loading) {
@@ -125,6 +143,7 @@ const ManageStaff = (props) => {
         {...staff}
         key={staff.id}
         onClick={() => staffClickHandler(staff)}
+        onDeactivate={() => showConfirmationHandler(staff)}
       />
     ));
   }
@@ -138,6 +157,20 @@ const ManageStaff = (props) => {
         <div className="row">{staffMembers}</div>
       </PageContainer>
 
+      {/* {Confirmation modal} */}
+      <ConfirmationModal
+        open={showConfirmation}
+        continue={
+          editableStaff.is_active
+            ? deactivateConfirmationHandler
+            : activateStaffMemberHandler
+        }
+        cancel={() => setShowConfirmation(false)}
+        label={editableStaff.is_active ? "Deactivate" : "Activate"}
+      >
+        Do you really want to{" "}
+        {editableStaff.is_active ? "deactivate" : "activate"} this user?
+      </ConfirmationModal>
       {/*Modal form*/}
 
       <Modal open={isModalOpen} onToggle={toggleModalHandler}>

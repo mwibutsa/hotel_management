@@ -45,7 +45,6 @@ class DeactivateUserApiView(generics.DestroyAPIView, BaseUserView):
         instance = self.get_object()
         instance.is_active = False
         instance.save()
-
         serializer = self.get_serializer(instance)
 
         return Response(data={"message": f"User {instance.email} is successfully deactivated.", "data": serializer.data},

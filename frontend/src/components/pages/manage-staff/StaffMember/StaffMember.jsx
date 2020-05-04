@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./StaffMember.module.css";
-
+import { FormButton } from "../../../shared-components/Button/Button";
 const Permission = (props) => (
   <span
     className={[
@@ -13,7 +13,6 @@ const Permission = (props) => (
 );
 
 const getName = (firstName, lastName) => {
-  console.log(firstName, lastName);
   const name =
     (firstName + lastName).length > 1
       ? `${firstName} ${lastName}`
@@ -23,33 +22,39 @@ const getName = (firstName, lastName) => {
 };
 
 const StaffMember = (props) => (
-  <div
-    className={["col-md-3 col-sm-12", classes.StaffMember].join(" ")}
-    onClick={props.onClick}
-  >
-    <div className={classes.StaffAvatar}>
-      <img src="https://via.placeholder.com/150" alt="" />
+  <div className={["col-md-3 col-sm-12", classes.StaffMember].join(" ")}>
+    <div onClick={props.onClick}>
+      <div className={classes.StaffAvatar}>
+        <img src="https://via.placeholder.com/150" alt="" />
+      </div>
+      <div
+        className={[
+          classes.Content,
+          props.is_active ? classes.CardNormal : classes.CardInactive,
+        ].join(" ")}
+      >
+        <div className={classes.AccountInfo}>
+          <p>Name: {getName(props.first_name, props.last_name)}</p>
+          <p>Email: {props.email}</p>
+        </div>
+        <div className={classes.PermissionGroup}>
+          <span className={classes.PermissionHeading}>Permissions</span>
+          {props.is_admin && <Permission>Admin</Permission>}
+          {props.is_staff && <Permission>Staff</Permission>}
+          {props.is_landlord && <Permission>Land Lord</Permission>}
+          {props.is_superuser && <Permission>Super user</Permission>}
+          {props.is_active && <Permission>Active</Permission>}
+          {!props.is_active && <Permission deactivated>Deactivated</Permission>}
+        </div>
+      </div>
     </div>
-    <div
-      className={[
-        classes.Content,
-        props.is_active ? classes.CardNormal : classes.CardInactive,
-      ].join(" ")}
+    <FormButton
+      red={props.is_active}
+      green={!props.is_active}
+      onClick={props.onDeactivate}
     >
-      <div className={classes.AccountInfo}>
-        <p>Name: {getName(props.first_name, props.last_name)}</p>
-        <p>Email: {props.email}</p>
-      </div>
-      <div className={classes.PermissionGroup}>
-        <span className={classes.PermissionHeading}>Permissions</span>
-        {props.is_admin && <Permission>Admin</Permission>}
-        {props.is_staff && <Permission>Staff</Permission>}
-        {props.is_landlord && <Permission>Land Lord</Permission>}
-        {props.is_superuser && <Permission>Super user</Permission>}
-        {props.is_active && <Permission>Active</Permission>}
-        {!props.is_active && <Permission deactivated>Deactivated</Permission>}
-      </div>
-    </div>
+      {props.is_active ? "Deactivate" : "Activate"}
+    </FormButton>
   </div>
 );
 
