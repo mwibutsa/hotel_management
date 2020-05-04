@@ -5,7 +5,9 @@ import ButtonSpinner from "../Spinner/ButtonSpinner";
 export const LinkButton = (props) => (
   <Link
     to={props.path || ""}
-    className={[classes.Button, classes.LinkButton].join(" ")}
+    className={[classes.Button, classes.LinkButton, classes.YellowButton].join(
+      " "
+    )}
   >
     {props.label}
   </Link>
