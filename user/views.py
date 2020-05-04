@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsSuperUser
-from .permissions import IsAccountOwner
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from .permissions import IsAccountOwner, IsSuperUser
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import UserSerializer, AuthTokenSerializer
 from django.contrib.auth import get_user_model

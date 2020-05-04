@@ -10,3 +10,10 @@ class IsAccountOwner(permissions.BasePermission):
             return True
 
         return obj.id == request.user.id
+
+
+class IsSuperUser(permissions.BasePermission):
+    """ Only allow access to super user. """
+
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_superuser)
