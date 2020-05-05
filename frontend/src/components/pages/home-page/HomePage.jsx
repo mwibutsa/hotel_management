@@ -5,7 +5,9 @@ import RoomCategoryCard from "../../shared-components/room-category-card/RoomCat
 import GymImage from "../../../images/gym.png";
 import PoolImage from "../../../images/swimmingpool.png";
 import { LinkButton } from "../../shared-components/Button/Button";
-import SwiteRoomImage from "../../../images/bed-bedroom-furniture-headboard-279746.jpg";
+import SingleImage from "../../../images/bed-bedroom-furniture-headboard-279746 (1).jpg";
+import GoldRoomImage from "../../../images/black-and-grey-bedspread-on-bed-and-pillow-164595 (1).jpg";
+import TwinImage from "../../../images/white-bed-sheet-set-2736388.jpg";
 const HomePage = (props) => (
   <div className={classes.HomePage}>
     <div className={classes.WelcomeSection}></div>
@@ -43,15 +45,30 @@ const HomePage = (props) => (
         </h3>
         <br />
         <div className="row">
-          <div className="col col-md-4">
-            <RoomCategoryCard type="single" />
+          <div className="col-sm-12 col-md-4">
+            <RoomCategoryCard
+              type="single"
+              image={SingleImage}
+              description="A perfect room for one person"
+              price="$350"
+            />
           </div>
-          <div className="col col-md-4">
-            <RoomCategoryCard type="single" image={SwiteRoomImage} />
+          <div className="col-sm-12 col-md-4">
+            <RoomCategoryCard
+              type="Twin"
+              image={TwinImage}
+              description="A Switable room with two bed"
+              price="$420"
+            />
           </div>
 
-          <div className="col col-md-4">
-            <RoomCategoryCard type="gold" />
+          <div className="col-sm-12 col-md-4">
+            <RoomCategoryCard
+              type="Gold"
+              image={GoldRoomImage}
+              description="A perfect room for a King/Queen"
+              price="$500"
+            />
           </div>
         </div>
       </div>

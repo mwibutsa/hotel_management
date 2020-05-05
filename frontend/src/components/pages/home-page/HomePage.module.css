@@ -59,6 +59,11 @@
   .IntroContainer {
     width: 80%;
   }
+  .SwimmingPoolSection:hover,
+  .GymSection:hover {
+    transform: unset;
+    filter: blur(1);
+  }
 }
 
 @media screen and (max-width: 350px) {
@@ -95,19 +100,19 @@
 .GymSection {
   height: 400px;
   width: 100%;
-  box-shadow: 0px 2px 30px #00000029;
-  border-radius: 5px;
   transition: all ease-in-out 0.45s;
   text-transform: uppercase;
   object-fit: contain;
   overflow: hidden;
-  border: 2px solid #aaa9a8;
   margin-bottom: 20px;
 }
 
 .SwimmingPoolSection h4,
 .GymSection h4 {
   font-size: 20px;
+  height: 30px;
+  margin: 0;
+  line-height: 30px;
 }
 .SwimmingPoolSection {
   background-color: #00abff;
@@ -120,9 +125,7 @@
 .SwimmingPoolSection:hover,
 .GymSection:hover {
   position: relative;
-  transform: scale(1.3);
-  z-index: 1002;
-  backface-visibility: hidden;
+  filter: brightness(0.8);
 }
 
 .SwimmingPoolSection img,
