@@ -1,28 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.a38fee4f.chunk.css",
-    "main.js": "/static/js/main.fed75582.chunk.js",
-    "main.js.map": "/static/js/main.fed75582.chunk.js.map",
+    "main.css": "/static/css/main.70ebc020.chunk.css",
+    "main.js": "/static/js/main.ea227b30.chunk.js",
+    "main.js.map": "/static/js/main.ea227b30.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.8dc0443e.js",
     "runtime-main.js.map": "/static/js/runtime-main.8dc0443e.js.map",
-    "static/js/2.6af10549.chunk.js": "/static/js/2.6af10549.chunk.js",
-    "static/js/2.6af10549.chunk.js.map": "/static/js/2.6af10549.chunk.js.map",
+    "static/js/2.8cef500d.chunk.js": "/static/js/2.8cef500d.chunk.js",
+    "static/js/2.8cef500d.chunk.js.map": "/static/js/2.8cef500d.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.cfda40de2a003fb8554c171968755f1a.js": "/precache-manifest.cfda40de2a003fb8554c171968755f1a.js",
+    "precache-manifest.3f3c805546630141e96b6ba902bac58a.js": "/precache-manifest.3f3c805546630141e96b6ba902bac58a.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.a38fee4f.chunk.css.map": "/static/css/main.a38fee4f.chunk.css.map",
-    "static/js/2.6af10549.chunk.js.LICENSE.txt": "/static/js/2.6af10549.chunk.js.LICENSE.txt",
+    "static/css/main.70ebc020.chunk.css.map": "/static/css/main.70ebc020.chunk.css.map",
+    "static/js/2.8cef500d.chunk.js.LICENSE.txt": "/static/js/2.8cef500d.chunk.js.LICENSE.txt",
     "static/media/HomePage.module.css": "/static/media/Landingimage.ca313ade.png",
     "static/media/Logo.svg": "/static/media/Logo.5edb673a.svg",
-    "static/media/bed-bedroom-furniture-headboard-279746.jpg": "/static/media/bed-bedroom-furniture-headboard-279746.1965a8d2.jpg",
-    "static/media/febrian-zakaria-sjvU0THccQA-unsplash.png": "/static/media/febrian-zakaria-sjvU0THccQA-unsplash.af439f28.png",
+    "static/media/bed-bedroom-furniture-headboard-279746 (1).jpg": "/static/media/bed-bedroom-furniture-headboard-279746 (1).1e0710e3.jpg",
+    "static/media/black-and-grey-bedspread-on-bed-and-pillow-164595 (1).jpg": "/static/media/black-and-grey-bedspread-on-bed-and-pillow-164595 (1).e7981a2f.jpg",
     "static/media/gym.png": "/static/media/gym.b2bc6e16.png",
-    "static/media/swimmingpool.png": "/static/media/swimmingpool.f0d8f9c4.png"
+    "static/media/swimmingpool.png": "/static/media/swimmingpool.f0d8f9c4.png",
+    "static/media/white-bed-sheet-set-2736388.jpg": "/static/media/white-bed-sheet-set-2736388.486e7158.jpg"
   },
   "entrypoints": [
     "static/js/runtime-main.8dc0443e.js",
-    "static/js/2.6af10549.chunk.js",
-    "static/css/main.a38fee4f.chunk.css",
-    "static/js/main.fed75582.chunk.js"
+    "static/js/2.8cef500d.chunk.js",
+    "static/css/main.70ebc020.chunk.css",
+    "static/js/main.ea227b30.chunk.js"
   ]
 }
