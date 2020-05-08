@@ -1,0 +1,15 @@
+.PageContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.PageContainer:last-of-type{
+    margin-top: auto;
+}
+
+.MainContainer {
+    overflow: auto;
+    width: 100%;
+}
+

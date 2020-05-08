@@ -20,6 +20,19 @@
   padding-top: 10px;
 }
 
+@media screen and (max-width:825px) {
+  .Modal {
+    width: 80%;
+    top: 50%;
+    padding-left: 0;
+  }
+}
+
+@media screen and (max-width:400px) {
+  .Modal {
+    width: 98%;
+  }
+}
 @keyframes modal-animation {
   0% {
     opacity: 0;

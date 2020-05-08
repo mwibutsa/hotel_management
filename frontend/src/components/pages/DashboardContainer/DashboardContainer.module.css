@@ -1,0 +1,30 @@
+.PageContainer {
+  position: relative;
+}
+.MainPage {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+.SideNavigation {
+  width: 2;
+}
+
+.ContentContainer {
+  width: 100%;
+}
+
+@media screen and (max-width: 1200px) {
+
+  .SideNavigation {
+    display: flex;
+    flex-direction: column;
+  }
+  .ContentContainer {
+    width: 90%;
+    margin: 0 auto;
+  }
+  .MainPage {
+    grid-template-columns: 1fr;
+  }
+}
+

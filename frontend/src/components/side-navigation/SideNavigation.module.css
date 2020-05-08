@@ -43,3 +43,10 @@
 .ActiveNavLink {
   background-color: #ffad00;
 }
+
+@media screen and (max-width: 1200px) {
+  .SideNavigation {
+    display: none;
+
+  }
+}

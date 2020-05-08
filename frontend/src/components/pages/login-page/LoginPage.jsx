@@ -5,6 +5,7 @@ import { FormButton } from "../../shared-components/Button/Button";
 import { connect } from "react-redux";
 import { login, autoLogin } from "../../../redux/actions/login-action";
 import jwtDecode from "jwt-decode";
+import PageContainer from '../../shared-components/PageContainer/PageContainer'
 
 class LoginPage extends Component {
   constructor(props) {
@@ -66,7 +67,8 @@ class LoginPage extends Component {
     );
 
     return (
-      <div className={classes.LoginPage}>
+      <PageContainer>
+        <div className={classes.LoginPage}>
         <div className="container">
           <div className="row">
             <div className={classes.PageMargin}></div>
@@ -103,6 +105,7 @@ class LoginPage extends Component {
           </div>
         </div>
       </div>
+      </PageContainer>
     );
   }
 }

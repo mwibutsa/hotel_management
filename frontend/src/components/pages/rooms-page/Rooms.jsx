@@ -17,6 +17,7 @@ import SelectInput from "../../shared-components/DropDownInput/SelectInput";
 import { toCamelCase } from "../../../helper-functions";
 import Modal from "../../shared-components/Modal/Modal";
 import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
+import DashboardContainer from '../DashboardContainer/DashboardContainer'
 
 const VALUE_CHANGE = "VALUE_CHANGE";
 const formReducer = (state, action) => {
@@ -138,29 +139,24 @@ const RoomsPage = (props) => {
   }
 
   return (
-    <div className={classes.RoomsPage}>
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-3">
-            <SideNavigation />
-          </div>
-          <div className="col-md-7">
-            <div className={classes.RoomPageMargin}></div>
-            <h3 className={classes.RoomPageHeading}>Manage hotel Rooms</h3>
+    <React.Fragment>
 
-            <FormButton
-              onClick={() => {
-                setActiveRoom({});
-                setIsAddingRoom(true);
-                handleOpenModal();
-              }}
-            >
-              New room
+      <DashboardContainer>
+        <div className={classes.RoomPageMargin}></div>
+        <h3 className={classes.RoomPageHeading}>Manage hotel Rooms</h3>
+
+        <FormButton
+          onClick={() => {
+            setActiveRoom({});
+            setIsAddingRoom(true);
+            handleOpenModal();
+          }}
+        >
+          New room
             </FormButton>
-            <div className={classes.RoomsContainer}>{roomContent}</div>
-          </div>
-        </div>
-      </div>
+        <div className={classes.RoomsContainer}>{roomContent}</div>
+      </DashboardContainer>
+
       <ConfirmationModal
         open={showConfirmation}
         cancel={() => setShowConfirmation(false)}
@@ -237,7 +233,7 @@ const RoomsPage = (props) => {
           </div>
         </div>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 };
 

@@ -12,7 +12,6 @@ const ClientRoutes = (props) => (
       <Route path="/login" component={LoginPage} />
       <Route path="/" component={HomePage} exact />
     </Switch>
-    <Route component={Footer} />
   </React.Fragment>
 );
 

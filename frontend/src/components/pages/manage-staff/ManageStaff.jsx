@@ -16,7 +16,7 @@ import Spinner from "../../shared-components/Spinner/Spinner";
 import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
 import { toCamelCase } from "../../../helper-functions";
-import PageContainer from "../page-container/PageContainer";
+import PageContainer from "../DashboardContainer/DashboardContainer";
 import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
 
 const VALUE_CHANGE = "VALUE_CHANGE";
@@ -151,7 +151,6 @@ const ManageStaff = (props) => {
   return (
     <React.Fragment>
       <PageContainer>
-        <br></br>
         <h1 className={styles.PageHeading}>Manage staff</h1>
         <FormButton onClick={handleAddButtonClick}>New member</FormButton>
         <div className="row">{staffMembers}</div>

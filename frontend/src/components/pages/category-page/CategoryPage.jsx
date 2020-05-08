@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import classes from "./CategoryPage.module.css";
-import PageContainer from "../page-container/PageContainer";
+import PageContainer from "../DashboardContainer/DashboardContainer";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -109,7 +109,6 @@ const CategoryPage = (props) => {
   return (
     <React.Fragment>
       <PageContainer>
-        <br></br>
         <h1 className={styles.PageHeading}> Room categories</h1>
         <FormButton onClick={createButtonClickHandler}>
           CREATE CATEGORY

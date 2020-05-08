@@ -8,8 +8,11 @@ import { LinkButton } from "../../shared-components/Button/Button";
 import SingleImage from "../../../images/bed-bedroom-furniture-headboard-279746 (1).jpg";
 import GoldRoomImage from "../../../images/black-and-grey-bedspread-on-bed-and-pillow-164595 (1).jpg";
 import TwinImage from "../../../images/white-bed-sheet-set-2736388.jpg";
+import PageContainer from '../../shared-components/PageContainer/PageContainer'
+
 const HomePage = (props) => (
-  <div className={classes.HomePage}>
+  <PageContainer>
+    <div className={classes.HomePage}>
     <div className={classes.WelcomeSection}></div>
     <div className={classes.ContentContainer}>
       <h3
@@ -115,6 +118,7 @@ const HomePage = (props) => (
       </div>
     </div>
   </div>
+  </PageContainer>
 );
 
 export default HomePage;

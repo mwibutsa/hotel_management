@@ -15,6 +15,8 @@ import { FormButton } from "../../shared-components/Button/Button";
 import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
 import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
+import DashboardContainer from '../DashboardContainer/DashboardContainer'
+
 // FORM REDUCER
 
 const VALUE_CHANGE = "VALUE_CHANGE";
@@ -130,20 +132,14 @@ const ListBooking = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.BookingListPage}>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-3">
-              <SideNavigation />
-            </div>
-            <div className="col-md-7">
-              <br />
-              <h3 className={styles.PageHeading}>Available Bookings</h3>
-              <div className={classes.BookingContainer}>{rooms}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
+      <DashboardContainer>
+        <h3 className={styles.PageHeading}>Available Bookings</h3>
+        <div className={classes.BookingContainer}>{rooms}</div>
+      </DashboardContainer>
+
+
       <ConfirmationModal
         open={showConfirmation}
         cancel={() => setShowConfirmation(false)}

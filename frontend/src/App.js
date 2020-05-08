@@ -1,6 +1,4 @@
 import React from "react";
-import "./App.css";
-import Navigation from "./components/navigation/Navigation";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import store from "./redux/store";
 import DashboardRoutes from "./DashboardRoutes";
@@ -15,7 +13,6 @@ const App = (props) => {
   return (
     <BrowserRouter>
       <Provider store={store}>
-        <Navigation />
         <Switch>
           <Route path="/dashboard" component={DashboardRoutes} />
           <Route path="" component={ClientRoutes} />

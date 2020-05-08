@@ -11,6 +11,7 @@
 
 .FixedNavigation {
   position: fixed;
+  top: 0;
   width: 100%;
   z-index: 10000;
 }
@@ -21,4 +22,10 @@
   background-color: rgb(214, 120, 13);
   position: relative;
   z-index: -1;
+}
+.NavigationContainer {
+  width: 100%;
+  background-color: red;
+  position: relative;
+  display: table;
 }

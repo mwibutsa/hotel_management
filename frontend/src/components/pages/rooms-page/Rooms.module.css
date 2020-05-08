@@ -15,7 +15,22 @@
 }
 
 .RoomsContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+
+@media screen and (max-width: 400px) {
+  .RoomsContainer {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .RoomsContainer {
+    justify-content:space-evenly;
+    width: 100%;
+  }
 }

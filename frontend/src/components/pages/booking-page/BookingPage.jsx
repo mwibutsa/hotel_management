@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { createBooking } from "../../../redux/actions/booking-action";
 import { getRooms } from "../../../redux/actions/room-action";
 import { BarSpinner } from "../../shared-components/Spinner/Spinner";
+import PageContainer from '../../shared-components/PageContainer/PageContainer'
 
 class BookingPage extends Component {
   constructor(props) {
@@ -149,7 +150,7 @@ class BookingPage extends Component {
         </div>
       );
     }
-    return content;
+  return <PageContainer>{content}</PageContainer>;
   }
 }
 const mapStateToProps = (state) => ({
