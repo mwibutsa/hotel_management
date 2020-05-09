@@ -88,13 +88,13 @@ DATABASES = {
 
 if(os.environ.get('ENV') != 'dev'):
     DATABASES['default'] = dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        default=os.environ.get('DATABASE_URL'))
 
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS=[
+AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -113,31 +113,31 @@ AUTH_PASSWORD_VALIDATORS=[
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE='en-us'
+LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE='UTC'
+TIME_ZONE = 'UTC'
 
-USE_I18N=True
+USE_I18N = True
 
-USE_L10N=True
+USE_L10N = True
 
-USE_TZ=True
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL='/static/'
-AUTH_USER_MODEL='user.User'
+STATIC_URL = '/static/'
+AUTH_USER_MODEL = 'user.User'
 
-REST_FRAMEWORK={
+REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
 
 
-SIMPLE_JWT={
+SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'AUTH_HEADER_TYPES': ('Bearer',),
@@ -150,30 +150,30 @@ SIMPLE_JWT={
 
 # SENDING EMAIL
 
-EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_USE_TLS=True
-EMAIL_PORT=587
-EMAIL_HOST_USER="flo.developermail@gmail.com"
-EMAIL_HOST_PASSWORD="FloSend@1"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "flo.developermail@gmail.com"
+EMAIL_HOST_PASSWORD = "FloSend@1"
 
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 
 
-PROJECT_ROOT=os.path.join(os.path.abspath(__file__))
-STATIC_ROOT=os.path.join(PROJECT_ROOT, 'staticfiles')
+PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
-STATIC_URL='/static/'
+STATIC_URL = '/static/'
 
-STATICFILES_DIRS=(
+STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'frontend', "build", 'static'),
 )
 #  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-TEMPLATES=[
+TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'frontend')],
