@@ -1,15 +1,15 @@
-from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, BasePermission
+from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.permissions import (IsAuthenticated,
+                                        BasePermission)
+
 from .models import Booking
 from room import models as room_models
 from .serializers import BookingSerializer, StaffBookingSerializer
 from datetime import datetime
-from django.core.mail import send_mail
-from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import status
+from client.models import HotelClient
 
 
 class IsStaff(BasePermission):
@@ -33,13 +33,6 @@ class ListBookingAPIView(generics.ListAPIView, BaseAPIView):
 class BookingDetailView(generics.RetrieveUpdateDestroyAPIView, BaseAPIView):
     """API to handle listing available bookings. """
 
-    # def update(self, request, *args, **kwargs):
-
-    #     serializer = self.get_serializer(data=request.data)
-    #     import pdb
-    #     pdb.set_trace()
-    #     return super().update(request, *args, **kwargs)
-
 
 class CreateBookingAPIView(generics.CreateAPIView):
     """Allow customers to make a booking for a particular room. """
@@ -52,6 +45,26 @@ class CreateBookingAPIView(generics.CreateAPIView):
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
+
+            validated_data = serializer.validated_data
+
+            first_name, last_name = validated_data['customer_name'].split(' ')
+
+            # Check to save client if they don't exist in the database
+
+            client = None
+            try:
+                client = HotelClient.objects.get(
+                    email=validated_data['customer_email'])
+            except ObjectDoesNotExist:
+                pass
+
+            if not client:
+                client = HotelClient.objects.create(
+                    email=validated_data['customer_email'],
+                    first_name=first_name, last_name=last_name)
+
+                client.save()
 
             room = serializer.validated_data['room']
 
@@ -69,36 +82,34 @@ class CreateBookingAPIView(generics.CreateAPIView):
             else:
                 checkout_date = datetime.now()
 
-            if not wanted_room or (wanted_room.booking_status != Booking.PENDING or checkout_date < check_in_date):
-                instance = serializer.save()
+            if not wanted_room or (wanted_room.booking_status
+                                   != Booking.PENDING
+                                   or checkout_date < check_in_date):
+
+                validated_data.pop('customer_email')
+                validated_data.pop('customer_name')
+
+                validated_data['customer_id'] = client.id
+                serializer.save()
+
                 room.room_status = Booking.BOOKED
 
                 room.save(update_fields=['room_status', 'updated_at'])
 
-                subject = 'Booking confirmation request'
-                recipient = serializer['customer_email'].value
-                sender_email = settings.EMAIL_HOST_USER
-
-                message = """
-                Dear {name},
-                
-                Thank you for your consideration to our hotel, in order to consider
-                your booking seriously we would like you to pay a non refundable amount equal to the half of 
-                the total amount that should be paid.
-                
-                Kindly follow this link to complete the booking. 
-                """
-
-                # send_mail(subject, message.format(name=serializer['customer_name'].value), sender_email, [
-                #     recipient], fail_silently=False)
-
-                return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+                return Response(data=serializer.data,
+                                status=status.HTTP_201_CREATED)
 
             else:
-                return Response(data={
-                    'message': f"This room is not availabe for check in before {wanted_room.expected_checkout_date}"}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as error:
-            return Response(data={'message': 'There ware an internal server error'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response(
+                    data={
+                        'message': f" the room is not availabe until \
+                        {wanted_room.expected_checkout_date}"
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception:
+            return Response(data={
+                'message': 'There was an internal server error'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CheckInAPIView(generics.RetrieveUpdateDestroyAPIView, BaseAPIView):
