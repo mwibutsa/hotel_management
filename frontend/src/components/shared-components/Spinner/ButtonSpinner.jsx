@@ -11,10 +11,6 @@ const ButtonSpinner = (props) => (
     <div></div>
     <div></div>
     <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
   </div>
 );
 

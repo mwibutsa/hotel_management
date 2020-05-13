@@ -69,3 +69,4 @@ class ClientExpenses(models.Model):
 
     def __repr__(self):
         return f" consumed {self.quantity} {self.name} for {self.price} each"
+

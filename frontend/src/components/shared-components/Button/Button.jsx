@@ -26,14 +26,7 @@ export const FormButton = (props) => {
   buttonClasses.push(color);
 
   const loader = (
-    <div
-      style={{
-        position: "absolute",
-        top: "50%",
-        right: "10%",
-        transform: "translate(-50%, -70%)",
-      }}
-    >
+    <div>
       <ButtonSpinner />
     </div>
   );
@@ -43,7 +36,7 @@ export const FormButton = (props) => {
       onClick={props.onClick}
       className={buttonClasses.join(" ")}
     >
-      {props.children} {props.loading ? loader : ""}
+      <div>{props.children}</div> {props.loading ? loader : ""}
     </button>
   );
 };
