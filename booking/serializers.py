@@ -13,8 +13,22 @@ class BaseSerializer(serializers.Serializer):
 class BookingSerializer(BaseSerializer, serializers.ModelSerializer):
     """Serializer Booking model to and from JSON. """
 
+    customer_email = serializers.EmailField(required=False)
+    customer_name = serializers.CharField(required=False)
+
     room = serializers.SlugRelatedField(
         queryset=models.Room.objects.all(), slug_field='room_number')
+
+    def create(self, validated_data):
+        """ Override create method to remove unnecessary fields."""
+
+        if 'customer_name' in validated_data or 'customer_email' \
+                in validated_data:
+
+            validated_data.pop('customer_name')
+            validated_data.pop('customer_email')
+
+        return Booking.objects.create(**validated_data)
 
     class Meta:
         model = Booking
@@ -49,13 +63,19 @@ class BookingSerializer(BaseSerializer, serializers.ModelSerializer):
             },
             'paid_advance': {
                 'read_only': True
+            },
+            'customer': {
+                'read_only': True
             }
 
         }
 
 
 class StaffBookingSerializer(BaseSerializer, serializers.ModelSerializer):
-    """ A serializer for admin and staff to convert Booking model to and form JSON. """
+    """
+    A serializer for admin and staff
+    to convert Booking model to and form JSON.
+    """
 
     room = serializers.SlugRelatedField(
         queryset=models.Room.objects.all(), slug_field='id')
@@ -88,6 +108,13 @@ class StaffBookingSerializer(BaseSerializer, serializers.ModelSerializer):
 
         validated_data['paid_advance'] = float(
             instance.paid_advance) + paid_advance
+
+        if 'customer_email' in validated_data:
+            validated_data.pop('customer_email')
+
+        if 'customer_name' in validated_data:
+            validated_data.pop('customer_name')
+
         for key in validated_data:
             setattr(instance, key, validated_data.get(
                 key, getattr(instance, key, '')))

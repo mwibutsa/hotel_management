@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'user',
     'room',
     'booking',
+    'client',
     'corsheaders'
 
 ]

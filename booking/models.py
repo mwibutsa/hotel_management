@@ -1,6 +1,7 @@
 from django.db import models
-from datetime import datetime, timedelta
-from room.models import Room, RoomCategory
+from datetime import timedelta
+from room.models import Room
+from client.models import HotelClient
 
 
 class Booking(models.Model):
@@ -20,12 +21,11 @@ class Booking(models.Model):
     BOOKING_PROGRESS_STATUS = (
         (PENDING, 'Pending'), (CONFIRMED, 'Confirmed'))
 
-    customer_email = models.EmailField()
-    customer_name = models.CharField(max_length=255)
-
     expected_check_in_date = models.DateField()
     expected_checkout_date = models.DateField()
 
+    customer = models.ForeignKey(
+        HotelClient, on_delete=models.CASCADE, related_name='bookings')
     customer_booking_status = models.TextField(
         max_length=50, choices=CUSTOMER_BOOKING_STATUS, default=BOOKED)
 
