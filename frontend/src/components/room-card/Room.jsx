@@ -8,7 +8,9 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 const Room = (props) => (
   <div className={classes.Room}>
     <div className={classes.RoomHeading}>
-      <span>{props.rooms ? props.room_number : `${props.customer_name}`} </span>
+      <span>
+        {props.rooms ? props.room_number : `${props.booking_days} days booking`}{" "}
+      </span>
       <DeleteButton onClick={props.onDelete}>
         <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
       </DeleteButton>
@@ -88,12 +90,6 @@ const Room = (props) => (
             <span className={classes.AttributeContainer}>UPDATED ON:</span>
             <span className={classes.AttributeValue}>
               {moment(props.updated_at).format("MMM Do YYYY")}
-            </span>
-          </div>
-          <div className={classes.AttributeRow}>
-            <span className={classes.AttributeContainer}>EMAIL:</span>
-            <span className={classes.AttributeValue}>
-              {props.customer_email}
             </span>
           </div>
           <div>
