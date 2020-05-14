@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { createBooking } from "../../../redux/actions/booking-action";
 import { getRooms } from "../../../redux/actions/room-action";
 import { BarSpinner } from "../../shared-components/Spinner/Spinner";
-import PageContainer from '../../shared-components/PageContainer/PageContainer'
+import PageContainer from "../../shared-components/PageContainer/PageContainer";
 
 class BookingPage extends Component {
   constructor(props) {
@@ -39,6 +39,7 @@ class BookingPage extends Component {
 
   handleSubmit = async (event) => {
     event.preventDefault();
+
     const data = this.state.form;
     const { makeBooking } = this.props;
     await makeBooking(data);
@@ -122,7 +123,9 @@ class BookingPage extends Component {
               {fetchStatus}
 
               <p className={commonClasses.TextCenter}>
-                <FormButton loading={this.props.loading}>
+                <FormButton
+                  loading={this.props.rooms.length && this.props.loading}
+                >
                   Submit Booking
                 </FormButton>
               </p>
@@ -150,7 +153,7 @@ class BookingPage extends Component {
         </div>
       );
     }
-  return <PageContainer>{content}</PageContainer>;
+    return <PageContainer>{content}</PageContainer>;
   }
 }
 const mapStateToProps = (state) => ({

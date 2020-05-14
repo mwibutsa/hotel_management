@@ -67,82 +67,39 @@
 }
 
 .ButtonSpinner {
-  color: official;
-  display: inline-block;
-  position: relative;
-  width: 25px;
-  height: 15px;
-  top: 0;
-  margin-right: 20px;
+  background-color: red;
+  display: block;
+  width: 40px;
+  padding: 0 4px;
+  line-height: 40px;
 }
 .ButtonSpinner div {
-  transform-origin: 15px 15px;
-  animation: lds-spinner 1.2s linear infinite;
-}
-.ButtonSpinner div:after {
-  content: " ";
-  display: block;
+  box-sizing: border-box;
   position: absolute;
-  right: 15px;
-  width: 6px;
-  height: 14px;
-  border-radius: 20%;
-  background: #fff;
+  width: 35px;
+  height: 35px;
+  top: 2.5px;
+  border: 4px solid;
+  border-radius: 50%;
+  right: 10px;
+  animation: ButtonSpinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: rgba(254, 255, 240, 0.575) transparent transparent transparent;
 }
 .ButtonSpinner div:nth-child(1) {
-  transform: rotate(0deg);
-  animation-delay: -1.1s;
+  animation-delay: -0.45s;
 }
 .ButtonSpinner div:nth-child(2) {
-  transform: rotate(30deg);
-  animation-delay: -1s;
-}
-.ButtonSpinner div:nth-child(3) {
-  transform: rotate(60deg);
-  animation-delay: -0.9s;
-}
-.ButtonSpinner div:nth-child(4) {
-  transform: rotate(90deg);
-  animation-delay: -0.8s;
-}
-.ButtonSpinner div:nth-child(5) {
-  transform: rotate(120deg);
-  animation-delay: -0.7s;
-}
-.ButtonSpinner div:nth-child(6) {
-  transform: rotate(150deg);
-  animation-delay: -0.6s;
-}
-.ButtonSpinner div:nth-child(7) {
-  transform: rotate(180deg);
-  animation-delay: -0.5s;
-}
-.ButtonSpinner div:nth-child(8) {
-  transform: rotate(210deg);
-  animation-delay: -0.4s;
-}
-.ButtonSpinner div:nth-child(9) {
-  transform: rotate(240deg);
   animation-delay: -0.3s;
 }
-.ButtonSpinner div:nth-child(10) {
-  transform: rotate(270deg);
-  animation-delay: -0.2s;
+.ButtonSpinner div:nth-child(3) {
+  animation-delay: -0.15s;
 }
-.ButtonSpinner div:nth-child(11) {
-  transform: rotate(300deg);
-  animation-delay: -0.1s;
-}
-.ButtonSpinner div:nth-child(12) {
-  transform: rotate(330deg);
-  animation-delay: 0s;
-}
-@keyframes lds-spinner {
+@keyframes ButtonSpinner {
   0% {
-    opacity: 1;
+    transform: rotate(0deg);
   }
   100% {
-    opacity: 0;
+    transform: rotate(360deg);
   }
 }
 
