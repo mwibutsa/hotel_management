@@ -1,0 +1,22 @@
+.Tr {
+  background-color: whitesmoke;
+}
+
+.Td,
+.Th {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+  min-width: 150px;
+}
+.Td {
+  font-size: 18px;
+  color: rgb(122, 121, 121);
+}
+.Th {
+  font-weight: bold;
+  background-color: rgb(177, 160, 6);
+  color: white;
+  text-transform: uppercase;
+  text-align: center;
+}

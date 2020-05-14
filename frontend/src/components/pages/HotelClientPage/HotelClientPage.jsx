@@ -1,4 +1,11 @@
-import React, { useEffect, useState, useReducer, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useReducer,
+  useCallback,
+  useRef,
+} from "react";
+import ReactToPrint from "react-to-print";
 import classes from "./HotelClientPage.module.css";
 import DashboardContainer from "../DashboardContainer/DashboardContainer";
 import styles from "../../common.module.css";
@@ -11,9 +18,18 @@ import {
   updateHotelClient,
   deleteHotelClient,
 } from "../../../redux/actions/client-action";
+
+import {
+  fetchClientExpenses,
+  udpateClientExpense,
+  addClientExpense,
+  deleteClientExpense,
+} from "../../../redux/actions/client-expenses-action";
+
 import Input from "../../shared-components/TextInput/TextInput";
 import Modal from "../../shared-components/Modal/Modal";
 import { toCamelCase } from "../../../helper-functions";
+import Table from "../../shared-components/Table/Table";
 
 const VALUE_CHANGE = "VALUE_CHANGE";
 
@@ -31,6 +47,8 @@ const formReducer = (state, action) => {
 const HotelClientPage = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeClient, setActiveClient] = useState({});
+  const [showBills, setShowBills] = useState(false);
+  const billDetails = useRef(null);
 
   // FORM STATE & DISPATCHER
 
@@ -54,7 +72,7 @@ const HotelClientPage = (props) => {
     [dispatchFormState]
   );
   // LOAD HOTEL CLIENTS
-  const { loadClients, updateClient } = props;
+  const { loadClients, updateClient, loadClientExpenses } = props;
   useEffect(() => {
     loadClients();
   }, [loadClients]);
@@ -75,6 +93,11 @@ const HotelClientPage = (props) => {
     }
   };
 
+  const showBillsHandler = async (clientId = null) => {
+    await loadClientExpenses(clientId);
+    setShowBills((prevState) => !prevState);
+  };
+
   const checkChangeHandler = useCallback(
     (event) => {
       dispatchFormState({
@@ -93,7 +116,9 @@ const HotelClientPage = (props) => {
     await updateClient(formState);
     handleOpenModal();
   };
+
   // SHOW LOADER WHEN DATA IS NOT AVAILABLE YET
+
   let content = <Spinner></Spinner>;
 
   if (!props.loading) {
@@ -106,7 +131,9 @@ const HotelClientPage = (props) => {
           key={client.created_at}
         >
           <CardButton onClick={() => handleOpenModal(client)}>Edit</CardButton>
-          <CardButton> Bills</CardButton>
+          <CardButton onClick={() => showBillsHandler(client.id)}>
+            Bills
+          </CardButton>
         </Client>
       );
     });
@@ -127,6 +154,9 @@ const HotelClientPage = (props) => {
         <h3 className={styles.PageHeading}>Hotel clients</h3>
         <div className={classes.ClientsContainer}>{content}</div>
       </DashboardContainer>
+
+      {/* EDIT CLIENT MODAL */}
+
       <Modal open={isModalOpen} onToggle={handleOpenModal} title="Client info">
         <form method="POST" onSubmit={clientUpdateHandler}>
           <div className="row">
@@ -176,6 +206,7 @@ const HotelClientPage = (props) => {
                     onChange={checkChangeHandler}
                     value={isCheckedIn}
                     className={classes.Checkbox}
+                    required={false}
                   />
                 </label>
               </div>
@@ -184,6 +215,35 @@ const HotelClientPage = (props) => {
           </div>
         </form>
       </Modal>
+
+      {/* END OF EDIT CLIENT MODAL  */}
+
+      {/* CLIENT BILLS MODAL */}
+
+      <Modal
+        open={showBills}
+        onToggle={showBillsHandler}
+        title="Client transaction details"
+      >
+        <div className="row">
+          <div className="col-md-12 col-sm-12">
+            {!props.loadingExpenses && (
+              <Table
+                reference={billDetails}
+                values={props.expenses}
+                tableCaption="Client consumption record"
+              />
+            )}
+            <br />
+            <ReactToPrint
+              trigger={() => <FormButton>Print bill</FormButton>}
+              content={() => billDetails.current}
+            />
+          </div>
+        </div>
+      </Modal>
+
+      {/* END OF CLIENT BILLS MODAL */}
     </React.Fragment>
   );
 };
@@ -192,12 +252,19 @@ const mapStateToProps = (state) => ({
   clients: state.hotelClient.hotelClients,
   loading: state.hotelClient.loading,
   error: state.hotelClient.error,
+  expenses: state.clientExpenses.expenses,
+  loadingExpenses: state.clientExpenses.loading,
+  expenseError: state.clientExpenses.error,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   loadClients: () => dispatch(fetchHotelClients()),
   updateClient: (data) => dispatch(updateHotelClient(data)),
   deleteClient: (id) => dispatch(deleteHotelClient(id)),
+  loadClientExpenses: (id) => dispatch(fetchClientExpenses(id)),
+  addExpenses: (id, data) => dispatch(addClientExpense(id, data)),
+  updateExpense: (data) => dispatch(udpateClientExpense(data)),
+  deleteExpense: (id) => dispatch(deleteClientExpense(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HotelClientPage);

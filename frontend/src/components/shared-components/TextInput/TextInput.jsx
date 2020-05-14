@@ -3,7 +3,9 @@ import classes from "./TextInput.module.css";
 
 const Input = (props) => {
   const [type, setType] = useState("text");
-
+  const properties = {
+    required: props.required === false ? false : true,
+  };
   return (
     <input
       type={props.type !== "date" ? props.type : type}
@@ -20,7 +22,7 @@ const Input = (props) => {
       value={props.value}
       className={[classes.TextInput, props.className].join(" ")}
       placeholder={props.placeholder}
-      required
+      {...properties}
       checked={props.value}
     />
   );

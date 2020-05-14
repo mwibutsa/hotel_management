@@ -8,7 +8,7 @@ class ClientExpensesSerializer(serializers.ModelSerializer):
         model = ClientExpenses
         fields = '__all__'
 
-        read_only_fields = ('updated_ata', 'created_at', 'id')
+        read_only_fields = ('updated_at', 'created_at', 'id', 'client')
 
 
 class HotelClientSerializer(serializers.ModelSerializer):

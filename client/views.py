@@ -2,6 +2,8 @@ from rest_framework import viewsets, generics
 from . import models
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from . import serializers
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class BaseClientView:
@@ -30,6 +32,14 @@ class BaseClientExpenseView(viewsets.GenericViewSet):
 class ClientExpensesListView(generics.ListCreateAPIView, BaseClientExpenseView):
     """List and create new client expenses record. """
     name = 'client-expenses'
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        validated_data = serializer.validated_data
+
+        validated_data['client_id'] = kwargs.get('parent_lookup_client')
+        return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
 
 class ClientExpensesDetailView(generics.RetrieveUpdateDestroyAPIView,
