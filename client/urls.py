@@ -25,7 +25,7 @@ expenses_router = client_router.register(
 urlpatterns = [
     path('expenses/<int:pk>', views.ClientExpensesDetailView.as_view(),
          name='expense-detail'),
-    path('hote-clients/<int:pk>',
+    path('clients/<int:pk>',
          views.ClientDetailView.as_view(), name='client-detail')
 ]
 urlpatterns += router.urls

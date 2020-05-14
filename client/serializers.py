@@ -19,5 +19,7 @@ class HotelClientSerializer(serializers.ModelSerializer):
         model = HotelClient
         fields = ('id', 'email', 'first_name',
                   'last_name', 'is_checked_in', 'updated_at',
-                  'created_at', 'client_expenses')
+                  'created_at', 'client_expenses', 'identification_number',
+                  'phone_number')
+
         read_only_fields = ('updated_ata', 'created_at', 'id', 'is_checked_in')

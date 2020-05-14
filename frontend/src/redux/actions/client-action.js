@@ -30,8 +30,8 @@ const fetchHotelClientsFailed = (error) => ({
 export const fetchHotelClients = () => async (dispatch) => {
   try {
     dispatch(fetchHotelClientsBegin());
-    const { data } = await axios.get("/");
-    dispatch(fetchClientsHotelDone(data, id));
+    const { data } = await axios.get("/hotel-clients/clients/");
+    dispatch(fetchClientsHotelDone(data));
   } catch (error) {
     dispatch(fetchHotelClientsFailed(error));
   }
@@ -41,9 +41,9 @@ export const fetchHotelClients = () => async (dispatch) => {
 
 const updateHotelClientBegin = () => ({ type: UPDATE_HOTEL_CLIENT_BEGIN });
 
-const udpateHotelClientDone = (data) => ({
+const udpateHotelClientDone = (data, id) => ({
   type: UPDATE_HOTEL_CLIENT,
-  payload: { data },
+  payload: { data, id },
 });
 
 const updateHotelClientFailed = (error) => ({
@@ -65,7 +65,7 @@ export const updateHotelClient = (clientInfo) => async (dispatch) => {
       `/hotel-clients/clients/${client.id}`,
       client
     );
-    dispatch(udpateHotelClientDone(data));
+    dispatch(udpateHotelClientDone(data, client.id));
   } catch (error) {
     dispatch(updateHotelClientFailed(error));
   }
@@ -75,7 +75,7 @@ export const updateHotelClient = (clientInfo) => async (dispatch) => {
 
 const deleteHotelClientBegin = () => ({ type: DELETE_HOTEL_CLIENT_BEGIN });
 
-const deleteHotelClientDone = (data) => ({
+const deleteHotelClientDone = (data, id) => ({
   type: DELETE_HOTEL_CLIENT,
   payload: { data },
 });
@@ -89,7 +89,7 @@ export const deleteHotelClient = (id) => async (dispatch) => {
   try {
     dispatch(deleteHotelClientBegin());
     const { data } = await axios.delete(`/hotel-clients/clients/${id}`);
-    dispatch(deleteHotelClientDone(data));
+    dispatch(deleteHotelClientDone(data, id));
   } catch (error) {
     dispatch(deleteHotelClientFailed(error));
   }

@@ -1,0 +1,36 @@
+.AttributeLabel {
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  transition: inherit;
+  color: #666565;
+  text-transform: uppercase;
+}
+.AttributeRow {
+  background-color: whitesmoke;
+  padding: 8px 15px;
+  transition: all ease-in-out 0.4s;
+}
+
+.AttributeRow:nth-child(even) {
+  background-color: #e7e7e7;
+}
+.AttributeRow:hover {
+  background-color: white;
+  transform: scale(1.1);
+  box-shadow: 1px 1px 14px rgba(51, 51, 51, 0.233);
+  text-align: center;
+  width: 100%;
+}
+
+.AttributeValue {
+  font-size: 16px;
+  text-shadow: 1px 1px 1px rgba(51, 51, 51, 0.247);
+  transition: all ease-in-out 0.4s;
+  color: rgb(128, 92, 3);
+  margin-left: 5px;
+}
+
+.AttributeValue:hover {
+  font-size: 16px;
+}

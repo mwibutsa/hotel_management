@@ -16,7 +16,7 @@ class ClientListView(generics.ListAPIView, BaseClientView,
     name = 'clients'
 
 
-class ClientDetailView(generics.RetrieveUpdateDestroyAPIView, BaseClientView):
+class ClientDetailView(BaseClientView, generics.RetrieveUpdateDestroyAPIView):
     """Retrieve, update and delete Client. """
     name = 'client-details'
 

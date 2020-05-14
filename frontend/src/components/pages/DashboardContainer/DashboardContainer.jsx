@@ -1,5 +1,5 @@
 import React from "react";
-import Navigation from '../../navigation/Navigation'
+import Navigation from "../../navigation/Navigation";
 import SideNavigation from "../../side-navigation/SideNavigation";
 import classes from "./DashboardContainer.module.css";
 
@@ -12,7 +12,6 @@ const DashboardContainer = (props) => {
         </div>
 
         <div className={classes.MainPage}>
-
           <div className={classes.SideNavContainer}>
             <SideNavigation />
           </div>
