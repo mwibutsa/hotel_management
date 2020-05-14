@@ -20,7 +20,7 @@ import {
 const fetchClientExpensesBegin = () => ({ type: FETCH_CLIENT_EXPENSES_BEGIN });
 
 const fetchClientExpensesDone = (data) => ({
-  tyep: FETCH_CLIENT_EXPENSES,
+  type: FETCH_CLIENT_EXPENSES,
   payload: { data },
 });
 
@@ -33,7 +33,7 @@ export const fetchClientExpenses = (clientId) => async (dispatch) => {
   try {
     dispatch(fetchClientExpensesBegin());
     const { data } = await axios.get(
-      `/hotel-clients/clients/${clientId}/expenses`
+      `/hotel-clients/clients/${clientId}/expenses/`
     );
     dispatch(fetchClientExpensesDone(data));
   } catch (error) {
@@ -55,7 +55,7 @@ const addClientExpenseFailed = (error) => ({
   payload: { error },
 });
 
-export const addClientExpense = (cleintId, expenseData) => async (dispatch) => {
+export const addClientExpense = (clientId, expenseData) => async (dispatch) => {
   try {
     dispatch(addClientExpenseBegin());
     const expense = {};
@@ -66,7 +66,7 @@ export const addClientExpense = (cleintId, expenseData) => async (dispatch) => {
       }
     }
     const { data } = await axios.post(
-      `/hotel-clients/clients/${clientId}`,
+      `/hotel-clients/clients/${clientId}/expenses/`,
       expense
     );
 
@@ -126,11 +126,11 @@ const deleteClientExpensesFailed = (error) => ({
   payload: { error },
 });
 
-export const deleteClientExpenses = (expenseId) => async (dispatch) => {
+export const deleteClientExpense = (expenseId) => async (dispatch) => {
   try {
     dispatch(deleteClientExpenseBegin());
     const { data } = await axios.delete(`/hotel-clients/expenses/${expenseId}`);
-    dispatch(deleteClientExpenseDone(data, id));
+    dispatch(deleteClientExpenseDone(data, expenseId));
   } catch (error) {
     dispatch(deleteClientExpensesFailed(error));
   }

@@ -34,3 +34,26 @@ export const deleteArrayById = (array, elementId) => {
 
   return arrayClone;
 };
+
+export const calculateRoomBills = (booking) => {
+  if (booking) {
+    const checkinDate =
+      booking.actual_check_in_date || booking.expected_check_in_date;
+
+    const now = new Date();
+
+    // time difference in seconds
+    let delta = now - new Date(checkinDate);
+    delta = Math.abs(delta) / 1000;
+
+    // return days
+    const days = Math.floor(delta / 86400);
+
+    // calculate total price
+
+    const dailyPrice = Math.ceil(booking.total_price / booking.booking_days);
+    return dailyPrice * days - booking.paid_advance;
+  }
+
+  return 0;
+};

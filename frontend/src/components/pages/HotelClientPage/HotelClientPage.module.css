@@ -14,3 +14,20 @@
   margin: 0 10px;
   text-transform: uppercase;
 }
+.BillForm {
+  padding: 20px;
+}
+.BillForm form {
+  display: flex;
+  width: 80%;
+  align-items: center;
+}
+
+.ButtonContainer {
+  margin-left: 15px;
+}
+.PrintButtonContainer {
+  width: 90%;
+  margin: 0 auto;
+  text-align: right;
+}
