@@ -22,7 +22,7 @@ const Modal = (props) => {
         <div className={classes.CloseButtonContainer} onClick={props.onToggle}>
           {props.title && (
             <span className={classes.ModalTitle}>{props.title}</span>
-          )}{" "}
+          )}
           <span className={classes.CloseButton}>X</span>
         </div>
         {props.children}

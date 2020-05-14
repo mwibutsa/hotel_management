@@ -37,6 +37,14 @@ const SideNavigation = (props) => (
           Room categories
         </NavLink>
       </div>
+      <div className={classes.NavLink}>
+        <NavLink
+          activeClassName={classes.ActiveNavLink}
+          to="/dashboard/hotel-clients"
+        >
+          Clients
+        </NavLink>
+      </div>
     </div>
   </div>
 );

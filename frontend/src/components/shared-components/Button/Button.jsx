@@ -46,3 +46,9 @@ export const DeleteButton = (props) => (
     {props.children}
   </div>
 );
+
+export const CardButton = (props) => (
+  <div className={classes.CardButton} onClick={props.onClick}>
+    {props.children}
+  </div>
+);

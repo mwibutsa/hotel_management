@@ -1,0 +1,22 @@
+.CardContainer {
+  display: inline-block;
+  min-width: 250px;
+  box-shadow: 1px 1px 4px rgba(3, 3, 3, 0.384);
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-left: 20px;
+  background-color: whitesmoke;
+  border-radius: 3px;
+}
+
+.CardContent {
+  padding: 0px 10px;
+  cursor: pointer;
+}
+.ButtonContainer {
+  display: flex;
+  width: 100%;
+  margin-bottom: 5px;
+  justify-content: space-around;
+  padding-top: 4px;
+}
