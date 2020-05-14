@@ -3,6 +3,7 @@ import classes from "./TableRow.module.css";
 import moment from "moment";
 
 const TableRow = (props) => {
+  let key = 1;
   return (
     <tr className={classes.Tr}>
       {props.values.map((value) => {
@@ -14,11 +15,11 @@ const TableRow = (props) => {
         }
 
         return props.type === "th" ? (
-          <th className={classes.Th} key={value}>
+          <th className={classes.Th} key={key++}>
             {value.split("_").join(" ")}
           </th>
         ) : (
-          <td className={classes.Td} key={value}>
+          <td className={classes.Td} key={key++}>
             {val}
           </td>
         );

@@ -7,8 +7,11 @@ const Card = (props) => {
   let value = { ...props.value };
   let content = "";
 
+  delete value.bookings;
+  delete value.client_expenses;
+
   if (value) {
-    content = Object.entries(props.value).map(([key, value]) => {
+    content = Object.entries(value).map(([key, value]) => {
       if (key !== "id") {
         let val = "";
         if (typeof value !== typeof true && !value) {
@@ -24,7 +27,7 @@ const Card = (props) => {
   }
 
   return (
-    <div className={classes.CardContainer}>
+    <div className={classes.CardContainer} onClick={props.onClick}>
       <h4 className={styles.CardTitle}>{props.title || "--- No title ---"}</h4>
       <div className={classes.CardContent}>{content}</div>
       <div className={classes.ButtonContainer}>{props.children}</div>

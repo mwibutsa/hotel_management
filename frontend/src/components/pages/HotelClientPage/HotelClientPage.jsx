@@ -28,7 +28,7 @@ import {
 
 import Input from "../../shared-components/TextInput/TextInput";
 import Modal from "../../shared-components/Modal/Modal";
-import { toCamelCase } from "../../../helper-functions";
+import { toCamelCase, calculateRoomBills } from "../../../helper-functions";
 import Table from "../../shared-components/Table/Table";
 
 const VALUE_CHANGE = "VALUE_CHANGE";
@@ -44,12 +44,13 @@ const formReducer = (state, action) => {
       return state;
   }
 };
+
 const HotelClientPage = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeClient, setActiveClient] = useState({});
+  const [activeClientId, setActiveClientId] = useState(0);
   const [showBills, setShowBills] = useState(false);
   const billDetails = useRef(null);
-
+  const [activeClientBooking, setActiveClientBooking] = useState({});
   // FORM STATE & DISPATCHER
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -60,6 +61,23 @@ const HotelClientPage = (props) => {
     identificationNumber: "",
     phoneNumber: "",
   });
+
+  const [billFormState, dispatcBillFormState] = useReducer(formReducer, {
+    name: "",
+    quantity: 0,
+    price: 0,
+  });
+
+  const billValueChangeHandler = useCallback(
+    (event) => {
+      dispatcBillFormState({
+        type: VALUE_CHANGE,
+        input: event.target.name,
+        value: event.target.value,
+      });
+    },
+    [dispatcBillFormState]
+  );
 
   const valueChangeHandler = useCallback(
     (event) => {
@@ -72,7 +90,7 @@ const HotelClientPage = (props) => {
     [dispatchFormState]
   );
   // LOAD HOTEL CLIENTS
-  const { loadClients, updateClient, loadClientExpenses } = props;
+  const { loadClients, updateClient, loadClientExpenses, addExpenses } = props;
   useEffect(() => {
     loadClients();
   }, [loadClients]);
@@ -82,7 +100,6 @@ const HotelClientPage = (props) => {
   const handleOpenModal = (client = null) => {
     setIsModalOpen((prevState) => !prevState);
     if (client) {
-      setActiveClient(client);
       for (let [key, value] of Object.entries(client)) {
         dispatchFormState({
           type: VALUE_CHANGE,
@@ -94,7 +111,18 @@ const HotelClientPage = (props) => {
   };
 
   const showBillsHandler = async (clientId = null) => {
-    await loadClientExpenses(clientId);
+    if (typeof clientId === typeof 1) {
+      await loadClientExpenses(clientId);
+
+      const client = props.clients.find((client) => client.id === clientId);
+
+      let booking = {};
+      if (client) {
+        booking = client.bookings ? client.bookings[0] : {};
+      }
+      setActiveClientBooking(booking);
+    }
+    setActiveClientId(clientId);
     setShowBills((prevState) => !prevState);
   };
 
@@ -109,8 +137,40 @@ const HotelClientPage = (props) => {
     [dispatchFormState]
   );
 
+  // TOTAL CLIENT BILLS
+
+  const handleSumBills = (expenses) => {
+    const sum = expenses.reduce((sum, expense) => {
+      sum += expense.quantity * expense.price;
+      return sum;
+    }, 0);
+
+    const roomBills = calculateRoomBills(activeClientBooking);
+
+    let totalBills = sum;
+
+    if (roomBills) {
+      totalBills += roomBills;
+    }
+
+    return [totalBills, roomBills];
+  };
   // SUBMIT HANDLER
 
+  // HANDLE ADD BILLS
+  const handleAddBillRecord = async (event) => {
+    event.preventDefault();
+
+    await addExpenses(activeClientId, billFormState);
+
+    for (let key of Object.keys(billFormState)) {
+      dispatcBillFormState({
+        type: VALUE_CHANGE,
+        input: key,
+        value: "",
+      });
+    }
+  };
   const clientUpdateHandler = async (event) => {
     event.preventDefault();
     await updateClient(formState);
@@ -123,7 +183,6 @@ const HotelClientPage = (props) => {
 
   if (!props.loading) {
     content = props.clients.map((client) => {
-      delete client.client_expenses;
       return (
         <Client
           title={client.first_name}
@@ -132,7 +191,7 @@ const HotelClientPage = (props) => {
         >
           <CardButton onClick={() => handleOpenModal(client)}>Edit</CardButton>
           <CardButton onClick={() => showBillsHandler(client.id)}>
-            Bills
+            Show Bills
           </CardButton>
         </Client>
       );
@@ -148,6 +207,7 @@ const HotelClientPage = (props) => {
     isCheckedIn,
   } = formState;
 
+  const { name, quantity, price } = billFormState;
   return (
     <React.Fragment>
       <DashboardContainer>
@@ -227,18 +287,51 @@ const HotelClientPage = (props) => {
       >
         <div className="row">
           <div className="col-md-12 col-sm-12">
-            {!props.loadingExpenses && (
+            {props.loadingExpenses && <Spinner />}
+            {!props.loadingExpenses && props.expenses && (
               <Table
                 reference={billDetails}
                 values={props.expenses}
                 tableCaption="Client consumption record"
-              />
+                total={handleSumBills(props.expenses)}
+              ></Table>
             )}
-            <br />
-            <ReactToPrint
-              trigger={() => <FormButton>Print bill</FormButton>}
-              content={() => billDetails.current}
-            />
+
+            <div className={classes.BillForm}>
+              <span>New record</span>
+              <form method="POST" onSubmit={handleAddBillRecord}>
+                <Input
+                  name="name"
+                  placeholder="Item name"
+                  type="text"
+                  onChange={billValueChangeHandler}
+                  value={name}
+                />
+                <Input
+                  name="price"
+                  placeholder="Price per unit"
+                  type="number"
+                  onChange={billValueChangeHandler}
+                  value={price}
+                />
+                <Input
+                  name="quantity"
+                  placeholder="Quantity"
+                  type="number"
+                  onChange={billValueChangeHandler}
+                  value={quantity}
+                />
+                <div className={classes.ButtonContainer}>
+                  <FormButton>Add</FormButton>
+                </div>
+              </form>
+            </div>
+            <div className={classes.PrintButtonContainer}>
+              <ReactToPrint
+                trigger={() => <CardButton>Print bill</CardButton>}
+                content={() => billDetails.current}
+              />
+            </div>
           </div>
         </div>
       </Modal>

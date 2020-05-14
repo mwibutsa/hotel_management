@@ -29,9 +29,14 @@ class BaseClientExpenseView(viewsets.GenericViewSet):
     serializer_class = serializers.ClientExpensesSerializer
 
 
-class ClientExpensesListView(generics.ListCreateAPIView, BaseClientExpenseView):
+class ClientExpensesListView(generics.ListCreateAPIView,
+                             BaseClientExpenseView):
     """List and create new client expenses record. """
     name = 'client-expenses'
+
+    def get_queryset(self, *args, **kwargs):
+        return self.queryset.filter(client=self.kwargs['parent_lookup_client'],
+                                    is_paid=False)
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -39,6 +44,7 @@ class ClientExpensesListView(generics.ListCreateAPIView, BaseClientExpenseView):
         validated_data = serializer.validated_data
 
         validated_data['client_id'] = kwargs.get('parent_lookup_client')
+        serializer.save()
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
 

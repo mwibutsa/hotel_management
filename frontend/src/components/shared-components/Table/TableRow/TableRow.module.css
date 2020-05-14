@@ -15,8 +15,8 @@
 }
 .Th {
   font-weight: bold;
-  background-color: rgb(177, 160, 6);
-  color: white;
+  background-color: rgb(226, 226, 226);
+  color: rgb(82, 82, 82);
   text-transform: uppercase;
   text-align: center;
 }

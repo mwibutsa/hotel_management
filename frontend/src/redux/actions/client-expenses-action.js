@@ -66,7 +66,7 @@ export const addClientExpense = (clientId, expenseData) => async (dispatch) => {
       }
     }
     const { data } = await axios.post(
-      `/hotel-clients/clients/${clientId}`,
+      `/hotel-clients/clients/${clientId}/expenses/`,
       expense
     );
 

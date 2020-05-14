@@ -1,8 +1,9 @@
 .Table {
-  width: 100%;
-  border-radius: 10px;
-  box-shadow: 1px 1px 14px #ccc;
+  width: 90%;
+  padding: 15px;
+  margin: 5px;
 }
+
 .Caption {
   text-transform: uppercase;
   column-span: all;
