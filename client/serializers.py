@@ -24,4 +24,4 @@ class HotelClientSerializer(serializers.ModelSerializer):
                   'created_at', 'client_expenses', 'identification_number',
                   'phone_number', 'bookings')
 
-        read_only_fields = ('updated_ata', 'created_at', 'id', 'is_checked_in')
+        read_only_fields = ('updated_ata', 'created_at', 'id')
