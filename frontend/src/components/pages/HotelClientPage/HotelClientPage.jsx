@@ -47,10 +47,10 @@ const formReducer = (state, action) => {
 
 const HotelClientPage = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [activeClientId, setActiveClientId] = useState(0);
   const [showBills, setShowBills] = useState(false);
   const billDetails = useRef(null);
   const [activeClientBooking, setActiveClientBooking] = useState({});
+  const [activeClient, setActiveClient] = useState({});
   // FORM STATE & DISPATCHER
 
   const [formState, dispatchFormState] = useReducer(formReducer, {
@@ -124,11 +124,11 @@ const HotelClientPage = (props) => {
 
       let booking = {};
       if (client) {
+        setActiveClient(client);
         booking = client.bookings ? client.bookings[0] : {};
       }
       setActiveClientBooking(booking);
     }
-    setActiveClientId(clientId);
     setShowBills((prevState) => !prevState);
   };
 
@@ -172,7 +172,7 @@ const HotelClientPage = (props) => {
   const handleAddBillRecord = async (event) => {
     event.preventDefault();
 
-    await addExpenses(activeClientId, billFormState);
+    await addExpenses(activeClient.id, billFormState);
 
     for (let key of Object.keys(billFormState)) {
       dispatcBillFormState({
@@ -219,6 +219,28 @@ const HotelClientPage = (props) => {
   } = formState;
 
   const { name, quantity, price } = billFormState;
+
+  let billsTable = null;
+
+  let expenses = [];
+
+  if (!props.loadingExpenses && props.expenses) {
+    expenses = props.expenses;
+    expenses = expenses.map((expense) => {
+      expense.client = `${activeClient.first_name} ${activeClient.last_name}`;
+      return expense;
+    });
+
+    billsTable = (
+      <Table
+        reference={billDetails}
+        values={expenses}
+        tableCaption="Client consumption record"
+        total={handleSumBills(props.expenses)}
+        onClick={payExpenseHandler}
+      ></Table>
+    );
+  }
   return (
     <React.Fragment>
       <DashboardContainer>
@@ -299,15 +321,7 @@ const HotelClientPage = (props) => {
         <div className="row">
           <div className="col-md-12 col-sm-12">
             {props.loadingExpenses && <Spinner />}
-            {!props.loadingExpenses && props.expenses && (
-              <Table
-                reference={billDetails}
-                values={props.expenses}
-                tableCaption="Client consumption record"
-                total={handleSumBills(props.expenses)}
-                onClick={payExpenseHandler}
-              ></Table>
-            )}
+            {billsTable}
 
             <div className={classes.BillForm}>
               <span>New record</span>
