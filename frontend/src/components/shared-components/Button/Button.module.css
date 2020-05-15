@@ -99,7 +99,7 @@
   color: #0779e4;
   border: 1px solid #0779e4;
   box-shadow: 1px 2px 4px #ccc;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 .CardButton:active {
   transform: scale(1.15);
