@@ -103,7 +103,7 @@ export const udpateClientExpense = (expenseData) => async (dispatch) => {
     dispatch(updateClientExpenseBegin());
 
     const { data } = await axios.patch(
-      `/hotel-clients/expenses/${expense.id}`,
+      `/hotel-clients/expenses/${expenseData.id}`,
       expense
     );
     dispatch(udpateClientExpenseDone(data));

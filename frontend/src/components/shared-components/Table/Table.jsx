@@ -24,8 +24,16 @@ const Table = (props) => {
   if (props.values.length) {
     let key = 1;
     tableData = props.values.map((value) => {
-      delete value.id;
-      return <TableRow values={Object.values(value)} key={key++} />;
+      const data = { ...value };
+      delete data.id;
+      return (
+        <TableRow
+          fieldNames={Object.keys(data)}
+          values={Object.values(data)}
+          key={key++}
+          onFieldClick={() => props.onClick(value.id)}
+        />
+      );
     });
   }
 

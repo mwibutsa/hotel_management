@@ -37,7 +37,7 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         loading: false,
-        expenses: updateArray(state.expenses, payload.data),
+        expenses: deleteArrayById(state.expenses, payload.data.id),
       };
     case UPDATE_CLIENT_EXPENSE_FAILED:
       return {

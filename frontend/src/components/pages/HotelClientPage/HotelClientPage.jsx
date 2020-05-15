@@ -90,7 +90,13 @@ const HotelClientPage = (props) => {
     [dispatchFormState]
   );
   // LOAD HOTEL CLIENTS
-  const { loadClients, updateClient, loadClientExpenses, addExpenses } = props;
+  const {
+    loadClients,
+    updateClient,
+    loadClientExpenses,
+    addExpenses,
+    updateExpense,
+  } = props;
   useEffect(() => {
     loadClients();
   }, [loadClients]);
@@ -137,6 +143,11 @@ const HotelClientPage = (props) => {
     [dispatchFormState]
   );
 
+  // PAY EXPENSE HANDLER
+
+  const payExpenseHandler = async (id) => {
+    await updateExpense({ id, is_paid: true });
+  };
   // TOTAL CLIENT BILLS
 
   const handleSumBills = (expenses) => {
@@ -294,6 +305,7 @@ const HotelClientPage = (props) => {
                 values={props.expenses}
                 tableCaption="Client consumption record"
                 total={handleSumBills(props.expenses)}
+                onClick={payExpenseHandler}
               ></Table>
             )}
 

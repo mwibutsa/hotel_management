@@ -48,8 +48,7 @@ class ClientExpensesListView(generics.ListCreateAPIView,
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
 
-class ClientExpensesDetailView(generics.RetrieveUpdateDestroyAPIView,
-                               ):
+class ClientExpensesDetailView(generics.RetrieveUpdateDestroyAPIView):
     """List, update and delete a single client expense record. """
 
     queryset = models.ClientExpenses.objects.all()
