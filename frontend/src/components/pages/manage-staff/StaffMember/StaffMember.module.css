@@ -1,20 +1,12 @@
 .StaffMember {
-  box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.158);
-  border-radius: 1px;
-  padding: 1px;
-  width: 100%;
+  display: flex;
+  background-color: whitesmoke;
+  justify-content: space-evenly;
+  width: 400px;
+  padding: 5px;
   margin: 10px;
-  cursor: pointer;
-  position: relative;
-  margin-top: 50px;
-  text-align: center;
-  border: 1px solid #eee;
-  box-sizing: content-box;
-}
-
-.Content {
-  padding-top: 60px;
-  width: 100%;
+  border: 2px solid #ccc;
+  border-radius: 10px;
 }
 
 .CardNormal {
@@ -26,20 +18,17 @@
 }
 .StaffAvatar {
   background-color: rgb(240, 238, 238);
-  height: 100px;
-  width: 100px;
+  height: 100%;
+  width: 160px;
+  height: 175px;
+  background-color: rebeccapurple;
   border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  border: 1px solid #ddd;
-  line-height: 90px;
-  overflow: hidden;
 }
 
 .StaffAvatar img {
   width: 100%;
+  border-radius: 50%;
+  height: 100%;
 }
 
 .Permission {
@@ -54,7 +43,6 @@
   box-shadow: 0 0 2px #33333363;
 }
 .PermissionGroup {
-  width: 100%;
   padding: 10px;
 }
 .PermissionHeading {
@@ -75,13 +63,16 @@
 }
 
 .AccountInfo {
-  display: inline-block;
   text-align: justify;
   background-color: #fafdff98;
   padding: 10px;
   border: 1px solid #ddd;
+  border-radius: 10px;
 }
 .Inactive {
   color: white;
   background-color: brown;
+}
+.AccountDetails {
+  cursor: pointer;
 }
