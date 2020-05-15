@@ -77,7 +77,7 @@ const deleteHotelClientBegin = () => ({ type: DELETE_HOTEL_CLIENT_BEGIN });
 
 const deleteHotelClientDone = (data, id) => ({
   type: DELETE_HOTEL_CLIENT,
-  payload: { data },
+  payload: { data, id },
 });
 
 const deleteHotelClientFailed = (error) => ({

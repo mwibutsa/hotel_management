@@ -2,7 +2,9 @@ import React from "react";
 import classes from "./Card.module.css";
 import CardRow from "../AttributeRow/AttributeRow";
 import styles from "../../common.module.css";
-
+import { DeleteButton } from "../../shared-components/Button/Button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 const Card = (props) => {
   let value = { ...props.value };
   let content = "";
@@ -28,7 +30,14 @@ const Card = (props) => {
 
   return (
     <div className={classes.CardContainer} onClick={props.onClick}>
-      <h4 className={styles.CardTitle}>{props.title || "--- No title ---"}</h4>
+      <div className={classes.CardHeader}>
+        <h4 className={classes.CardTitle}>
+          {props.title || "--- No title ---"}
+        </h4>
+        <DeleteButton onClick={() => props.onDelete(value.id)}>
+          <FontAwesomeIcon icon={faTrash} />
+        </DeleteButton>
+      </div>
       <div className={classes.CardContent}>{content}</div>
       <div className={classes.ButtonContainer}>{props.children}</div>
     </div>

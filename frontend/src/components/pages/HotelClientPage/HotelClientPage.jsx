@@ -96,6 +96,7 @@ const HotelClientPage = (props) => {
     loadClientExpenses,
     addExpenses,
     updateExpense,
+    deleteClient,
   } = props;
   useEffect(() => {
     loadClients();
@@ -182,6 +183,11 @@ const HotelClientPage = (props) => {
       });
     }
   };
+
+  const handleDeleteClient = async (id) => {
+    await deleteClient(id);
+  };
+
   const clientUpdateHandler = async (event) => {
     event.preventDefault();
     await updateClient(formState);
@@ -199,6 +205,7 @@ const HotelClientPage = (props) => {
           title={client.first_name}
           value={client}
           key={client.created_at}
+          onDelete={handleDeleteClient}
         >
           <CardButton onClick={() => handleOpenModal(client)}>Edit</CardButton>
           <CardButton onClick={() => showBillsHandler(client.id)}>
