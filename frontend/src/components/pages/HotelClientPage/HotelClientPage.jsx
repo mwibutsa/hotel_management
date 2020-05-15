@@ -208,7 +208,10 @@ const HotelClientPage = (props) => {
           onDelete={handleDeleteClient}
         >
           <CardButton onClick={() => handleOpenModal(client)}>Edit</CardButton>
-          <CardButton onClick={() => showBillsHandler(client.id)}>
+          <CardButton
+            onClick={() => showBillsHandler(client.id)}
+            loading={props.loadingExpenses}
+          >
             Show Bills
           </CardButton>
         </Client>

@@ -58,6 +58,8 @@ export const updateHotelClient = (clientInfo) => async (dispatch) => {
     for (let [key, value] of Object.entries(clientInfo)) {
       if (value) {
         client[toSnakeCase(key)] = value;
+      } else if (typeof value === typeof true) {
+        client[toSnakeCase(key)] = value;
       }
     }
     dispatch(updateHotelClientBegin());

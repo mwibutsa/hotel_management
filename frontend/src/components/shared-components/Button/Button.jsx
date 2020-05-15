@@ -30,11 +30,13 @@ export const FormButton = (props) => {
       <ButtonSpinner />
     </div>
   );
+  const disabled = { disabled: props.loading };
   return (
     <button
       type="submit"
       onClick={props.onClick}
       className={buttonClasses.join(" ")}
+      {...disabled}
     >
       <div>{props.children}</div> {props.loading ? loader : ""}
     </button>
@@ -47,8 +49,20 @@ export const DeleteButton = (props) => (
   </div>
 );
 
-export const CardButton = (props) => (
-  <div className={classes.CardButton} onClick={props.onClick}>
-    {props.children}
-  </div>
-);
+export const CardButton = (props) => {
+  const loader = (
+    <div>
+      <ButtonSpinner />
+    </div>
+  );
+  const disabled = { disabled: props.loading };
+  return (
+    <button
+      className={classes.CardButton}
+      onClick={props.onClick}
+      {...disabled}
+    >
+      <span>{props.children}</span> {props.loading && loader}
+    </button>
+  );
+};
