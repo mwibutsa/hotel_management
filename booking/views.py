@@ -1,3 +1,5 @@
+import stripe
+from django.conf import settings
 from rest_framework import generics
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.permissions import (IsAuthenticated,
@@ -125,3 +127,39 @@ class CheckInAPIView(generics.RetrieveUpdateDestroyAPIView, BaseAPIView):
         room.save(update_fields=['room_status'])
 
         return instance
+
+
+class AdvancePaymentView(generics.CreateAPIView):
+    """API view to make initial payment to confirm client booking. """
+
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+
+    def create(self, request, *args, **kwargs):
+
+        advance_value = 10000
+        try:
+            payment = stripe.Charge.create(
+                amount=advance_value,
+                currency='USD',
+                description='Booking confirmation payment',
+                source=request.data['source']
+            )
+            client = HotelClient.objects.filter(
+                email=payment['billing_details']['name'])[0]
+            booking = Booking.objects.filter(
+                customer=client,
+                booking_status='Pending').order_by('-created_at')[0]
+
+            booking.paid_advance = booking.paid_advance + (advance_value/100)
+            booking.booking_status = 'Confirmed'
+            booking.save()
+
+            return Response(data={
+                'message': f'You advance payment of ${advance_value/100} has \
+                    is successful, You booking is confirmed.'
+            })
+        except Exception as error:
+            return Response(data={
+                'message': f'your advance payment has failed. please make sure\
+                     the card number is spelt collectly Error: {error}'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

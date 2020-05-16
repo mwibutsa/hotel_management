@@ -4,9 +4,15 @@
   position: relative;
 }
 .SuccessContainer {
-  min-height: 381px;
+  position: absolute;
   text-align: center;
   background-color: #dae1e7;
+  top: 20%;
+  left: 50%;
+  width: 50%;
+  transform: translate(-50%);
+  text-align: center;
+  padding: 2%;
 }
 @media screen and (max-width: 500px) {
   .BookingPage {
