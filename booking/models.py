@@ -47,7 +47,7 @@ class Booking(models.Model):
     paid_advance = models.FloatField(default=0.0)
 
     def __str__(self):
-        return f"Booked by {self.customer_name} on {self.created_at}, for {self.booking_days} days."
+        return f"Booked by {self.customer.first_name} on {self.created_at}, for {self.booking_days} days."
 
     @property
     def booking_days(self):

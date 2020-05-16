@@ -7,4 +7,5 @@ urlpatterns = [
     path('list-bookings/<int:pk>', views.BookingDetailView.as_view()),
     path('<int:pk>/customer-check-in/', views.CheckInAPIView.as_view()),
     path('<int:pk>/customer-checkout/', views.CheckInAPIView.as_view()),
+    path('pay-advance/', views.AdvancePaymentView.as_view()),
 ]

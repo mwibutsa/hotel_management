@@ -9,6 +9,7 @@ import { createBooking } from "../../../redux/actions/booking-action";
 import { getRooms } from "../../../redux/actions/room-action";
 import { BarSpinner } from "../../shared-components/Spinner/Spinner";
 import PageContainer from "../../shared-components/PageContainer/PageContainer";
+import StripeCheckout from "../../shared-components/StripeCheckout/StripeCheckout";
 
 class BookingPage extends Component {
   constructor(props) {
@@ -23,6 +24,10 @@ class BookingPage extends Component {
         roomType: 101,
       },
       isSuccessfull: false,
+      successPayment: false,
+      failedPayment: false,
+      data: null,
+      error: null,
     };
   }
 
@@ -37,6 +42,14 @@ class BookingPage extends Component {
     });
   };
 
+  handleSuccessPayment = (data) => {
+    this.setState({ successPayment: true, data });
+  };
+
+  handlePaymentFailure = (error) => {
+    this.setState({ failedPayment: true, error: error });
+  };
+
   handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -45,7 +58,7 @@ class BookingPage extends Component {
     await makeBooking(data);
 
     for (let key of Object.keys(this.state)) {
-      this.setState({ [key]: "" });
+      if (key !== "customerEmail") this.setState({ [key]: "" });
     }
     if (!this.props.error) {
       this.setState({ isSuccessfull: true });
@@ -136,7 +149,10 @@ class BookingPage extends Component {
       </div>
     );
 
-    if (this.state.isSuccessfull) {
+    if (
+      this.state.isSuccessfull &&
+      !(this.state.successPayment || this.state.failedPayment)
+    ) {
       content = (
         <div className={classes.SuccessContainer}>
           <br></br>
@@ -149,7 +165,32 @@ class BookingPage extends Component {
             booking
           </div>
           <br></br>
-          <FormButton>Pay $100 now</FormButton>
+          <StripeCheckout
+            name="Booking confirmation payment"
+            description="Client's initial payment to take their booking seriously"
+            amount={10000}
+            customerEmail={this.state.customerEmail}
+            onFailure={this.handlePaymentFailure}
+            onSuccess={this.handleSuccessPayment}
+          />
+        </div>
+      );
+    } else if (this.state.successPayment) {
+      content = (
+        <div className={classes.SuccessContainer}>
+          <p className={commonClasses.PageHeading}>
+            You advance payment is successfull! we can't wait to see you at
+            sweetlife hotel
+          </p>
+        </div>
+      );
+    } else if (this.state.failedPayment) {
+      content = (
+        <div className={classes.SuccessContainer}>
+          <h3 className={commonClasses.PageHeading}>
+            Something went wrong! make sure the email you provided matches the
+            one used while booking a room
+          </h3>
         </div>
       );
     }
