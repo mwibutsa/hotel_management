@@ -1,7 +1,6 @@
 import React from "react";
 import classes from "./Card.module.css";
 import CardRow from "../AttributeRow/AttributeRow";
-import styles from "../../common.module.css";
 import { DeleteButton } from "../../shared-components/Button/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +22,7 @@ const Card = (props) => {
         }
         return <CardRow label={key} value={val} key={key} />;
       }
+      return null;
     });
   } else {
     content = "No values provided";

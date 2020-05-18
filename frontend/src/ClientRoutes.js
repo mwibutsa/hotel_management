@@ -1,5 +1,4 @@
 import React from "react";
-import Footer from "./components/footer/Footer";
 import HomePage from "./components/pages/home-page/HomePage";
 import BookingPage from "./components/pages/booking-page/BookingPage";
 import LoginPage from "./components/pages/login-page/LoginPage";

@@ -1,10 +1,6 @@
-from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
-
 from . import models, serializers
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAdminUser
 
 
 class ListRoomView(generics.ListAPIView):
@@ -20,12 +16,6 @@ class CreateRoomView(generics.CreateAPIView):
     queryset = models.Room.objects.all()
     permission_classes = (IsAdminUser,)
     serializer_class = serializers.RoomSerializer
-
-    # def create(self, request, *args, **kwargs):
-    #     import pdb
-    #     pdb.set_trace()
-
-    #     return super().create(request, *args, **kwargs)
 
 
 class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -45,11 +35,12 @@ class CategoryListView(generics.ListAPIView, generics.GenericAPIView):
 class CategoryAPIView(generics.ListCreateAPIView, generics.GenericAPIView):
     """ A class to handle category creation. """
     queryset = models.RoomCategory.objects.all()
-    permission_classes = (IsAdminUser, )
     serializer_class = serializers.RoomCategorySerializer
+    authentication_classes = ()
 
 
-class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView, generics.GenericAPIView):
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView,
+                         generics.GenericAPIView):
     """ A class to handle category creation. """
     queryset = models.RoomCategory.objects.all()
     permission_classes = (IsAdminUser, )
