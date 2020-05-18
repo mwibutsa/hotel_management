@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
-import SideNavigation from "../../side-navigation/SideNavigation";
 import classes from "./Rooms.module.css";
 import Room from "../../room-card/Room";
 import {
@@ -17,7 +16,7 @@ import SelectInput from "../../shared-components/DropDownInput/SelectInput";
 import { toCamelCase } from "../../../helper-functions";
 import Modal from "../../shared-components/Modal/Modal";
 import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
-import DashboardContainer from '../DashboardContainer/DashboardContainer'
+import DashboardContainer from "../DashboardContainer/DashboardContainer";
 
 const VALUE_CHANGE = "VALUE_CHANGE";
 const formReducer = (state, action) => {
@@ -140,7 +139,6 @@ const RoomsPage = (props) => {
 
   return (
     <React.Fragment>
-
       <DashboardContainer>
         <div className={classes.RoomPageMargin}></div>
         <h3 className={classes.RoomPageHeading}>Manage hotel Rooms</h3>
@@ -153,7 +151,7 @@ const RoomsPage = (props) => {
           }}
         >
           New room
-            </FormButton>
+        </FormButton>
         <div className={classes.RoomsContainer}>{roomContent}</div>
       </DashboardContainer>
 

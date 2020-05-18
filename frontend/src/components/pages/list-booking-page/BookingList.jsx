@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useReducer, useCallback } from "react";
 import classes from "./BookingList.module.css";
-import SideNavigation from "../../side-navigation/SideNavigation";
 import { connect } from "react-redux";
 import Spinner from "../../shared-components/Spinner/Spinner";
 import {
@@ -15,7 +14,7 @@ import { FormButton } from "../../shared-components/Button/Button";
 import styles from "../../common.module.css";
 import Modal from "../../shared-components/Modal/Modal";
 import ConfirmationModal from "../../shared-components/ConfirmationModal/ConfirmationModal";
-import DashboardContainer from '../DashboardContainer/DashboardContainer'
+import DashboardContainer from "../DashboardContainer/DashboardContainer";
 
 // FORM REDUCER
 
@@ -132,13 +131,10 @@ const ListBooking = (props) => {
 
   return (
     <React.Fragment>
-
-
       <DashboardContainer>
         <h3 className={styles.PageHeading}>Available Bookings</h3>
         <div className={classes.BookingContainer}>{rooms}</div>
       </DashboardContainer>
-
 
       <ConfirmationModal
         open={showConfirmation}
