@@ -17,12 +17,6 @@ class CreateRoomView(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
     serializer_class = serializers.RoomSerializer
 
-    # def create(self, request, *args, **kwargs):
-    #     import pdb
-    #     pdb.set_trace()
-
-    #     return super().create(request, *args, **kwargs)
-
 
 class RoomDetailView(generics.RetrieveUpdateDestroyAPIView):
     """ A class to handle listing and creation of new Rooms. """
@@ -41,11 +35,12 @@ class CategoryListView(generics.ListAPIView, generics.GenericAPIView):
 class CategoryAPIView(generics.ListCreateAPIView, generics.GenericAPIView):
     """ A class to handle category creation. """
     queryset = models.RoomCategory.objects.all()
-    permission_classes = (IsAdminUser, )
     serializer_class = serializers.RoomCategorySerializer
+    authentication_classes = ()
 
 
-class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView, generics.GenericAPIView):
+class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView,
+                         generics.GenericAPIView):
     """ A class to handle category creation. """
     queryset = models.RoomCategory.objects.all()
     permission_classes = (IsAdminUser, )
