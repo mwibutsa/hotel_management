@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./StaffMember.module.css";
-import { FormButton } from "../../../shared-components/Button/Button";
+
 const Permission = (props) => (
   <span
     className={[

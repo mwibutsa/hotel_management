@@ -1,10 +1,6 @@
-from django.shortcuts import render
 from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.viewsets import ModelViewSet
-
 from . import models, serializers
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAdminUser
 
 
 class ListRoomView(generics.ListAPIView):

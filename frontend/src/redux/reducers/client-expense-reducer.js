@@ -12,7 +12,7 @@ import {
   DELETE_CLIENT_EXPENSE_BEGIN,
   DELETE_CLIENT_EXPENSE_FAILED,
 } from "../actions/action-types";
-import { updateArray, deleteArrayById } from "../../helper-functions";
+import { deleteArrayById } from "../../helper-functions";
 
 const initialState = {
   loading: false,

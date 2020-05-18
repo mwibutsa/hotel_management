@@ -7,24 +7,7 @@ const BACKEND_PAYMENT_URL = "/booking/pay-advance/";
 
 const CURRENCY = "USD";
 
-const successPayment = (data) => {
-  console.log(data);
-  alert(data);
-};
-
-const errorPayment = (err) => {
-  console.log(err);
-  alert("Payment error");
-};
-
-const Checkout = ({
-  name,
-  description,
-  amount,
-  customerEmail,
-  onSuccess,
-  onFailure,
-}) => {
+const Checkout = (props) => {
   const onToken = (amount, description, customerEmail) => (token) =>
     axios
       .post(BACKEND_PAYMENT_URL, {
@@ -36,6 +19,16 @@ const Checkout = ({
       })
       .then((data) => onSuccess(data))
       .catch((error) => onFailure(error));
+
+  const {
+    name,
+    description,
+    amount,
+    customerEmail,
+    onSuccess,
+    onFailure,
+  } = props;
+
   return (
     <StripeCheckout
       name={name}

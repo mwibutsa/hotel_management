@@ -31,7 +31,7 @@ const formReducer = (state, action) => {
 };
 
 const ManageStaff = (props) => {
-  const { loadStaffMembers, loading, error } = props;
+  const { loadStaffMembers } = props;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [editableStaff, setEditableStaff] = useState({});
